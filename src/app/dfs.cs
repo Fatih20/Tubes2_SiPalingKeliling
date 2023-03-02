@@ -1,36 +1,57 @@
 using System.Diagnostics;
 
 class DFS {
-    static void dfs(char[,] map, int x, int y, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, List<Tuple<int,int>> track, List<Tuple<int,int>> solution){
+    static void dfs(char[,] map, int x, int y, int xBefore, int yBefore, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, List<Tuple<int,int>> track, List<Tuple<int,int>> solution){
         /*
             The main DFS recursive function
             Param :
                 map : the given map
                 x : the current x coordinate
                 y : the current y coordinate
+                xBefore : the x coordinate before
+                yBefore : the y coordinate before
                 isVisited : states which coordinate has been visited or not
                 count : counts treasures that were found
                 path : collects the path from starting point to all treasures
                 track : collects temporary path to a treasure, will be removed if the current track doesn't end on treasure box
                 solution : collects coordinates of the treasures
         */
+
+        // Getting N
         int size = map.GetLength(0);
+
+        // If map is not out of bounds
         if(x >= 0 && x < size && y >= 0 && y < size){
+            // If map is already visited or blocked
             if(isVisited[x,y] || map[x,y] == 'X'){
                 return;
             } else {
+                // Visit map
                 isVisited[x,y] = true;
+
+                // Add map to track
                 track.Add(new Tuple<int,int>(x,y));
+
+                // If it contains treasure
                 if(map[x,y] == 'T'){
                     count++;
                     solution.Add(new Tuple<int,int>(x,y));
                     path.AddRange(track);
                 }
-                dfs(map, x-1, y, isVisited, ref count, path, track, solution);
-                dfs(map, x+1, y, isVisited, ref count, path, track, solution);
-                dfs(map, x, y-1, isVisited, ref count, path, track, solution);
-                dfs(map, x, y+1, isVisited, ref count, path, track, solution);
-                track.Clear();
+
+                // DFS on L-U-R-D pattern
+                dfs(map, x, y-1, x, y, isVisited, ref count, path, track, solution);
+                dfs(map, x-1, y, x, y, isVisited, ref count, path, track, solution);
+                dfs(map, x, y+1, x, y, isVisited, ref count, path, track, solution);
+                dfs(map, x+1, y, x, y, isVisited, ref count, path, track, solution);
+
+                // If track is blocked and nowhere to continue
+                if(xBefore-1 >= 0 && xBefore+1 < size && yBefore-1 >= 0 && yBefore+1 < size && isVisited[xBefore-1,yBefore] && isVisited[xBefore,yBefore+1] && isVisited[xBefore+1,yBefore] && isVisited[xBefore,yBefore-1]){
+                    track.Clear();
+                } else if (track.Count > 0) {
+                    // Remove current map from track and continue add another map to track
+                    track.RemoveAt(track.Count - 1);
+                }
                 return;
             }
         } else {
@@ -90,11 +111,11 @@ class DFS {
         List<Tuple<int,int>> path = new List<Tuple<int,int>>();
         List<Tuple<int,int>> track = new List<Tuple<int,int>>();
         List<Tuple<int,int>> treasure = new List<Tuple<int,int>>();
-        char[,] map = {{'K', 'X', 'X', 'R', 'R'},
-                       {'R', 'R', 'T', 'T', 'R'},
-                       {'R', 'X', 'R', 'X', 'T'},
-                       {'R', 'X', 'R', 'X', 'X'},
-                       {'R', 'R', 'R', 'X', 'X'}};
+        char[,] map = {{'R', 'R', 'R', 'R', 'X'},
+                       {'X', 'K', 'R', 'R', 'X'},
+                       {'X', 'R', 'X', 'R', 'X'},
+                       {'X', 'R', 'R', 'R', 'X'},
+                       {'X', 'R', 'X', 'R', 'T'}};
         char[,] solution = new char[N, N];
         bool[,] isVisited = new bool[N, N];
 
@@ -119,7 +140,7 @@ class DFS {
         Tuple<int,int> startingCoor = getStartingPoint(map, N);
 
         // DFS Algorithm
-        dfs(map, startingCoor.Item1, startingCoor.Item2, isVisited, ref count, path, track, treasure);
+        dfs(map, startingCoor.Item1, startingCoor.Item2, startingCoor.Item1, startingCoor.Item2, isVisited, ref count, path, track, treasure);
 
         // Plotting the solution
         setSolution(solution, path, treasure);
