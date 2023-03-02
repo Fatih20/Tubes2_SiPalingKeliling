@@ -84,16 +84,17 @@ class DFS {
         // Main function to test
 
         // N = size of map
-        const int N = 4;
+        const int N = 5;
 
         // Initialize lists
         List<Tuple<int,int>> path = new List<Tuple<int,int>>();
         List<Tuple<int,int>> track = new List<Tuple<int,int>>();
         List<Tuple<int,int>> treasure = new List<Tuple<int,int>>();
-        char[,] map = {{'K', 'R', 'R', 'R'},
-                       {'X', 'R', 'X', 'T'},
-                       {'X', 'T', 'R', 'R'},
-                       {'X', 'R', 'X', 'X'}};
+        char[,] map = {{'K', 'X', 'X', 'R', 'R'},
+                       {'R', 'R', 'T', 'T', 'R'},
+                       {'R', 'X', 'R', 'X', 'T'},
+                       {'R', 'X', 'R', 'X', 'X'},
+                       {'R', 'R', 'R', 'X', 'X'}};
         char[,] solution = new char[N, N];
         bool[,] isVisited = new bool[N, N];
 
@@ -127,11 +128,14 @@ class DFS {
         stopwatch.Stop();
 
         // Print map
+        Console.WriteLine("Peta Harta Karun");
         printMap(map);
+
+        Console.WriteLine("\nPeta Jalur ke Harta Karun");
+        printMap(solution);
 
         // Print solution
         Console.WriteLine($"\nTerdapat {count} treasure yang dapat ditemukan.");
-        Console.WriteLine($"Execution Time: {stopwatch.ElapsedMilliseconds} ms\n");
-        printMap(solution);
+        Console.WriteLine($"Execution Time: {stopwatch.ElapsedMilliseconds} ms");
     }
 }
