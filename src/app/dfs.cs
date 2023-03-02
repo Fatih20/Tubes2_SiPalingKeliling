@@ -111,11 +111,11 @@ class DFS {
         List<Tuple<int,int>> path = new List<Tuple<int,int>>();
         List<Tuple<int,int>> track = new List<Tuple<int,int>>();
         List<Tuple<int,int>> treasure = new List<Tuple<int,int>>();
-        char[,] map = {{'R', 'R', 'R', 'R', 'X'},
-                       {'X', 'K', 'R', 'R', 'X'},
-                       {'X', 'R', 'X', 'R', 'X'},
-                       {'X', 'R', 'R', 'R', 'X'},
-                       {'X', 'R', 'X', 'R', 'T'}};
+        char[,] map = {{'R', 'R', 'K', 'X', 'T'},
+                       {'R', 'X', 'X', 'X', 'R'},
+                       {'R', 'R', 'R', 'R', 'R'},
+                       {'R', 'X', 'R', 'X', 'R'},
+                       {'X', 'T', 'R', 'X', 'R'}};
         char[,] solution = new char[N, N];
         bool[,] isVisited = new bool[N, N];
 
