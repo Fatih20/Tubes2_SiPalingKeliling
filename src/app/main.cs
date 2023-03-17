@@ -81,6 +81,13 @@ class MainProgram {
             // Print solution
             Console.WriteLine($"\nTerdapat {count} treasure yang dapat ditemukan.");
             Console.WriteLine($"Execution Time: {stopwatch.ElapsedMilliseconds} ms");
+
+            // Print Order Searching
+            Console.WriteLine("\nUrutan pengecekan:");
+            path.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ")"));
+
+            Console.WriteLine("\nUrutan pengecekan TSP:");
+            pathTSP.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ")"));
         } catch (FileNotFoundException){
             Console.WriteLine("File tidak ditemukan!");
         } catch (Exception e2){
@@ -159,7 +166,7 @@ class MainProgram {
             Tuple<int,int> startingTSPCoor = new Tuple<int,int>(treasureBFS.Last().Item1,treasureBFS.Last().Item2);
             Queue<Tuple<int,int>> tspBFSTrack = new Queue<Tuple<int,int>>();
             tspBFSTrack .Enqueue(startingTSPCoor);
-            
+
             List<Tuple<int,int>> startingTrackForTSP = new List<Tuple<int,int>>();
             startingTrackForTSP.Add(startingTSPCoor);
             trackTSPBFS.Enqueue(startingTrackForTSP);
@@ -187,6 +194,12 @@ class MainProgram {
             Console.WriteLine($"\nTerdapat {count} treasure yang dapat ditemukan.");
             Console.WriteLine($"Execution Time: {stopwatch.ElapsedMilliseconds} ms");
             
+            // Print Order Searching
+            Console.WriteLine("\nUrutan pengecekan : ");
+            pathBFS.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ")"));
+
+            Console.WriteLine("\nUrutan pengecekan TSP: ");
+            pathTSPBFS.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ")"));
         } catch (FileNotFoundException){
             Console.WriteLine("File tidak ditemukan!");
         } catch (Exception e2){
