@@ -4,8 +4,7 @@ public class BFS {
             The main BFS recursive function
             Param :
                 map : the given map
-                x : the current x coordinate
-                y : the current y coordinate
+                current : queue for determine the order in which nodes are visited
                 isVisited : states which coordinate has been visited or not
                 count : counts treasures that were found
                 path : collects the path from starting point to all treasures
@@ -13,15 +12,20 @@ public class BFS {
                 solution : collects coordinates of the treasures
         */
 
+        // If the queue is empty, no more nodes can be visited
         if(current.Count == 0){
             return;
         }
 
-        // Getting N
+        // Getting size
         int size = map.GetLength(0);
+
+        // Getting the current coordinate
         Tuple<int,int> coor = current.Dequeue();
         int x = coor.Item1;
         int y = coor.Item2;
+
+        // Getting the current track from starting point
         List<Tuple<int,int>> currentTrack = track.Dequeue();
 
         // If map is not out of bounds
@@ -35,43 +39,78 @@ public class BFS {
 
                 // If it contains treasure
                 if(map[x,y] == 'T'){
+                    // Add the amount of collected treasures
                     count++;
+
+                    // Add current coordinate to solutions
                     solution.Add(new Tuple<int,int>(x,y));
+
+                    // Save path
                     path.AddRange(currentTrack);
+
+                    // Reset settings (Restart the search process from the current treasure)
                     for(int i = 0; i < size; i++){
                         for(int j = 0; j < size; j++){
                             isVisited[i,j] = false;
                         }
                     }
+
+                    // Collect Treasure
                     map[x,y] = 'R';
+
+                    // Reset lists and queue
                     track.Clear();
                     current.Clear();
                     currentTrack.Clear();
+
+                    // Visit current node
                     isVisited[x,y] = true;
                 }
 
-                // BFS on L-U-R-D pattern
+                /*  BFS on L-U-R-D pattern */
+                // Enqueue Left Node
                 current.Enqueue(new Tuple<int,int>(x, y-1));
+
+                // Create a new track to left node from starting point
                 List<Tuple<int,int>> newTrack = new List<Tuple<int,int>>(currentTrack);
                 newTrack.Add(new Tuple<int,int>(x, y-1));
+
+                // Enqueue the new track
                 track.Enqueue(newTrack);
 
+                // Enqueue Upper Node
                 current.Enqueue(new Tuple<int,int>(x-1, y));
+
+                // Create a new track to upper node from starting point
                 List<Tuple<int,int>> newTrack2 = new List<Tuple<int,int>>(currentTrack);
                 newTrack2.Add(new Tuple<int,int>(x-1, y));
+
+                // Enqueue the new track
                 track.Enqueue(newTrack2);
 
+                // Enqueue Right Node
                 current.Enqueue(new Tuple<int,int>(x, y+1));
+
+                // Create a new track to right node from starting point
                 List<Tuple<int,int>> newTrack3 = new List<Tuple<int,int>>(currentTrack);
                 newTrack3.Add(new Tuple<int,int>(x, y+1));
+
+                // Enqueue the new track
                 track.Enqueue(newTrack3);
 
+                // Enqueue Lower Node
                 current.Enqueue(new Tuple<int,int>(x+1, y));
+
+                // Create a new track to lower node from starting point
                 List<Tuple<int,int>> newTrack4 = new List<Tuple<int,int>>(currentTrack);
                 newTrack4.Add(new Tuple<int,int>(x+1, y));
+
+                // Enqueue the new track
                 track.Enqueue(newTrack4);
             }
         }
+
+        /* BFS to next node in queue */
         bfs(map, current, isVisited, ref count, path, track, solution);
     }
 
@@ -80,24 +119,26 @@ public class BFS {
             The main BFS recursive function
             Param :
                 map : the given map
-                x : the current x coordinate
-                y : the current y coordinate
+                current : queue for determine the order in which nodes are visited
                 isVisited : states which coordinate has been visited or not
-                count : counts treasures that were found
                 path : collects the path from starting point to all treasures
                 track : collects temporary path to a treasure, will be removed if the current track doesn't end on treasure box
-                solution : collects coordinates of the treasures
         */
 
+        // If the queue is empty, no more nodes can be visited
         if(current.Count == 0){
             return;
         }
 
-        // Getting N
+        // Getting size
         int size = map.GetLength(0);
+
+        // Getting the current coordinate
         Tuple<int,int> coor = current.Dequeue();
         int x = coor.Item1;
         int y = coor.Item2;
+
+        // Getting the current track from starting point
         List<Tuple<int,int>> currentTrack = track.Dequeue();
 
         // If map is not out of bounds
@@ -109,34 +150,56 @@ public class BFS {
                 // Visit map
                 isVisited[x,y] = true;
 
-                // If it contains treasure
+                // Reached starting point
                 if(map[x,y] == 'K'){
                     path.AddRange(currentTrack);
                     return;
                 }
 
-                // BFS on L-U-R-D pattern
+                /* TSP BFS on L-U-R-D pattern */
+                // Enqueue Left Node
                 current.Enqueue(new Tuple<int,int>(x, y-1));
+
+                // Create a new track to left node from starting point
                 List<Tuple<int,int>> newTrack = new List<Tuple<int,int>>(currentTrack);
                 newTrack.Add(new Tuple<int,int>(x, y-1));
+
+                // Enqueue the new track
                 track.Enqueue(newTrack);
 
+                // Enqueue Upper Node
                 current.Enqueue(new Tuple<int,int>(x-1, y));
+
+                // Create a new track to upper node from starting point
                 List<Tuple<int,int>> newTrack2 = new List<Tuple<int,int>>(currentTrack);
                 newTrack2.Add(new Tuple<int,int>(x-1, y));
+
+                // Enqueue the new track
                 track.Enqueue(newTrack2);
 
+                // Enqueue Right Node
                 current.Enqueue(new Tuple<int,int>(x, y+1));
+
+                // Create a new track to right node from starting point
                 List<Tuple<int,int>> newTrack3 = new List<Tuple<int,int>>(currentTrack);
                 newTrack3.Add(new Tuple<int,int>(x, y+1));
+
+                // Enqueue the new track
                 track.Enqueue(newTrack3);
 
+                // Enqueue Lower Node
                 current.Enqueue(new Tuple<int,int>(x+1, y));
+
+                // Create a new track to lower node from starting point
                 List<Tuple<int,int>> newTrack4 = new List<Tuple<int,int>>(currentTrack);
                 newTrack4.Add(new Tuple<int,int>(x+1, y));
+
+                // Enqueue the new track
                 track.Enqueue(newTrack4);
             }
         }
+
+        /* TSP BFS to next node in queue */
         tspBFS(map, current, isVisited, path, track);
     }
 }

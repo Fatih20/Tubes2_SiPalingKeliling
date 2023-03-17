@@ -1,11 +1,8 @@
 using System.Diagnostics;
 class MainProgram {
-    /*
     static void Main(string[] args){
         // Main function to test
-
-        // N = size of map
-        const int N = 6;
+        Console.WriteLine("\nDENGAN DFS");
 
         // Initialize lists
         List<Tuple<int,int>> path = new List<Tuple<int,int>>();
@@ -19,6 +16,9 @@ class MainProgram {
         char[,] map;
         try {
             map = ReadFile.readFile(pathfile);
+
+            // N = size of map
+            int N = map.GetLength(0);
 
             // Initialize lists
             char[,] solution = new char[N, N];
@@ -90,27 +90,24 @@ class MainProgram {
                 Console.WriteLine(e2.Message);
             }
         }
-    }
-    */
 
-    static void Main(string[] args){
-        // Main function to test
+        Console.WriteLine("\nDENGAN BFS");
 
-        // N = size of map
-        const int N = 6;
-
-        // Initialize lists
-        List<Tuple<int,int>> path = new List<Tuple<int,int>>();
-        Queue<List<Tuple<int,int>>> track = new Queue<List<Tuple<int,int>>>();
-        List<Tuple<int,int>> treasure = new List<Tuple<int,int>>();
-        List<Tuple<int,int>> pathTSP = new List<Tuple<int,int>>();
-        Queue<List<Tuple<int,int>>> trackTSP = new Queue<List<Tuple<int,int>>>();
+        // Initialize lists and queues
+        List<Tuple<int,int>> pathBFS = new List<Tuple<int,int>>();
+        Queue<List<Tuple<int,int>>> trackBFS = new Queue<List<Tuple<int,int>>>();
+        List<Tuple<int,int>> treasureBFS = new List<Tuple<int,int>>();
+        List<Tuple<int,int>> pathTSPBFS = new List<Tuple<int,int>>();
+        Queue<List<Tuple<int,int>>> trackTSPBFS = new Queue<List<Tuple<int,int>>>();
 
         // Try to read file
-        string pathfile = "./config/peta.txt";
-        char[,] map;
+        string pathfileBFS = "./config/peta.txt";
+        char[,] mapBFS;
         try {
-            map = ReadFile.readFile(pathfile);
+            mapBFS = ReadFile.readFile(pathfileBFS);
+
+            // N = size of map
+            int N = mapBFS.GetLength(0);
 
             // Initialize lists
             char[,] solution = new char[N, N];
@@ -142,39 +139,43 @@ class MainProgram {
             stopwatch.Start();
 
             // Searching for the starting point
-            Tuple<int,int> startingCoor = Helper.getStartingPoint(map, N);
+            Tuple<int,int> startingCoor = Helper.getStartingPoint(mapBFS, N);
 
+            // Create queue and starting track for BFS
             Queue<Tuple<int,int>> bfsTrack = new Queue<Tuple<int,int>>();
             bfsTrack.Enqueue(startingCoor);
+
             List<Tuple<int,int>> startingTrack = new List<Tuple<int,int>>();
             startingTrack.Add(startingCoor);
-            track.Enqueue(startingTrack);
+            trackBFS.Enqueue(startingTrack);
 
             // DFS Algorithm
-            BFS.bfs(map, bfsTrack, isVisited, ref count, path, track, treasure);
+            BFS.bfs(mapBFS, bfsTrack, isVisited, ref count, pathBFS, trackBFS, treasureBFS);
 
             // Plotting the solution
-            Helper.setSolution(solution, path, treasure);
+            Helper.setSolution(solution, pathBFS, treasureBFS);
 
-            Tuple<int,int> startingTSPCoor = new Tuple<int,int>(treasure.Last().Item1,treasure.Last().Item2);
+            // Create queue and starting track for TSP
+            Tuple<int,int> startingTSPCoor = new Tuple<int,int>(treasureBFS.Last().Item1,treasureBFS.Last().Item2);
             Queue<Tuple<int,int>> tspBFSTrack = new Queue<Tuple<int,int>>();
             tspBFSTrack .Enqueue(startingTSPCoor);
+            
             List<Tuple<int,int>> startingTrackForTSP = new List<Tuple<int,int>>();
             startingTrackForTSP.Add(startingTSPCoor);
-            trackTSP.Enqueue(startingTrackForTSP);
+            trackTSPBFS.Enqueue(startingTrackForTSP);
 
             // TSP Algorithm
-            BFS.tspBFS(map, tspBFSTrack, isVisitedTSP, pathTSP, trackTSP);
+            BFS.tspBFS(mapBFS, tspBFSTrack, isVisitedTSP, pathTSPBFS, trackTSPBFS);
 
             // Plotting the TSP
-            Helper.setSolutionTSP(tspMap, pathTSP, startingCoor, treasure.Last());
+            Helper.setSolutionTSP(tspMap, pathTSPBFS, startingCoor, treasureBFS.Last());
 
             // Stop timer
             stopwatch.Stop();
 
             // Print map
             Console.WriteLine("Peta Harta Karun");
-            Helper.printMap(map);
+            Helper.printMap(mapBFS);
 
             Console.WriteLine("\nPeta Jalur ke Harta Karun");
             Helper.printMap(solution);
@@ -185,6 +186,7 @@ class MainProgram {
             // Print solution
             Console.WriteLine($"\nTerdapat {count} treasure yang dapat ditemukan.");
             Console.WriteLine($"Execution Time: {stopwatch.ElapsedMilliseconds} ms");
+            
         } catch (FileNotFoundException){
             Console.WriteLine("File tidak ditemukan!");
         } catch (Exception e2){
