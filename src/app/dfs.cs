@@ -35,6 +35,7 @@ public class DFS {
                     count++;
                     solution.Add(new Tuple<int,int>(x,y));
                     path.AddRange(track);
+                    track.Clear();
                 }
 
                 // DFS on L-U-R-D pattern
@@ -90,6 +91,7 @@ public class DFS {
                 if(map[x,y] == 'K'){
                     finish = true;
                     path.AddRange(track);
+                    track.Clear();
                     return;
                 }
 
