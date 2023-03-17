@@ -1,8 +1,9 @@
 using System.Diagnostics;
-public class DFS {
-    public static void dfs(char[,] map, int x, int y, int xBefore, int yBefore, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, List<Tuple<int,int>> track, List<Tuple<int,int>> solution){
+
+class BFS {
+    static void bfs(char[,] map, Queue<Tuple<int,int>> current, int xBefore, int yBefore, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int>> solution){
         /*
-            The main DFS recursive function
+            The main BFS recursive function
             Param :
                 map : the given map
                 x : the current x coordinate
@@ -16,51 +17,72 @@ public class DFS {
                 solution : collects coordinates of the treasures
         */
 
+        if(current.Count == 0){
+            return;
+        }
+
         // Getting N
         int size = map.GetLength(0);
+        Tuple<int,int> coor = current.Dequeue();
+        int x = coor.Item1;
+        int y = coor.Item2;
+        List<Tuple<int,int>> currentTrack = track.Dequeue();
 
         // If map is not out of bounds
         if(x >= 0 && x < size && y >= 0 && y < size){
             // If map is already visited or blocked
             if(isVisited[x,y] || map[x,y] == 'X'){
-                return;
+                // Do nothing
             } else {
                 // Visit map
                 isVisited[x,y] = true;
-
-                // Add map to track
-                track.Add(new Tuple<int,int>(x,y));
 
                 // If it contains treasure
                 if(map[x,y] == 'T'){
                     count++;
                     solution.Add(new Tuple<int,int>(x,y));
-                    path.AddRange(track);
-                }
-
-                // DFS on L-U-R-D pattern
-                dfs(map, x, y-1, x, y, isVisited, ref count, path, track, solution);
-                dfs(map, x-1, y, x, y, isVisited, ref count, path, track, solution);
-                dfs(map, x, y+1, x, y, isVisited, ref count, path, track, solution);
-                dfs(map, x+1, y, x, y, isVisited, ref count, path, track, solution);
-
-                // If track is blocked and nowhere to continue
-                if(xBefore-1 >= 0 && xBefore+1 < size && yBefore-1 >= 0 && yBefore+1 < size && isVisited[xBefore-1,yBefore] && isVisited[xBefore,yBefore+1] && isVisited[xBefore+1,yBefore] && isVisited[xBefore,yBefore-1]){
+                    path.AddRange(currentTrack);
+                    currentTrack.ForEach(p => Console.WriteLine(p.Item1 + " " + p.Item2));
+                    for(int i = 0; i < size; i++){
+                        for(int j = 0; j < size; j++){
+                            isVisited[i,j] = false;
+                        }
+                    }
+                    map[x,y] = 'R';
                     track.Clear();
-                } else if (track.Count > 0) {
-                    // Remove current map from track and continue add another map to track
-                    track.RemoveAt(track.Count - 1);
+                    current.Clear();
+                    currentTrack.Clear();
+                    isVisited[x,y] = true;
                 }
-                return;
+
+                // BFS on L-U-R-D pattern
+                current.Enqueue(new Tuple<int,int>(x, y-1));
+                List<Tuple<int,int>> newTrack = new List<Tuple<int,int>>(currentTrack);
+                newTrack.Add(new Tuple<int,int>(x, y-1));
+                track.Enqueue(newTrack);
+
+                current.Enqueue(new Tuple<int,int>(x-1, y));
+                List<Tuple<int,int>> newTrack2 = new List<Tuple<int,int>>(currentTrack);
+                newTrack2.Add(new Tuple<int,int>(x-1, y));
+                track.Enqueue(newTrack2);
+
+                current.Enqueue(new Tuple<int,int>(x, y+1));
+                List<Tuple<int,int>> newTrack3 = new List<Tuple<int,int>>(currentTrack);
+                newTrack3.Add(new Tuple<int,int>(x, y+1));
+                track.Enqueue(newTrack3);
+
+                current.Enqueue(new Tuple<int,int>(x+1, y));
+                List<Tuple<int,int>> newTrack4 = new List<Tuple<int,int>>(currentTrack);
+                newTrack4.Add(new Tuple<int,int>(x+1, y));
+                track.Enqueue(newTrack4);
             }
-        } else {
-            return;
         }
+        bfs(map, current, x, y, isVisited, ref count, path, track, solution);
     }
 
-    public static void tspDFS(char[,] map, int x, int y, int xBefore, int yBefore, bool[,] isVisited, List<Tuple<int,int>> path, List<Tuple<int,int>> track, ref bool finish){
+    static void tspBFS(char[,] map, Queue<Tuple<int,int>> current, int xBefore, int yBefore, bool[,] isVisited, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, ref bool finish){
         /*
-            The main TSP DFS recursive function
+            The main BFS recursive function
             Param :
                 map : the given map
                 x : the current x coordinate
@@ -68,53 +90,64 @@ public class DFS {
                 xBefore : the x coordinate before
                 yBefore : the y coordinate before
                 isVisited : states which coordinate has been visited or not
-                path : collects the path from last treasure found to starting point
-                track : collects temporary path to starting point, will be removed if the current track doesn't end on starting point
+                count : counts treasures that were found
+                path : collects the path from starting point to all treasures
+                track : collects temporary path to a treasure, will be removed if the current track doesn't end on treasure box
+                solution : collects coordinates of the treasures
         */
+
+        if(current.Count == 0 || finish){
+            return;
+        }
 
         // Getting N
         int size = map.GetLength(0);
+        Tuple<int,int> coor = current.Dequeue();
+        int x = coor.Item1;
+        int y = coor.Item2;
+        List<Tuple<int,int>> currentTrack = track.Dequeue();
 
         // If map is not out of bounds
-        if(x >= 0 && x < size && y >= 0 && y < size && !finish){
+        if(x >= 0 && x < size && y >= 0 && y < size){
             // If map is already visited or blocked
             if(isVisited[x,y] || map[x,y] == 'X'){
-                return;
+                // Do nothing
             } else {
                 // Visit map
                 isVisited[x,y] = true;
 
-                // Add map to track
-                track.Add(new Tuple<int,int>(x,y));
-
-                // If it reached starting point
+                // If it contains treasure
                 if(map[x,y] == 'K'){
-                    finish = true;
-                    path.AddRange(track);
+                    path.AddRange(currentTrack);
                     return;
                 }
 
-                // DFS on L-U-R-D pattern
-                tspDFS(map, x, y-1, x, y, isVisited, path, track, ref finish);
-                tspDFS(map, x-1, y, x, y, isVisited, path, track, ref finish);
-                tspDFS(map, x, y+1, x, y, isVisited, path, track, ref finish);
-                tspDFS(map, x+1, y, x, y, isVisited, path, track, ref finish);
+                // BFS on L-U-R-D pattern
+                current.Enqueue(new Tuple<int,int>(x, y-1));
+                List<Tuple<int,int>> newTrack = new List<Tuple<int,int>>(currentTrack);
+                newTrack.Add(new Tuple<int,int>(x, y-1));
+                track.Enqueue(newTrack);
 
-                // If track is blocked and nowhere to continue
-                if(xBefore-1 >= 0 && xBefore+1 < size && yBefore-1 >= 0 && yBefore+1 < size && isVisited[xBefore-1,yBefore] && isVisited[xBefore,yBefore+1] && isVisited[xBefore+1,yBefore] && isVisited[xBefore,yBefore-1]){
-                    track.Clear();
-                } else if (track.Count > 0) {
-                    // Remove current map from track and continue add another map to track
-                    track.RemoveAt(track.Count - 1);
-                }
-                return;
+                current.Enqueue(new Tuple<int,int>(x-1, y));
+                List<Tuple<int,int>> newTrack2 = new List<Tuple<int,int>>(currentTrack);
+                newTrack2.Add(new Tuple<int,int>(x-1, y));
+                track.Enqueue(newTrack2);
+
+                current.Enqueue(new Tuple<int,int>(x, y+1));
+                List<Tuple<int,int>> newTrack3 = new List<Tuple<int,int>>(currentTrack);
+                newTrack3.Add(new Tuple<int,int>(x, y+1));
+                track.Enqueue(newTrack3);
+
+                current.Enqueue(new Tuple<int,int>(x+1, y));
+                List<Tuple<int,int>> newTrack4 = new List<Tuple<int,int>>(currentTrack);
+                newTrack4.Add(new Tuple<int,int>(x+1, y));
+                track.Enqueue(newTrack4);
             }
-        } else {
-            return;
         }
+        tspBFS(map, current, x, y, isVisited, path, track, ref finish);
     }
 
-    public static void printMap(char[,] map){
+    static void printMap(char[,] map){
         // Function to print the map
         int size = map.GetLength(0);
         for(int i = 0; i < size; i++){
@@ -125,7 +158,7 @@ public class DFS {
         }
     }
 
-    public static void memset(char[,] buffer, char value, int size){
+    static void memset(char[,] buffer, char value, int size){
         // Function to set a buffer with the given value
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
@@ -134,7 +167,7 @@ public class DFS {
         }
     }
 
-    public static void setSolution(char[,] buffer, List<Tuple<int,int>> path, List<Tuple<int,int>> solution){
+    static void setSolution(char[,] buffer, List<Tuple<int,int>> path, List<Tuple<int,int>> solution){
         // Function to plot the path to the treasures
         foreach (var coor in path){
             buffer[coor.Item1, coor.Item2] = 'P';
@@ -153,7 +186,7 @@ public class DFS {
         buffer[end.Item1, end.Item2] = 'L';
     }
 
-    public static Tuple<int,int> getStartingPoint(char[,] map, int size){
+    static Tuple<int,int> getStartingPoint(char[,] map, int size){
         // Function to get the starting point of the map
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
@@ -165,7 +198,6 @@ public class DFS {
         return new Tuple<int, int>(0,0);
     }
 
-    /*
     static void Main(string[] args){
         // Main function to test
 
@@ -174,10 +206,10 @@ public class DFS {
 
         // Initialize lists
         List<Tuple<int,int>> path = new List<Tuple<int,int>>();
-        List<Tuple<int,int>> track = new List<Tuple<int,int>>();
+        Queue<List<Tuple<int,int>>> track = new Queue<List<Tuple<int,int>>>();
         List<Tuple<int,int>> treasure = new List<Tuple<int,int>>();
         List<Tuple<int,int>> pathTSP = new List<Tuple<int,int>>();
-        List<Tuple<int,int>> trackTSP = new List<Tuple<int,int>>();
+        Queue<List<Tuple<int,int>>> trackTSP = new Queue<List<Tuple<int,int>>>();
 
         // Try to read file
         string pathfile = "./config/peta.txt";
@@ -218,14 +250,27 @@ public class DFS {
             // Searching for the starting point
             Tuple<int,int> startingCoor = getStartingPoint(map, N);
 
+            Queue<Tuple<int,int>> bfsTrack = new Queue<Tuple<int,int>>();
+            bfsTrack.Enqueue(startingCoor);
+            List<Tuple<int,int>> startingTrack = new List<Tuple<int,int>>();
+            startingTrack.Add(startingCoor);
+            track.Enqueue(startingTrack);
+
             // DFS Algorithm
-            dfs(map, startingCoor.Item1, startingCoor.Item2, startingCoor.Item1, startingCoor.Item2, isVisited, ref count, path, track, treasure);
+            bfs(map, bfsTrack, startingCoor.Item1, startingCoor.Item2, isVisited, ref count, path, track, treasure);
 
             // Plotting the solution
             setSolution(solution, path, treasure);
 
+            Tuple<int,int> startingTSPCoor = new Tuple<int,int>(treasure.Last().Item1,treasure.Last().Item2);
+            Queue<Tuple<int,int>> tspBFSTrack = new Queue<Tuple<int,int>>();
+            tspBFSTrack .Enqueue(startingTSPCoor);
+            List<Tuple<int,int>> startingTrackForTSP = new List<Tuple<int,int>>();
+            startingTrackForTSP.Add(startingTSPCoor);
+            trackTSP.Enqueue(startingTrackForTSP);
+
             // TSP Algorithm
-            tspDFS(map, treasure.Last().Item1, treasure.Last().Item2, treasure.Last().Item1, treasure.Last().Item2, isVisitedTSP, pathTSP, trackTSP, ref finishTSP);
+            tspBFS(map, tspBFSTrack, treasure.Last().Item1, treasure.Last().Item2, isVisitedTSP, pathTSP, trackTSP, ref finishTSP);
 
             // Plotting the TSP
             setSolutionTSP(tspMap, pathTSP, startingCoor, treasure.Last());
@@ -256,5 +301,4 @@ public class DFS {
             }
         }
     }
-    */
 }
