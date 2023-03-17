@@ -4,6 +4,13 @@ class MainProgram {
         // Main function to test
         Console.WriteLine("\nDENGAN DFS");
 
+        // Initialize Progress
+        List<Tuple<int,int>> progressDFS = new List<Tuple<int,int>>();
+        List<Tuple<int,int>> progressBFS = new List<Tuple<int,int>>();
+
+        List<Tuple<int,int>> progressDFSTSP = new List<Tuple<int,int>>();
+        List<Tuple<int,int>> progressBFSTSP = new List<Tuple<int,int>>();
+
         // Initialize lists
         List<Tuple<int,int>> path = new List<Tuple<int,int>>();
         List<Tuple<int,int>> track = new List<Tuple<int,int>>();
@@ -54,13 +61,13 @@ class MainProgram {
             Tuple<int,int> startingCoor = Helper.getStartingPoint(map, N);
 
             // DFS Algorithm
-            DFS.dfs(map, startingCoor.Item1, startingCoor.Item2, startingCoor.Item1, startingCoor.Item2, isVisited, ref count, path, track, treasure);
+            DFS.dfs(map, startingCoor.Item1, startingCoor.Item2, startingCoor.Item1, startingCoor.Item2, isVisited, ref count, path, track, treasure, progressDFS);
 
             // Plotting the solution
             Helper.setSolution(solution, path, treasure);
 
             // TSP Algorithm
-            DFS.tspDFS(map, treasure.Last().Item1, treasure.Last().Item2, treasure.Last().Item1, treasure.Last().Item2, isVisitedTSP, pathTSP, trackTSP, ref finishTSP);
+            DFS.tspDFS(map, treasure.Last().Item1, treasure.Last().Item2, treasure.Last().Item1, treasure.Last().Item2, isVisitedTSP, pathTSP, trackTSP, ref finishTSP, progressDFSTSP);
 
             // Plotting the TSP
             Helper.setSolutionTSP(tspMap, pathTSP, startingCoor, treasure.Last());
@@ -84,10 +91,10 @@ class MainProgram {
 
             // Print Order Searching
             Console.WriteLine("\nUrutan pengecekan:");
-            path.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ")"));
+            progressDFS.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ")"));
 
             Console.WriteLine("\nUrutan pengecekan TSP:");
-            pathTSP.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ")"));
+            progressDFSTSP.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ")"));
         } catch (FileNotFoundException){
             Console.WriteLine("File tidak ditemukan!");
         } catch (Exception e2){
@@ -157,7 +164,7 @@ class MainProgram {
             trackBFS.Enqueue(startingTrack);
 
             // DFS Algorithm
-            BFS.bfs(mapBFS, bfsTrack, isVisited, ref count, pathBFS, trackBFS, treasureBFS);
+            BFS.bfs(mapBFS, bfsTrack, isVisited, ref count, pathBFS, trackBFS, treasureBFS, progressBFS);
 
             // Plotting the solution
             Helper.setSolution(solution, pathBFS, treasureBFS);
@@ -172,7 +179,7 @@ class MainProgram {
             trackTSPBFS.Enqueue(startingTrackForTSP);
 
             // TSP Algorithm
-            BFS.tspBFS(mapBFS, tspBFSTrack, isVisitedTSP, pathTSPBFS, trackTSPBFS);
+            BFS.tspBFS(mapBFS, tspBFSTrack, isVisitedTSP, pathTSPBFS, trackTSPBFS, progressBFSTSP);
 
             // Plotting the TSP
             Helper.setSolutionTSP(tspMap, pathTSPBFS, startingCoor, treasureBFS.Last());
@@ -196,10 +203,10 @@ class MainProgram {
             
             // Print Order Searching
             Console.WriteLine("\nUrutan pengecekan : ");
-            pathBFS.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ")"));
+            progressBFS.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ")"));
 
             Console.WriteLine("\nUrutan pengecekan TSP: ");
-            pathTSPBFS.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ")"));
+            progressBFSTSP.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ")"));
         } catch (FileNotFoundException){
             Console.WriteLine("File tidak ditemukan!");
         } catch (Exception e2){
