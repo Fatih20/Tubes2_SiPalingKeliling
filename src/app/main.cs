@@ -5,10 +5,10 @@ class MainProgram {
         Console.WriteLine("\nDENGAN DFS");
 
         // Initialize Progress
-        List<Tuple<int,int>> progressDFS = new List<Tuple<int,int>>();
+        List<Tuple<int,int,string>> progressDFS = new List<Tuple<int,int,string>>();
         List<Tuple<int,int>> progressBFS = new List<Tuple<int,int>>();
 
-        List<Tuple<int,int>> progressDFSTSP = new List<Tuple<int,int>>();
+        List<Tuple<int,int,string>> progressDFSTSP = new List<Tuple<int,int,string>>();
         List<Tuple<int,int>> progressBFSTSP = new List<Tuple<int,int>>();
 
         // Initialize lists
@@ -59,14 +59,16 @@ class MainProgram {
 
             // Searching for the starting point
             Tuple<int,int> startingCoor = Helper.getStartingPoint(map, N);
-
+    
             // DFS Algorithm
+            DFS DFS = new DFS(startingCoor.Item1, startingCoor.Item2);
             DFS.dfs(map, startingCoor.Item1, startingCoor.Item2, startingCoor.Item1, startingCoor.Item2, isVisited, ref count, path, track, treasure, progressDFS);
 
             // Plotting the solution
             Helper.setSolution(solution, path, treasure);
 
             // TSP Algorithm
+            DFS.setTSP(treasure.Last().Item1, treasure.Last().Item2);
             DFS.tspDFS(map, treasure.Last().Item1, treasure.Last().Item2, treasure.Last().Item1, treasure.Last().Item2, isVisitedTSP, pathTSP, trackTSP, ref finishTSP, progressDFSTSP);
 
             // Plotting the TSP
@@ -91,10 +93,10 @@ class MainProgram {
 
             // Print Order Searching
             Console.WriteLine("\nUrutan pengecekan:");
-            progressDFS.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ")"));
+            progressDFS.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ") " + coor.Item3));
 
             Console.WriteLine("\nUrutan pengecekan TSP:");
-            progressDFSTSP.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ")"));
+            progressDFSTSP.ForEach(coor => Console.WriteLine("(" + coor.Item1 + ", " + coor.Item2 + ") " + coor.Item3));
         } catch (FileNotFoundException){
             Console.WriteLine("File tidak ditemukan!");
         } catch (Exception e2){
@@ -117,8 +119,10 @@ class MainProgram {
         // Try to read file
         string pathfileBFS = "./config/peta.txt";
         char[,] mapBFS;
+        char[,] mapPrintBFS;
         try {
             mapBFS = ReadFile.readFile(pathfileBFS);
+            mapPrintBFS = ReadFile.readFile(pathfileBFS);
 
             // N = size of map
             int N = mapBFS.GetLength(0);
@@ -164,6 +168,7 @@ class MainProgram {
             trackBFS.Enqueue(startingTrack);
 
             // DFS Algorithm
+            BFS BFS = new BFS(startingCoor.Item1, startingCoor.Item2);
             BFS.bfs(mapBFS, bfsTrack, isVisited, ref count, pathBFS, trackBFS, treasureBFS, progressBFS);
 
             // Plotting the solution
@@ -189,7 +194,7 @@ class MainProgram {
 
             // Print map
             Console.WriteLine("Peta Harta Karun");
-            Helper.printMap(mapBFS);
+            Helper.printMap(mapPrintBFS);
 
             Console.WriteLine("\nPeta Jalur ke Harta Karun");
             Helper.printMap(solution);

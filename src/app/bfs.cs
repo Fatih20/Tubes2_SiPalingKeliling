@@ -1,5 +1,20 @@
 public class BFS {
-    public static void bfs(char[,] map, Queue<Tuple<int,int>> current, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int>> solution, List<Tuple<int,int>> progress){
+    private int startingX;
+    private int startingY;
+
+    private int startingXTSP;
+    private int startingYTSP;
+
+    public BFS(int x, int y){
+        this.startingX = x;
+        this.startingY = y;
+    }
+
+    public void setTSP(int x, int y){
+        this.startingXTSP = x;
+        this.startingYTSP = y;
+    }
+    public void bfs(char[,] map, Queue<Tuple<int,int>> current, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int>> solution, List<Tuple<int,int>> progress){
         /*
             The main BFS recursive function
             Param :
@@ -113,9 +128,17 @@ public class BFS {
 
         /* BFS to next node in queue */
         bfs(map, current, isVisited, ref count, path, track, solution, progress);
+
+        // Pop last path from last treasure
+        if(x == this.startingX && y == this.startingY){
+            Tuple<int,int> startingCoor = new Tuple<int, int>(solution.Last().Item1, solution.Last().Item2);
+            while(!progress.Last().Equals(startingCoor)){
+                progress.RemoveAt(progress.Count - 1);
+            }
+        }
     }
 
-    public static void tspBFS(char[,] map, Queue<Tuple<int,int>> current, bool[,] isVisited, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int>> progress){
+    public void tspBFS(char[,] map, Queue<Tuple<int,int>> current, bool[,] isVisited, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int>> progress){
         /*
             The main BFS recursive function
             Param :
@@ -203,5 +226,13 @@ public class BFS {
 
         /* TSP BFS to next node in queue */
         tspBFS(map, current, isVisited, path, track, progress);
+
+        // Pop last path from last treasure
+        if(x == this.startingXTSP && y == this.startingYTSP){
+            Tuple<int,int> startingCoor = new Tuple<int, int>(this.startingX, this.startingY);
+            while(!progress.Last().Equals(startingCoor)){
+                progress.RemoveAt(progress.Count - 1);
+            }
+        }
     }
 }

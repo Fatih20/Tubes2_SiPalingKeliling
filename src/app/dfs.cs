@@ -1,5 +1,21 @@
 public class DFS {
-    public static void dfs(char[,] map, int x, int y, int xBefore, int yBefore, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, List<Tuple<int,int>> track, List<Tuple<int,int>> solution, List<Tuple<int,int>> progress){
+    private int startingX;
+    private int startingY;
+
+    private int startingXTSP;
+    private int startingYTSP;
+
+    public DFS(int x, int y){
+        this.startingX = x;
+        this.startingY = y;
+    }
+
+    public void setTSP(int x, int y){
+        this.startingXTSP = x;
+        this.startingYTSP = y;
+    }
+
+    public void dfs(char[,] map, int x, int y, int xBefore, int yBefore, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, List<Tuple<int,int>> track, List<Tuple<int,int>> solution, List<Tuple<int,int,string>> progress){
         /*
             The main DFS recursive function
             Param :
@@ -26,7 +42,7 @@ public class DFS {
             } else {
                 // Visit map
                 isVisited[x,y] = true;
-                progress.Add(new Tuple<int, int>(x,y));
+                progress.Add(new Tuple<int, int,string>(x,y,"GREEN"));
 
                 // Add map to track
                 track.Add(new Tuple<int,int>(x,y));
@@ -38,12 +54,27 @@ public class DFS {
                     path.AddRange(track);
                     track.Clear();
                 }
-
+                
                 // DFS on L-U-R-D pattern
-                dfs(map, x, y-1, x, y, isVisited, ref count, path, track, solution, progress);
+                dfs(map, x, y-1, x, y, isVisited, ref count, path, track, solution, progress); 
+                if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
+                    progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                }
+
                 dfs(map, x-1, y, x, y, isVisited, ref count, path, track, solution, progress);
+                if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
+                    progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                }
+
                 dfs(map, x, y+1, x, y, isVisited, ref count, path, track, solution, progress);
+                if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
+                    progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                }
+
                 dfs(map, x+1, y, x, y, isVisited, ref count, path, track, solution, progress);
+                if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
+                    progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                }
 
                 // If track is blocked and nowhere to continue
                 if(xBefore-1 >= 0 && xBefore+1 < size && yBefore-1 >= 0 && yBefore+1 < size && isVisited[xBefore-1,yBefore] && isVisited[xBefore,yBefore+1] && isVisited[xBefore+1,yBefore] && isVisited[xBefore,yBefore-1]){
@@ -52,6 +83,14 @@ public class DFS {
                     // Remove current map from track and continue add another map to track
                     track.RemoveAt(track.Count - 1);
                 }
+
+                // Pop last backtrack to starting point
+                if(x == this.startingX && y == this.startingY){
+                    Tuple<int,int, string> startingCoor = new Tuple<int, int, string>(solution.Last().Item1, solution.Last().Item2, "GREEN");
+                    while(!progress.Last().Equals(startingCoor)){
+                        progress.RemoveAt(progress.Count - 1);
+                    }
+                }
                 return;
             }
         } else {
@@ -59,7 +98,7 @@ public class DFS {
         }
     }
 
-    public static void tspDFS(char[,] map, int x, int y, int xBefore, int yBefore, bool[,] isVisited, List<Tuple<int,int>> path, List<Tuple<int,int>> track, ref bool finish, List<Tuple<int,int>> progress){
+    public void tspDFS(char[,] map, int x, int y, int xBefore, int yBefore, bool[,] isVisited, List<Tuple<int,int>> path, List<Tuple<int,int>> track, ref bool finish, List<Tuple<int,int, string>> progress){
         /*
             The main TSP DFS recursive function
             Param :
@@ -84,7 +123,7 @@ public class DFS {
             } else {
                 // Visit map
                 isVisited[x,y] = true;
-                progress.Add(new Tuple<int, int>(x,y));
+                progress.Add(new Tuple<int, int, string>(x,y,"GREEN"));
 
                 // Add map to track
                 track.Add(new Tuple<int,int>(x,y));
@@ -99,9 +138,24 @@ public class DFS {
 
                 // DFS on L-U-R-D pattern
                 tspDFS(map, x, y-1, x, y, isVisited, path, track, ref finish, progress);
+                if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
+                    progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                }
+
                 tspDFS(map, x-1, y, x, y, isVisited, path, track, ref finish, progress);
+                if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
+                    progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                }
+
                 tspDFS(map, x, y+1, x, y, isVisited, path, track, ref finish, progress);
+                if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
+                    progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                }
+
                 tspDFS(map, x+1, y, x, y, isVisited, path, track, ref finish, progress);
+                if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
+                    progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                }
 
                 // If track is blocked and nowhere to continue
                 if(xBefore-1 >= 0 && xBefore+1 < size && yBefore-1 >= 0 && yBefore+1 < size && isVisited[xBefore-1,yBefore] && isVisited[xBefore,yBefore+1] && isVisited[xBefore+1,yBefore] && isVisited[xBefore,yBefore-1]){
@@ -109,6 +163,14 @@ public class DFS {
                 } else if (track.Count > 0) {
                     // Remove current map from track and continue add another map to track
                     track.RemoveAt(track.Count - 1);
+                }
+
+                // Pop last backtrack to starting point
+                if(x == this.startingXTSP && y == this.startingYTSP){
+                    Tuple<int,int, string> startingCoor = new Tuple<int, int, string>(this.startingX, this.startingY, "GREEN");
+                    while(!progress.Last().Equals(startingCoor)){
+                        progress.RemoveAt(progress.Count - 1);
+                    }
                 }
                 return;
             }
