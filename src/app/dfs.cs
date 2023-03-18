@@ -15,7 +15,7 @@ public class DFS {
         this.startingYTSP = y;
     }
 
-    public void dfs(char[,] map, int x, int y, int xBefore, int yBefore, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, List<Tuple<int,int>> track, List<Tuple<int,int>> solution, List<Tuple<int,int,string>> progress){
+    public void dfs(char[,] map, int x, int y, int xBefore, int yBefore, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, List<Tuple<int,int>> track, List<Tuple<int,int>> solution, List<Tuple<int,int,string>> progress, ref int nodes){
         /*
             The main DFS recursive function
             Param :
@@ -29,6 +29,7 @@ public class DFS {
                 path : collects the path from starting point to all treasures
                 track : collects temporary path to a treasure, will be removed if the current track doesn't end on treasure box
                 solution : collects coordinates of the treasures
+                nodes : count how many nodes visited
         */
 
         // Getting N
@@ -41,6 +42,7 @@ public class DFS {
                 return;
             } else {
                 // Visit map
+                nodes++;
                 isVisited[x,y] = true;
                 progress.Add(new Tuple<int, int,string>(x,y,"GREEN"));
 
@@ -56,22 +58,22 @@ public class DFS {
                 }
                 
                 // DFS on L-U-R-D pattern
-                dfs(map, x, y-1, x, y, isVisited, ref count, path, track, solution, progress); 
+                dfs(map, x, y-1, x, y, isVisited, ref count, path, track, solution, progress, ref nodes); 
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                 }
 
-                dfs(map, x-1, y, x, y, isVisited, ref count, path, track, solution, progress);
+                dfs(map, x-1, y, x, y, isVisited, ref count, path, track, solution, progress, ref nodes);
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                 }
 
-                dfs(map, x, y+1, x, y, isVisited, ref count, path, track, solution, progress);
+                dfs(map, x, y+1, x, y, isVisited, ref count, path, track, solution, progress, ref nodes);
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                 }
 
-                dfs(map, x+1, y, x, y, isVisited, ref count, path, track, solution, progress);
+                dfs(map, x+1, y, x, y, isVisited, ref count, path, track, solution, progress, ref nodes);
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                 }
@@ -98,7 +100,7 @@ public class DFS {
         }
     }
 
-    public void tspDFS(char[,] map, int x, int y, int xBefore, int yBefore, bool[,] isVisited, List<Tuple<int,int>> path, List<Tuple<int,int>> track, ref bool finish, List<Tuple<int,int, string>> progress){
+    public void tspDFS(char[,] map, int x, int y, int xBefore, int yBefore, bool[,] isVisited, List<Tuple<int,int>> path, List<Tuple<int,int>> track, ref bool finish, List<Tuple<int,int, string>> progress, ref int nodes){
         /*
             The main TSP DFS recursive function
             Param :
@@ -122,6 +124,7 @@ public class DFS {
                 return;
             } else {
                 // Visit map
+                nodes++;
                 isVisited[x,y] = true;
                 progress.Add(new Tuple<int, int, string>(x,y,"GREEN"));
 
@@ -137,22 +140,22 @@ public class DFS {
                 }
 
                 // DFS on L-U-R-D pattern
-                tspDFS(map, x, y-1, x, y, isVisited, path, track, ref finish, progress);
+                tspDFS(map, x, y-1, x, y, isVisited, path, track, ref finish, progress, ref nodes);
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                 }
 
-                tspDFS(map, x-1, y, x, y, isVisited, path, track, ref finish, progress);
+                tspDFS(map, x-1, y, x, y, isVisited, path, track, ref finish, progress, ref nodes);
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                 }
 
-                tspDFS(map, x, y+1, x, y, isVisited, path, track, ref finish, progress);
+                tspDFS(map, x, y+1, x, y, isVisited, path, track, ref finish, progress, ref nodes);
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                 }
 
-                tspDFS(map, x+1, y, x, y, isVisited, path, track, ref finish, progress);
+                tspDFS(map, x+1, y, x, y, isVisited, path, track, ref finish, progress, ref nodes);
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                 }

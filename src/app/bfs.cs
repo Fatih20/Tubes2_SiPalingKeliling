@@ -14,7 +14,7 @@ public class BFS {
         this.startingXTSP = x;
         this.startingYTSP = y;
     }
-    public void bfs(char[,] map, Queue<Tuple<int,int>> current, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int>> solution, List<Tuple<int,int>> progress){
+    public void bfs(char[,] map, Queue<Tuple<int,int>> current, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int>> solution, List<Tuple<int,int,string>> progress, ref int nodes){
         /*
             The main BFS recursive function
             Param :
@@ -50,8 +50,9 @@ public class BFS {
                 // Do nothing
             } else {
                 // Visit map
+                nodes++;
                 isVisited[x,y] = true;
-                progress.Add(new Tuple<int,int>(x,y));
+                progress.Add(new Tuple<int,int,string>(x,y,"GREEN"));
 
                 // If it contains treasure
                 if(map[x,y] == 'T'){
@@ -127,18 +128,18 @@ public class BFS {
         }
 
         /* BFS to next node in queue */
-        bfs(map, current, isVisited, ref count, path, track, solution, progress);
+        bfs(map, current, isVisited, ref count, path, track, solution, progress, ref nodes);
 
         // Pop last path from last treasure
         if(x == this.startingX && y == this.startingY){
-            Tuple<int,int> startingCoor = new Tuple<int, int>(solution.Last().Item1, solution.Last().Item2);
+            Tuple<int,int,string> startingCoor = new Tuple<int, int, string>(solution.Last().Item1, solution.Last().Item2, "GREEN");
             while(!progress.Last().Equals(startingCoor)){
                 progress.RemoveAt(progress.Count - 1);
             }
         }
     }
 
-    public void tspBFS(char[,] map, Queue<Tuple<int,int>> current, bool[,] isVisited, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int>> progress){
+    public void tspBFS(char[,] map, Queue<Tuple<int,int>> current, bool[,] isVisited, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int,string>> progress, ref int nodes){
         /*
             The main BFS recursive function
             Param :
@@ -172,8 +173,9 @@ public class BFS {
                 // Do nothing
             } else {
                 // Visit map
+                nodes++;
                 isVisited[x,y] = true;
-                progress.Add(new Tuple<int, int>(x,y));
+                progress.Add(new Tuple<int, int, string>(x,y,"GREEN"));
 
                 // Reached starting point
                 if(map[x,y] == 'K'){
@@ -225,11 +227,11 @@ public class BFS {
         }
 
         /* TSP BFS to next node in queue */
-        tspBFS(map, current, isVisited, path, track, progress);
+        tspBFS(map, current, isVisited, path, track, progress, ref nodes);
 
         // Pop last path from last treasure
         if(x == this.startingXTSP && y == this.startingYTSP){
-            Tuple<int,int> startingCoor = new Tuple<int, int>(this.startingX, this.startingY);
+            Tuple<int,int, string> startingCoor = new Tuple<int, int, string>(this.startingX, this.startingY, "GREEN");
             while(!progress.Last().Equals(startingCoor)){
                 progress.RemoveAt(progress.Count - 1);
             }
