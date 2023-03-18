@@ -1,19 +1,18 @@
 public class Helper {
-    public static void printMap(char[,] map){
+    public static void printMap(char[,] map, int M, int N){
         // Function to print the map
-        int size = map.GetLength(0);
-        for(int i = 0; i < size; i++){
-            for(int j = 0; j < size; j++){
+        for(int i = 0; i < M; i++){
+            for(int j = 0; j < N; j++){
                 Console.Write(map[i,j]);
             }
             Console.WriteLine();
         }
     }
 
-    public static void memset(char[,] buffer, char value, int size){
+    public static void memset(char[,] buffer, char value, int M, int N){
         // Function to set a buffer with the given value
-        for(int i = 0; i < size; i++){
-            for(int j = 0; j < size; j++){
+        for(int i = 0; i < M; i++){
+            for(int j = 0; j < N; j++){
                 buffer[i,j] = value;
             }
         }
@@ -38,10 +37,10 @@ public class Helper {
         buffer[start.Item1, start.Item2] = 'K';
     }
 
-    public static Tuple<int,int> getStartingPoint(char[,] map, int size){
+    public static Tuple<int,int> getStartingPoint(char[,] map, int M, int N){
         // Function to get the starting point of the map
-        for(int i = 0; i < size; i++){
-            for(int j = 0; j < size; j++){
+        for(int i = 0; i < M; i++){
+            for(int j = 0; j < N; j++){
                 if(map[i,j] == 'K'){
                     return new Tuple<int, int>(i,j);
                 }

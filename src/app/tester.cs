@@ -1,4 +1,3 @@
-using System.Diagnostics;
 class MainProgram {
     static void Main(string[] args){
         // Try to read file
@@ -8,17 +7,17 @@ class MainProgram {
 
             // Print map
             Console.WriteLine("\nPeta Harta Karun");
-            Helper.printMap(TreasureMap.getMap());
+            Helper.printMap(TreasureMap.getMap(), TreasureMap.getM(), TreasureMap.getN());
             
             // Solve
-            Solution solution = TreasureMap.Solve(false, true);
+            Solution solution = TreasureMap.Solve(false, false);
 
             // Print solution
             Console.WriteLine("\nDENGAN BFS");
 
             // Output Peta
             Console.WriteLine("Peta Jalur Kemenangan");
-            Helper.printMap(solution.getSolutionMap());
+            Helper.printMap(solution.getSolutionMap(), solution.getSolutionMap().GetLength(0), solution.getSolutionMap().GetLength(1));
 
             // Output Route
             List<char> route = solution.getRoute();

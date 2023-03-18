@@ -1,11 +1,17 @@
 using System.Diagnostics;
 public class Graph {
+    private int M;
     private int N;
     private char[,] map;
 
     public Graph(String pathfile){
         this.map = ReadFile.readFile(pathfile);
-        this.N = this.map.GetLength(0);
+        this.M = this.map.GetLength(0);
+        this.N = this.map.GetLength(1);
+    }
+
+    public int getM(){
+        return this.M;
     }
 
     public int getN(){
@@ -27,14 +33,14 @@ public class Graph {
             List<Tuple<int,int>> treasure = new List<Tuple<int,int>>();
 
             // Initialize lists
-            char[,] solution = new char[N, N];
-            bool[,] isVisited = new bool[N, N];
+            char[,] solution = new char[M, N];
+            bool[,] isVisited = new bool[M, N];
 
             // Set all of the solution map with 'X' char
-            Helper.memset(solution, 'X', N);
+            Helper.memset(solution, 'X', M, N);
             
             // Set all of the isVisited value with false
-            for(int i = 0; i < N; i++){
+            for(int i = 0; i < M; i++){
                 for(int j = 0; j < N; j++){
                     isVisited[i,j] = false;
                 }
@@ -50,22 +56,22 @@ public class Graph {
             stopwatch.Start();
 
             // Searching for the starting point
-            Tuple<int,int> startingCoor = Helper.getStartingPoint(map, N);
+            Tuple<int,int> startingCoor = Helper.getStartingPoint(map, M, N);
     
             // DFS Algorithm
             DFS DFS = new DFS(startingCoor.Item1, startingCoor.Item2);
-            DFS.dfs(map, startingCoor.Item1, startingCoor.Item2, startingCoor.Item1, startingCoor.Item2, isVisited, ref count, path, track, treasure, progressDFS, ref nodes);
+            DFS.dfs(map, startingCoor.Item1, startingCoor.Item2, startingCoor.Item1, startingCoor.Item2, isVisited, ref count, path, track, treasure, progressDFS, ref nodes, M, N);
 
             if(isTSP){
                 // Initialize lists
-                bool[,] isVisitedTSP = new bool[N, N];
+                bool[,] isVisitedTSP = new bool[M, N];
 
                 // Initialize lists
                 List<Tuple<int,int>> pathTSP = new List<Tuple<int,int>>();
                 List<Tuple<int,int>> trackTSP = new List<Tuple<int,int>>();
 
                 // Set all of the isVisited value with false
-                for(int i = 0; i < N; i++){
+                for(int i = 0; i < M; i++){
                     for(int j = 0; j < N; j++){
                         isVisitedTSP[i,j] = false;
                     }
@@ -73,7 +79,7 @@ public class Graph {
 
                 // TSP Algorithm
                 DFS.setTSP(treasure.Last().Item1, treasure.Last().Item2);
-                DFS.tspDFS(map, treasure.Last().Item1, treasure.Last().Item2, treasure.Last().Item1, treasure.Last().Item2, isVisitedTSP, pathTSP, trackTSP, ref finishTSP, progressDFS, ref nodes);
+                DFS.tspDFS(map, treasure.Last().Item1, treasure.Last().Item2, treasure.Last().Item1, treasure.Last().Item2, isVisitedTSP, pathTSP, trackTSP, ref finishTSP, progressDFS, ref nodes, M, N);
 
                 // Plotting the TSP
                 Helper.setSolutionTSP(solution, pathTSP, startingCoor);
@@ -103,14 +109,14 @@ public class Graph {
             List<Tuple<int,int>> treasureBFS = new List<Tuple<int,int>>();
 
             // Initialize lists
-            char[,] solution = new char[N, N];
-            bool[,] isVisited = new bool[N, N];
+            char[,] solution = new char[M, N];
+            bool[,] isVisited = new bool[M, N];
 
             // Set all of the solution map with 'X' char
-            Helper.memset(solution, 'X', N);
+            Helper.memset(solution, 'X', M, N);
             
             // Set all of the isVisited value with false
-            for(int i = 0; i < N; i++){
+            for(int i = 0; i < M; i++){
                 for(int j = 0; j < N; j++){
                     isVisited[i,j] = false;
                 }
@@ -125,7 +131,7 @@ public class Graph {
             stopwatch.Start();
 
             // Searching for the starting point
-            Tuple<int,int> startingCoor = Helper.getStartingPoint(map, N);
+            Tuple<int,int> startingCoor = Helper.getStartingPoint(map, M, N);
 
             // Create queue and starting track for BFS
             Queue<Tuple<int,int>> bfsTrack = new Queue<Tuple<int,int>>();
@@ -137,7 +143,7 @@ public class Graph {
 
             // DFS Algorithm
             BFS BFS = new BFS(startingCoor.Item1, startingCoor.Item2);
-            BFS.bfs(map, bfsTrack, isVisited, ref count, pathBFS, trackBFS, treasureBFS, progressBFS, ref nodes);
+            BFS.bfs(map, bfsTrack, isVisited, ref count, pathBFS, trackBFS, treasureBFS, progressBFS, ref nodes, M, N);
 
             if(isTSP){
                 // Initialize Progress
@@ -148,14 +154,14 @@ public class Graph {
                 Queue<List<Tuple<int,int>>> trackTSPBFS = new Queue<List<Tuple<int,int>>>();
                 
                 // Initialize lists
-                char[,] tspMap = new char[N, N];
-                bool[,] isVisitedTSP = new bool[N, N];
+                char[,] tspMap = new char[M, N];
+                bool[,] isVisitedTSP = new bool[M, N];
 
                 // Set all of the solution map with 'X' char
-                Helper.memset(tspMap, 'X', N);
+                Helper.memset(tspMap, 'X', M, N);
 
                 // Set all of the isVisited value with false
-                for(int i = 0; i < N; i++){
+                for(int i = 0; i < M; i++){
                     for(int j = 0; j < N; j++){
                         isVisitedTSP[i,j] = false;
                     }
@@ -171,7 +177,7 @@ public class Graph {
                 trackTSPBFS.Enqueue(startingTrackForTSP);
 
                 // TSP Algorithm
-                BFS.tspBFS(map, tspBFSTrack, isVisitedTSP, pathTSPBFS, trackTSPBFS, progressBFS, ref nodes);
+                BFS.tspBFS(map, tspBFSTrack, isVisitedTSP, pathTSPBFS, trackTSPBFS, progressBFS, ref nodes, M, N);
 
                 // Plotting the TSP
                 Helper.setSolutionTSP(solution, pathTSPBFS, startingCoor);

@@ -14,7 +14,7 @@ public class BFS {
         this.startingXTSP = x;
         this.startingYTSP = y;
     }
-    public void bfs(char[,] map, Queue<Tuple<int,int>> current, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int>> solution, List<Tuple<int,int,string>> progress, ref int nodes){
+    public void bfs(char[,] map, Queue<Tuple<int,int>> current, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int>> solution, List<Tuple<int,int,string>> progress, ref int nodes, int M, int N){
         /*
             The main BFS recursive function
             Param :
@@ -32,9 +32,6 @@ public class BFS {
             return;
         }
 
-        // Getting size
-        int size = map.GetLength(0);
-
         // Getting the current coordinate
         Tuple<int,int> coor = current.Dequeue();
         int x = coor.Item1;
@@ -44,7 +41,7 @@ public class BFS {
         List<Tuple<int,int>> currentTrack = track.Dequeue();
 
         // If map is not out of bounds
-        if(x >= 0 && x < size && y >= 0 && y < size){
+        if(x >= 0 && x < M && y >= 0 && y < N){
             // If map is already visited or blocked
             if(isVisited[x,y] || map[x,y] == 'X'){
                 // Do nothing
@@ -66,8 +63,8 @@ public class BFS {
                     path.AddRange(currentTrack);
 
                     // Reset settings (Restart the search process from the current treasure)
-                    for(int i = 0; i < size; i++){
-                        for(int j = 0; j < size; j++){
+                    for(int i = 0; i < M; i++){
+                        for(int j = 0; j < N; j++){
                             isVisited[i,j] = false;
                         }
                     }
@@ -128,7 +125,7 @@ public class BFS {
         }
 
         /* BFS to next node in queue */
-        bfs(map, current, isVisited, ref count, path, track, solution, progress, ref nodes);
+        bfs(map, current, isVisited, ref count, path, track, solution, progress, ref nodes, M , N);
 
         // Pop last path from last treasure
         if(x == this.startingX && y == this.startingY){
@@ -139,7 +136,7 @@ public class BFS {
         }
     }
 
-    public void tspBFS(char[,] map, Queue<Tuple<int,int>> current, bool[,] isVisited, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int,string>> progress, ref int nodes){
+    public void tspBFS(char[,] map, Queue<Tuple<int,int>> current, bool[,] isVisited, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int,string>> progress, ref int nodes, int M, int N){
         /*
             The main BFS recursive function
             Param :
@@ -155,9 +152,6 @@ public class BFS {
             return;
         }
 
-        // Getting size
-        int size = map.GetLength(0);
-
         // Getting the current coordinate
         Tuple<int,int> coor = current.Dequeue();
         int x = coor.Item1;
@@ -167,7 +161,7 @@ public class BFS {
         List<Tuple<int,int>> currentTrack = track.Dequeue();
 
         // If map is not out of bounds
-        if(x >= 0 && x < size && y >= 0 && y < size){
+        if(x >= 0 && x < M && y >= 0 && y < N){
             // If map is already visited or blocked
             if(isVisited[x,y] || map[x,y] == 'X'){
                 // Do nothing
@@ -227,7 +221,7 @@ public class BFS {
         }
 
         /* TSP BFS to next node in queue */
-        tspBFS(map, current, isVisited, path, track, progress, ref nodes);
+        tspBFS(map, current, isVisited, path, track, progress, ref nodes, M, N);
 
         // Pop last path from last treasure
         if(x == this.startingXTSP && y == this.startingYTSP){
