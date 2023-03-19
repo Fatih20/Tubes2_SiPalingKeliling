@@ -3,6 +3,8 @@ using System.IO;
 using System;
 using System.Collections.Generic;
 using Avalonia.TreasureFinder.Models;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using ReactiveUI;
 
 namespace Avalonia.TreasureFinder.ViewModels;
 public enum ApplicationState
@@ -37,65 +39,37 @@ public class MainWindowViewModel : ViewModelBase
     public Tuple<List<Tuple<int, int, string>>, int>? ResultReplay
     {
         get => _resultReplay;
-        private set
-        {
-            _resultReplay = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ResultReplay)));
-
-        }
+        private set => this.RaiseAndSetIfChanged(ref _resultReplay, value);
     }
 
     public Solution? Solution
     {
         get => _solution;
-        private set
-        {
-            _solution = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Solution)));
-        }
+        private set => this.RaiseAndSetIfChanged(ref _solution, value);
     }
 
     public String? ExceptionMessage
     {
         get => _exceptionMessage;
-        private set
-        {
-            _exceptionMessage = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExceptionMessage)));
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowError)));
-
-        }
+        private set => this.RaiseAndSetIfChanged(ref _exceptionMessage, value);
     }
 
     public Graph? GraphRepresentation
     {
         get => _graphRepresentation;
-        private set
-        {
-            _graphRepresentation = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(GraphRepresentation)));
-
-        }
+        private set => this.RaiseAndSetIfChanged(ref _graphRepresentation, value);
     }
 
     public ApplicationState State
     {
         get => _state;
-        private set
-        {
-            _state = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(State)));
-        }
+        private set => this.RaiseAndSetIfChanged(ref _state, value);
     }
 
     public string FilenameToLoad
     {
         get => _filenameToLoad;
-        set
-        {
-            _filenameToLoad = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(FilenameToLoad)));
-        }
+        set => this.RaiseAndSetIfChanged(ref _filenameToLoad, value);
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
@@ -139,7 +113,6 @@ public class MainWindowViewModel : ViewModelBase
     public void LoadingFile(string file)
     {
         State = ApplicationState.FileLoading;
-        // Console.WriteLine("Loading file");
         try
         {
             GraphRepresentation = new Graph(file);
@@ -155,11 +128,7 @@ public class MainWindowViewModel : ViewModelBase
         {
             ExceptionMessage = e.GetType() == typeof(System.IO.DirectoryNotFoundException) ? "Directory file tidak ditemukan!" : e.Message;
         }
-
-        // Console.WriteLine(ExceptionMessage);
-        // Console.WriteLine(ShowError);
-        // Console.WriteLine("Failed loading file");
-
+        
         State = ApplicationState.FileNotLoaded;
     }
 
