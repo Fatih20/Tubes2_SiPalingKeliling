@@ -7,31 +7,30 @@ public class ReadFile {
 
         // Validation file
         // 1. Empty File
-        int size = lines.Length;
-        if(size== 0){
+        int M = lines.Length;
+        if(M == 0){
             throw new Exception("File kosong!");
         }
-
+        int N = lines[0].Length;
+        
         // Initialize variable and array
-        char[,] map = new Char[size, size];
+        char[,] map = new Char[M, N];
         int i = 0;
 
         // Loop through all lines
         foreach(string line in lines){
-            // 2. Shape
-            if(line.Length != size){
-                throw new Exception("Ukuran tidak berbentuk persegi!");
-            } else {
-                for(int j = 0; j < line.Length; j++){
-                    // 3. Unknown character
-                    if(line[j] != 'K' && line[j] != 'R' && line[j] != 'T' && line[j] != 'X'){
-                        throw new Exception("Karakter tidak sesuai isi dari peta!");
-                    } else {
-                        map[i,j] = line[j];
-                    }
-                }
-                i++;
+            if(line.Length != N){
+                throw new Exception("Ukuran bukan segi empat!");
             }
+            for(int j = 0; j < N; j++){
+                // 3. Unknown character
+                if(line[j] != 'K' && line[j] != 'R' && line[j] != 'T' && line[j] != 'X'){
+                    throw new Exception("Karakter tidak sesuai isi dari peta!");
+                } else {
+                    map[i,j] = line[j];
+                }
+            }
+            i++;
         }
 
         // Return map
