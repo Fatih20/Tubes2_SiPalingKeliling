@@ -1,6 +1,9 @@
 using Avalonia.Controls;
 using System.ComponentModel;
 using Avalonia.Markup.Xaml;
+using System.IO;
+using System;
+using System.Collections.Generic;
 
 namespace TreasureFinder;
 
@@ -29,7 +32,59 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     ApplicationState state = ApplicationState.FileNotLoaded;
 
-    string buttonText = "Click Me!";
+    Graph? graphRepresentation = null;
+
+    String? exceptionMessage = null;
+
+    Solution? solution = null;
+
+    string filenameToLoad = "";
+
+    Tuple<List<Tuple<int, int, string>>, int>? resultReplay = null;
+
+    public Tuple<List<Tuple<int, int, string>>, int>? ResultReplay
+    {
+        get => resultReplay;
+        private set
+        {
+            resultReplay = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ResultReplay)));
+
+        }
+    }
+
+    public Solution? Solution
+    {
+        get => solution;
+        private set
+        {
+            solution = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Solution)));
+
+        }
+    }
+
+    public String? ExceptionMessage
+    {
+        get => exceptionMessage;
+        private set
+        {
+            exceptionMessage = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExceptionMessage)));
+
+        }
+    }
+
+    public Graph? GraphRepresentation
+    {
+        get => graphRepresentation;
+        private set
+        {
+            graphRepresentation = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(GraphRepresentation)));
+
+        }
+    }
 
     public ApplicationState State
     {
@@ -41,24 +96,26 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
-    public string ButtonText
+    public string FilenameToLoad
     {
-        get => buttonText;
+        get => filenameToLoad;
         set
         {
-            buttonText = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ButtonText)));
+            filenameToLoad = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(filenameToLoad)));
         }
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
+
+
 
     public void ButtonClicked()
     {
         switch (State)
         {
             case ApplicationState.FileNotLoaded:
-                loadingFile();
+                loadingFile(filenameToLoad);
                 break;
             case ApplicationState.FileLoading:
                 break;
@@ -87,30 +144,48 @@ public class MainWindowViewModel : INotifyPropertyChanged
         }
     }
 
-    public void loadingFile()
+    public void loadingFile(string file)
     {
         State = ApplicationState.FileLoading;
-        for (int i = 0; i < 1000000000; i++)
+        try
         {
-
+            GraphRepresentation = new Graph(file);
+            State = ApplicationState.FileLoaded;
+            return;
         }
-        State = ApplicationState.FileLoaded;
+        catch (FileNotFoundException)
+        {
+            exceptionMessage = "File tidak ditemukan!";
+        }
+        catch (Exception e)
+        {
+            exceptionMessage = e.GetType() == typeof(System.IO.DirectoryNotFoundException) ? "Directory file tidak ditemukan!" : e.Message;
+        }
+
+        State = ApplicationState.FileNotLoaded;
     }
 
     public void calculate()
     {
         State = ApplicationState.CalculatingResults;
-        for (int i = 0; i < 1000000000; i++)
+        if (graphRepresentation != null)
         {
-
+            solution = graphRepresentation.Solve(true, true);
+            resultReplay = Tuple.Create(solution.getProgress(), -1);
+            State = ApplicationState.ShowingResults;
+            return;
         }
-        State = ApplicationState.ShowingResults;
+
+        State = ApplicationState.FileLoaded;
     }
 
     public void playRecording() { State = ApplicationState.PlayingRecording; }
 
     public void pauseRecording() { State = ApplicationState.PausingRecording; }
 
-    public void stopPlayingRecording() { State = ApplicationState.ShowingResults; }
+    public void stopPlayingRecording()
+    {
+        State = ApplicationState.ShowingResults;
+    }
 
 }
