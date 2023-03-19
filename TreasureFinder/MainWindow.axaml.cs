@@ -42,6 +42,11 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     Tuple<List<Tuple<int, int, string>>, int>? resultReplay = null;
 
+    public bool ShowError
+    {
+        get => ExceptionMessage != null;
+    }
+
     public Tuple<List<Tuple<int, int, string>>, int>? ResultReplay
     {
         get => resultReplay;
@@ -71,6 +76,7 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             exceptionMessage = value;
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ExceptionMessage)));
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowError)));
 
         }
     }
@@ -146,21 +152,27 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public void loadingFile(string file)
     {
+        Console.WriteLine("Entering loading file");
         State = ApplicationState.FileLoading;
         try
         {
             GraphRepresentation = new Graph(file);
+            ExceptionMessage = "";
             State = ApplicationState.FileLoaded;
             return;
         }
         catch (FileNotFoundException)
         {
-            exceptionMessage = "File tidak ditemukan!";
+            ExceptionMessage = "File tidak ditemukan!";
         }
         catch (Exception e)
         {
-            exceptionMessage = e.GetType() == typeof(System.IO.DirectoryNotFoundException) ? "Directory file tidak ditemukan!" : e.Message;
+            ExceptionMessage = e.GetType() == typeof(System.IO.DirectoryNotFoundException) ? "Directory file tidak ditemukan!" : e.Message;
         }
+
+        Console.WriteLine("Application error");
+        Console.WriteLine(ExceptionMessage);
+
 
         State = ApplicationState.FileNotLoaded;
     }
