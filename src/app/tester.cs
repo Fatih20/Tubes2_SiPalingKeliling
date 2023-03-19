@@ -8,7 +8,7 @@ class MainProgram {
             // Print map
             Console.WriteLine("\nPeta Harta Karun");
             Helper.printMap(TreasureMap.getMap(), TreasureMap.getM(), TreasureMap.getN());
-            
+
             // Solve
             Solution solution = TreasureMap.Solve(false, false);
 

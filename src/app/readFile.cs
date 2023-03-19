@@ -5,6 +5,11 @@ public class ReadFile {
         // Try to read file
         string[] lines = System.IO.File.ReadAllLines(pathfile);
 
+        // Remove spaces from each line
+        for(int idx = 0 ; idx < lines.Count(); idx++){
+            lines[idx] = lines[idx].Replace(' '.ToString(), String.Empty);
+        }
+
         // Validation file
         // 1. Empty File
         int M = lines.Length;
