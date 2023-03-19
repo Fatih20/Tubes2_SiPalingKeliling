@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="Avalonia.TreasureFinder/App.axaml" value="Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj" />
+        <entry key="Avalonia.TreasureFinder/Views/MainWindow.axaml" value="Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
