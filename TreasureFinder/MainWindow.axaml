@@ -41,7 +41,9 @@
      Content="{Binding State}" Command="{Binding ButtonClicked}"/>
          <Button
     HorizontalAlignment="Left"
-     Content="{Binding State}" Command="{Binding ButtonClicked}"/>
+     Content="{Binding State}" Command="{Binding ButtonClicked}">
+         <PathIcon Data="{StaticResource play_regular}" />
+     </Button>
     <Button
     HorizontalAlignment="Left"
      Content="{Binding State}" Command="{Binding ButtonClicked}"/>
