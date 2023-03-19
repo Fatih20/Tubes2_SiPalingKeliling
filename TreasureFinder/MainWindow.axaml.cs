@@ -152,7 +152,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
 
     public void loadingFile(string file)
     {
-        Console.WriteLine("Entering loading file");
         State = ApplicationState.FileLoading;
         try
         {
@@ -169,10 +168,6 @@ public class MainWindowViewModel : INotifyPropertyChanged
         {
             ExceptionMessage = e.GetType() == typeof(System.IO.DirectoryNotFoundException) ? "Directory file tidak ditemukan!" : e.Message;
         }
-
-        Console.WriteLine("Application error");
-        Console.WriteLine(ExceptionMessage);
-
 
         State = ApplicationState.FileNotLoaded;
     }
