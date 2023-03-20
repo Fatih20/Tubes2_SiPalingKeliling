@@ -46,13 +46,62 @@
             <Grid
                 Margin="10,10,10,10"
                 HorizontalAlignment="Center"
-                RowDefinitions="*, Auto">
+                RowDefinitions="Auto, *, Auto">
                 <!--  <Border  -->
                 <!--  Grid.Row="1"  -->
                 <!--  HorizontalAlignment="Center"  -->
                 <!--  BorderBrush="#FFFFFF"  -->
                 <!--  BorderThickness="0">  -->
-                <Grid Grid.Row="1" ColumnDefinitions="Auto, Auto, Auto, Auto">
+                <Grid
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    ColumnDefinitions="Auto">
+                    <Grid.Styles>
+                        <Style Selector="Border.tab-wrapper">
+                            <Setter Property="Margin" Value="20, 0, 20, 0" />
+                        </Style>
+                        <Style Selector="Grid.tab">
+                            <Setter Property="Margin" Value="5" />
+                        </Style>
+                        <Style Selector="Border">
+                            <Setter Property="Height" Value="20" />
+                            <Setter Property="Background" Value="#1C1C1E" />
+                        </Style>
+                        <!--  Behaviour of hovering style  -->
+                        <Style Selector="Border:pointerover">
+                            <Setter Property="Height" Value="40" />
+                        </Style>
+                        <Style Selector="Border:pointerover &gt; Grid">
+                            <Setter Property="Height" Value="40" />
+                        </Style>
+                        <Style Selector="Border &gt; Grid">
+                            <Setter Property="Height" Value="0" />
+                        </Style>
+                    </Grid.Styles>
+                    <Border
+                        Grid.Column="0"
+                        Padding="5,5,5,5"
+                        VerticalAlignment="Bottom"
+                        BorderBrush="#1C1C1E"
+                        BorderThickness="0"
+                        Classes="tab-wrapper"
+                        CornerRadius="7">
+                        <Grid
+                            Width="50"
+                            Classes="tab"
+                            ColumnDefinitions="Auto, Auto"
+                            RowDefinitions="*">
+                            <Button Background="Transparent" Command="{Binding ToggleAllBarHidden}">
+                                <Panel>
+                                    <Image IsVisible="{Binding AllBarHidden, Mode=TwoWay}" Source="{SvgImage /Assets/hidden.svg}" />
+                                    <Image IsVisible="{Binding !AllBarHidden, Mode=TwoWay}" Source="{SvgImage /Assets/shown.svg}" />
+                                </Panel>
+                            </Button>
+
+                        </Grid>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="2" ColumnDefinitions="Auto, Auto, Auto, Auto">
                     <!-- <Grid ColumnDefinitions="Auto, Auto, Auto"> -->
                     <Grid.Styles>
                         <!--  General style  -->
@@ -139,28 +188,6 @@
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
                             <Button>Replay</Button>
-                        </Grid>
-                    </Border>
-                    <Border
-                        Grid.Column="3"
-                        Padding="5,5,5,5"
-                        VerticalAlignment="Bottom"
-                        BorderBrush="#1C1C1E"
-                        BorderThickness="0"
-                        Classes="tab-wrapper"
-                        CornerRadius="7">
-                        <Grid
-                            Width="50"
-                            Classes="tab"
-                            ColumnDefinitions="Auto, Auto"
-                            RowDefinitions="*">
-                            <Button Background="Transparent" Command="{Binding ToggleAllBarHidden}">
-                                <Panel>
-                                    <Image IsVisible="{Binding AllBarHidden, Mode=TwoWay}" Source="{SvgImage /Assets/hidden.svg}" />
-                                    <Image IsVisible="{Binding !AllBarHidden, Mode=TwoWay}" Source="{SvgImage /Assets/shown.svg}" />
-                                </Panel>
-                            </Button>
-
                         </Grid>
                     </Border>
                 </Grid>
