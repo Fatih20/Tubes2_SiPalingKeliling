@@ -146,7 +146,7 @@ public class Graph {
 
             // DFS Algorithm
             BFS BFS = new BFS(startingCoor.Item1, startingCoor.Item2);
-            BFS.bfs(map, bfsTrack, isVisited, ref count, pathBFS, trackBFS, treasureBFS, progressBFS, ref nodes, M, N);
+            BFS.bfs(map, bfsTrack, isVisited, ref count, pathBFS, trackBFS, treasureBFS, progressBFS, ref nodes, M, N, this.treasures);
 
             if(isTSP){
                 // Initialize Progress
