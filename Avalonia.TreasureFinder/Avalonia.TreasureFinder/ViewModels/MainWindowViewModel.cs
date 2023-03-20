@@ -43,45 +43,15 @@ public class MainWindowViewModel : ViewModelBase
     
     private ApplicationState _state = ApplicationState.FileNotLoaded;
 
-    private Graph? _graphRepresentation;
-
-    private string _exceptionMessage = "";
-
-    private Solution? _solution;
-
-    private string _filenameToLoad = "";
-    
-    private Tuple<List<Tuple<int, int, string>>, int>? _resultReplay;
-
-    public Tuple<List<Tuple<int, int, string>>, int>? ResultReplay
-    {
-        get => _resultReplay;
-        private set => this.RaiseAndSetIfChanged(ref _resultReplay, value);
-    }
-
-    public Solution? Solution
-    {
-        get => _solution;
-        private set => this.RaiseAndSetIfChanged(ref _solution, value);
-    }
-
-    public string ExceptionMessage
-    {
-        get => _exceptionMessage;
-        private set => this.RaiseAndSetIfChanged(ref _exceptionMessage, value);
-    }
-
-    public Graph? GraphRepresentation
-    {
-        get => _graphRepresentation;
-        private set => this.RaiseAndSetIfChanged(ref _graphRepresentation, value);
-    }
-
     public ApplicationState State
     {
         get => _state;
         private set => this.RaiseAndSetIfChanged(ref _state, value);
     }
+    
+    // File-loading concerned attributes
+    private string _exceptionMessage = "";
+    private string _filenameToLoad = "";
 
     public string FilenameToLoad
     {
@@ -89,6 +59,50 @@ public class MainWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _filenameToLoad, value);
     }
     
+    public string ExceptionMessage
+    {
+        get => _exceptionMessage;
+        private set => this.RaiseAndSetIfChanged(ref _exceptionMessage, value);
+    }
+    
+    // Solution concered attributes
+    
+    private Graph? _graphRepresentation;
+    private Solution? _solution; 
+    private Tuple<List<Tuple<int, int, string>>, int>? _resultReplay;
+    private bool? _isDFS;
+    private bool? _isTSP;
+
+    public Solution? Solution
+    {
+        get => _solution;
+        private set => this.RaiseAndSetIfChanged(ref _solution, value);
+    }
+    
+    public Graph? GraphRepresentation
+    {
+        get => _graphRepresentation;
+        private set => this.RaiseAndSetIfChanged(ref _graphRepresentation, value);
+    }
+    
+    public Tuple<List<Tuple<int, int, string>>, int>? ResultReplay
+    {
+        get => _resultReplay;
+        private set => this.RaiseAndSetIfChanged(ref _resultReplay, value);
+    }
+    
+    public bool? IsDFS
+    {
+        get => _isDFS;
+        private set => this.RaiseAndSetIfChanged(ref _isDFS, value);
+    }
+    
+    public bool? IsTSP
+    {
+        get => _isTSP;
+        private set => this.RaiseAndSetIfChanged(ref _isTSP, value);
+    }
+
     // Appearance concerned attributes
     
     readonly ObservableAsPropertyHelper<bool> _isError;
@@ -104,12 +118,7 @@ public class MainWindowViewModel : ViewModelBase
 
         }
     }
-    
-    public void ToggleAllBarHidden()
-    {
-        AllBarHidden = !AllBarHidden;
-    }
-    
+
     // Input Bar State
     readonly ObservableAsPropertyHelper<bool> _inputBarIsOpen;
     readonly ObservableAsPropertyHelper<bool> _inputBarIsHidden;
@@ -179,7 +188,14 @@ public class MainWindowViewModel : ViewModelBase
 
         }
     }
-
+    
+    // Button methods
+    
+    public void ToggleAllBarHidden()
+    {
+        AllBarHidden = !AllBarHidden;
+    }
+    
     public void LoadingFile(string file)
     {
         State = ApplicationState.FileLoading;
@@ -205,9 +221,9 @@ public class MainWindowViewModel : ViewModelBase
     public void Calculate()
     {
         State = ApplicationState.CalculatingResults;
-        if (GraphRepresentation != null)
+        if (GraphRepresentation != null && IsDFS.HasValue && IsTSP.HasValue)
         {
-            Solution = GraphRepresentation.Solve(true, true);
+            Solution = GraphRepresentation.Solve(IsDFS.Value, IsTSP.Value);
             ResultReplay = Tuple.Create(Solution.getProgress(), -1);
             State = ApplicationState.ShowingResults;
             return;
@@ -220,7 +236,15 @@ public class MainWindowViewModel : ViewModelBase
 
     public void PauseRecording() { State = ApplicationState.PausingRecording; }
 
-    public void stopPlayingRecording()
+    public void StopPlayingRecording()
     {
         State = ApplicationState.ShowingResults;
-    }}
+    }
+    
+    public void ReplayingRecording()
+    {
+        State = ApplicationState.PlayingRecording;
+    }
+    
+    
+}
