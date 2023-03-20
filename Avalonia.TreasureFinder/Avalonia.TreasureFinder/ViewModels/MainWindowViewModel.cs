@@ -31,7 +31,6 @@ public class MainWindowViewModel : ViewModelBase
         _searchBarIsHidden = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item2 || condition.Item1 is ApplicationState.FileNotLoaded or ApplicationState.FileLoading).ToProperty(this, x => x.SearchBarIsHidden);
         _searchBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item1 == ApplicationState.FileNotLoaded && !condition.Item2).ToProperty(this, x => x.SearchBarIsOpen);
 
-        
         _replayBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item1 == ApplicationState.PausingRecording && !condition.Item2).ToProperty(this, x => x.ReplayBarIsOpen);
         _replayBarIsHidden = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item2 || condition.Item1 is ApplicationState.FileNotLoaded or ApplicationState.FileLoading or ApplicationState.FileLoaded or ApplicationState.CalculatingResults).ToProperty(this, x => x.ReplayBarIsHidden);
         _replayBarIsDiscreet = this.WhenAnyValue(x => x.ReplayBarIsHidden, x => x.ReplayBarIsOpen, (o, h) => Tuple.Create(o, h)).Select(condition => !condition.Item1 && !condition.Item2).ToProperty(this, x => x.ReplayBarIsDiscreet);
@@ -82,8 +81,8 @@ public class MainWindowViewModel : ViewModelBase
     private Graph? _graphRepresentation;
     private Solution? _solution; 
     private Tuple<List<Tuple<int, int, string>>, int>? _resultReplay;
-    private bool? _isDFS;
-    private bool? _isTSP;
+    private bool? _isDFS = true;
+    private bool? _isTSP = true;
 
     public Solution? Solution
     {

@@ -179,31 +179,37 @@
                         <Grid
                             Width="600"
                             Classes="tab"
-                            ColumnDefinitions="Auto, Auto"
+                            ColumnDefinitions="Auto, Auto, Auto, Auto"
                             RowDefinitions="*">
-                            <StackPanel
+                            <!--  <StackPanel  -->
+                            <!--  Grid.Column="0"  -->
+                            <!--  MinHeight="0"  -->
+                            <!--  VerticalAlignment="Stretch"  -->
+                            <!--  Orientation="Vertical">  -->
+                            <RadioButton
                                 Grid.Column="0"
-                                MinHeight="0"
-                                VerticalAlignment="Stretch"
-                                Orientation="Horizontal">
-                                <RadioButton
-                                    Content="DFS"
-                                    GroupName="Search Mode Group"
-                                    IsChecked="{Binding IsDFS, Mode=TwoWay}" />
-                                <RadioButton
-                                    Content="BFS"
-                                    GroupName="Search Mode Group"
-                                    IsChecked="{Binding !IsDFS, Mode=TwoWay}"
-                                    IsThreeState="False" />
-                            </StackPanel>
-                            <StackPanel
+                                Content="DFS"
+                                GroupName="Search Mode Group"
+                                IsChecked="{Binding IsDFS, Mode=TwoWay}" />
+                            <RadioButton
                                 Grid.Column="1"
-                                MinHeight="0"
-                                VerticalAlignment="Stretch"
-                                Orientation="Vertical">
-                                <Button Command="{Binding Calculate}">Search</Button>
-                                <CheckBox IsChecked="{Binding IsTSP, Mode=TwoWay}">TSP</CheckBox>
-                            </StackPanel>
+                                Content="BFS"
+                                GroupName="Search Mode Group"
+                                IsChecked="{Binding !IsDFS, Mode=TwoWay}" />
+                            <!-- </StackPanel> -->
+                            <!--  <StackPanel  -->
+                            <!--  Grid.Column="1"  -->
+                            <!--  MinHeight="0"  -->
+                            <!--  VerticalAlignment="Stretch"  -->
+                            <!--  Orientation="Vertical">  -->
+                            <Button Grid.Column="2" Command="{Binding Calculate}">Search</Button>
+                            <CheckBox
+                                Grid.Column="3"
+                                IsChecked="{Binding IsTSP, Mode=TwoWay}"
+                                IsThreeState="False">
+                                TSP
+                            </CheckBox>
+                            <!-- </StackPanel> -->
                         </Grid>
                     </Border>
                     <Border
@@ -229,7 +235,6 @@
                                 <Style Selector="TextBlock.title">
                                     <Setter Property="FontSize" Value="18" />
                                     <Setter Property="FontWeight" Value="Bold" />
-
                                 </Style>
                             </Grid.Styles>
                             <StackPanel
