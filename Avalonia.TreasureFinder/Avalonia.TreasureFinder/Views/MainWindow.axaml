@@ -63,12 +63,12 @@
                         <Style Selector="Grid.tab">
                             <Setter Property="Margin" Value="5" />
                         </Style>
-                        <Style Selector="Border">
+                        <Style Selector="Border.tab-wrapper">
                             <Setter Property="Height" Value="20" />
                             <Setter Property="Background" Value="#1C1C1E" />
                         </Style>
                         <!--  Behaviour of hovering style  -->
-                        <Style Selector="Border:pointerover">
+                        <Style Selector="Border.tab-wrapper:pointerover">
                             <Setter Property="Height" Value="40" />
                         </Style>
                         <Style Selector="Border:pointerover &gt; Grid">
@@ -179,36 +179,66 @@
                         <Grid
                             Width="600"
                             Classes="tab"
-                            ColumnDefinitions="Auto, Auto, Auto, Auto"
-                            RowDefinitions="*">
+                            ColumnDefinitions="Auto, Auto"
+                            RowDefinitions="Auto, Auto">
                             <!--  <StackPanel  -->
                             <!--  Grid.Column="0"  -->
                             <!--  MinHeight="0"  -->
                             <!--  VerticalAlignment="Stretch"  -->
                             <!--  Orientation="Vertical">  -->
+                            <Grid.Styles>
+                                <Style Selector="Border" />
+                                <Style Selector="Border:pointerover" />
+                            </Grid.Styles>
                             <RadioButton
+                                Grid.Row="0"
                                 Grid.Column="0"
+                                MinHeight="0"
                                 Content="DFS"
                                 GroupName="Search Mode Group"
-                                IsChecked="{Binding IsDFS, Mode=TwoWay}" />
+                                IsChecked="{Binding IsDFS, Mode=TwoWay}">
+                                <RadioButton.Styles>
+                                    <Style Selector="Border" />
+                                    <Style Selector="Border:pointerover" />
+                                </RadioButton.Styles>
+                            </RadioButton>
                             <RadioButton
-                                Grid.Column="1"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                MinHeight="0"
                                 Content="BFS"
                                 GroupName="Search Mode Group"
-                                IsChecked="{Binding !IsDFS, Mode=TwoWay}" />
+                                IsChecked="{Binding !IsDFS, Mode=TwoWay}">
+                                <RadioButton.Styles>
+                                    <Style Selector="Border" />
+                                    <Style Selector="Border:pointerover" />
+                                </RadioButton.Styles>
+                            </RadioButton>
                             <!-- </StackPanel> -->
                             <!--  <StackPanel  -->
                             <!--  Grid.Column="1"  -->
                             <!--  MinHeight="0"  -->
                             <!--  VerticalAlignment="Stretch"  -->
                             <!--  Orientation="Vertical">  -->
-                            <Button Grid.Column="2" Command="{Binding Calculate}">Search</Button>
                             <CheckBox
-                                Grid.Column="3"
+                                Grid.Row="0"
+                                Grid.Column="1"
+                                MinHeight="0"
                                 IsChecked="{Binding IsTSP, Mode=TwoWay}"
                                 IsThreeState="False">
+                                <CheckBox.Styles>
+                                    <Style Selector="Border" />
+                                    <Style Selector="Border:pointerover" />
+                                </CheckBox.Styles>
                                 TSP
                             </CheckBox>
+                            <Button
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                MinHeight="0"
+                                Command="{Binding Calculate}">
+                                Search
+                            </Button>
                             <!-- </StackPanel> -->
                         </Grid>
                     </Border>
