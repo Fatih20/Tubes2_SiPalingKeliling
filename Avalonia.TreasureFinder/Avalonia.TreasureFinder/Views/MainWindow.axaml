@@ -54,30 +54,36 @@
                 <!--  BorderThickness="0">  -->
                 <Grid ColumnDefinitions="Auto, Auto, Auto, Auto">
                     <Grid.Styles>
+                        <!--  General style  -->
                         <Style Selector="Border.tab-wrapper">
                             <Setter Property="Margin" Value="20, 0, 20, 0" />
                         </Style>
                         <Style Selector="Grid.tab">
                             <Setter Property="Margin" Value="5" />
                         </Style>
-                        <Style Selector="Border:pointerover">
-                            <Setter Property="Height" Value="100" />
-                        </Style>
-                        <Style Selector="Border.toggle-bar:pointerover">
-                            <Setter Property="Height" Value="60" />
-                        </Style>
-                        <Style Selector="Border.toggle-bar:pointerover Grid">
-                            <Setter Property="Height" Value="40" />
-                        </Style>
-                        <Style Selector="Border:pointerover Grid">
-                            <Setter Property="Height" Value="40" />
-                        </Style>
-                        <Style Selector="Border Grid">
-                            <Setter Property="Height" Value="0" />
-                        </Style>
                         <Style Selector="Border">
                             <Setter Property="Height" Value="20" />
                             <Setter Property="Background" Value="#1C1C1E" />
+                        </Style>
+                        <!--  Behaviour of hovering style  -->
+                        <Style Selector="Border:pointerover">
+                            <Setter Property="Height" Value="100" />
+                        </Style>
+                        <Style Selector="Border:pointerover &gt; Grid">
+                            <Setter Property="Height" Value="40" />
+                        </Style>
+                        <Style Selector="Border &gt; Grid">
+                            <Setter Property="Height" Value="0" />
+                        </Style>
+                        <!--  Differentiate between hidden and open  -->
+                        <Style Selector="Border.open">
+                            <Setter Property="Height" Value="100" />
+                        </Style>
+                        <Style Selector="Border.hidden">
+                            <Setter Property="IsVisible" Value="False" />
+                        </Style>
+                        <Style Selector="Border.open &gt; Grid">
+                            <Setter Property="Height" Value="40" />
                         </Style>
                     </Grid.Styles>
 
@@ -86,7 +92,7 @@
                         VerticalAlignment="Bottom"
                         BorderBrush="#1C1C1E"
                         BorderThickness="0"
-                        Classes="tab-wrapper"
+                        Classes="hidden"
                         CornerRadius="7">
                         <Grid
                             Width="400"
@@ -108,7 +114,9 @@
                             Width="200"
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
-                            RowDefinitions="*" />
+                            RowDefinitions="*">
+                            <Button>fvdmfdkvmdlvkml</Button>
+                        </Grid>
                     </Border>
                     <Border
                         Grid.Column="2"
@@ -122,7 +130,9 @@
                             Width="200"
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
-                            RowDefinitions="*" />
+                            RowDefinitions="*">
+                            <Button>fvdmfdkvmdlvkml</Button>
+                        </Grid>
                     </Border>
                     <Border
                         Grid.Column="3"
@@ -130,7 +140,7 @@
                         VerticalAlignment="Bottom"
                         BorderBrush="#1C1C1E"
                         BorderThickness="0"
-                        Classes="tab-wrapper toggle-bar"
+                        Classes="tab-wrapper open"
                         CornerRadius="7">
                         <Grid
                             Width="50"
