@@ -154,7 +154,12 @@
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
-                            <Button Command="{Binding ToggleAllBarHidden}">Toggle hidden</Button>
+                            <Button Background="Transparent" Command="{Binding ToggleAllBarHidden}">
+                                <Panel>
+                                    <Image IsVisible="{Binding AllBarHidden, Mode=TwoWay}" Source="{SvgImage /Assets/hidden.svg}" />
+                                    <Image IsVisible="{Binding !AllBarHidden, Mode=TwoWay}" Source="{SvgImage /Assets/shown.svg}" />
+                                </Panel>
+                            </Button>
 
                         </Grid>
                     </Border>
