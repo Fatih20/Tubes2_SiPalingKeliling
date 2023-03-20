@@ -147,7 +147,7 @@
                         Classes.open="{Binding InputBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
                         <Grid
-                            Width="400"
+                            Width="600"
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
@@ -156,6 +156,23 @@
                     </Border>
                     <Border
                         Grid.Column="1"
+                        VerticalAlignment="Bottom"
+                        BorderBrush="#1C1C1E"
+                        BorderThickness="0"
+                        Classes="tab-wrapper"
+                        Classes.hidden="{Binding SearchBarIsHidden, Mode=TwoWay}"
+                        Classes.open="{Binding SearchBarIsOpen, Mode=TwoWay}"
+                        CornerRadius="7">
+                        <Grid
+                            Width="600"
+                            Classes="tab"
+                            ColumnDefinitions="Auto, Auto"
+                            RowDefinitions="*">
+                            <Button>Search</Button>
+                        </Grid>
+                    </Border>
+                    <Border
+                        Grid.Column="2"
                         Padding="5,5,5,5"
                         VerticalAlignment="Bottom"
                         BorderBrush="#1C1C1E"
@@ -165,15 +182,58 @@
                         Classes.open="{Binding ResultBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
                         <Grid
-                            Width="200"
+                            Width="210"
                             Classes="tab"
-                            ColumnDefinitions="Auto, Auto"
+                            ColumnDefinitions="Auto, Auto, Auto"
                             RowDefinitions="*">
-                            <Button>Result</Button>
+                            <Grid.Styles>
+                                <Style Selector="StackPanel">
+                                    <Setter Property="Margin" Value="10, 0, 10, 0" />
+                                    <Setter Property="Spacing" Value="10" />
+                                </Style>
+                                <Style Selector="TextBlock.title">
+                                    <Setter Property="FontSize" Value="18" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+
+                                </Style>
+                            </Grid.Styles>
+                            <StackPanel
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                Orientation="Vertical">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Classes="title"
+                                    Text="Steps" />
+                                <TextBlock HorizontalAlignment="Center" Text="0" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                Orientation="Vertical">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Classes="title"
+                                    Text="Nodes" />
+                                <TextBlock HorizontalAlignment="Center" Text="0" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Column="2"
+                                HorizontalAlignment="Center"
+                                Orientation="Vertical">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Classes="title"
+                                    Text="Time" />
+                                <TextBlock HorizontalAlignment="Center" Text="0" />
+                            </StackPanel>
+
+
+
                         </Grid>
                     </Border>
                     <Border
-                        Grid.Column="2"
+                        Grid.Column="3"
                         Padding="5,5,5,5"
                         VerticalAlignment="Bottom"
                         BorderBrush="#1C1C1E"

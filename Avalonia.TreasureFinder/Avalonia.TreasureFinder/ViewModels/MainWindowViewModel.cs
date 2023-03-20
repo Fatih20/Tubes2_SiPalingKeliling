@@ -28,6 +28,10 @@ public class MainWindowViewModel : ViewModelBase
         _inputBarIsHidden = this.WhenAnyValue(x => x.AllBarHidden).Select(condition => condition).ToProperty(this, x => x.InputBarIsHidden);
         _inputBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item1 == ApplicationState.FileNotLoaded && !condition.Item2).ToProperty(this, x => x.InputBarIsOpen);
         
+        _searchBarIsHidden = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item2 || condition.Item1 is ApplicationState.FileNotLoaded or ApplicationState.FileLoading).ToProperty(this, x => x.SearchBarIsHidden);
+        _searchBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item1 == ApplicationState.FileNotLoaded && !condition.Item2).ToProperty(this, x => x.SearchBarIsOpen);
+
+        
         _replayBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item1 == ApplicationState.PausingRecording && !condition.Item2).ToProperty(this, x => x.ReplayBarIsOpen);
         _replayBarIsHidden = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item2 || condition.Item1 is ApplicationState.FileNotLoaded or ApplicationState.FileLoading or ApplicationState.FileLoaded or ApplicationState.CalculatingResults).ToProperty(this, x => x.ReplayBarIsHidden);
         _replayBarIsDiscreet = this.WhenAnyValue(x => x.ReplayBarIsHidden, x => x.ReplayBarIsOpen, (o, h) => Tuple.Create(o, h)).Select(condition => !condition.Item1 && !condition.Item2).ToProperty(this, x => x.ReplayBarIsDiscreet);
@@ -124,6 +128,12 @@ public class MainWindowViewModel : ViewModelBase
 
     public bool InputBarIsOpen => _inputBarIsOpen.Value;
     public bool InputBarIsHidden => _inputBarIsHidden.Value;
+    
+    readonly ObservableAsPropertyHelper<bool> _searchBarIsOpen;
+    readonly ObservableAsPropertyHelper<bool> _searchBarIsHidden;
+
+    public bool SearchBarIsOpen => _searchBarIsOpen.Value;
+    public bool SearchBarIsHidden => _searchBarIsHidden.Value;
     
     // Input Bar State
     readonly ObservableAsPropertyHelper<bool> _resultBarIsOpen;
