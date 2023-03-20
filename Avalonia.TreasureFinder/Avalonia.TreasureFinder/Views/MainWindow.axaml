@@ -42,17 +42,66 @@
         </ExperimentalAcrylicBorder>
 
         <Grid>
-            <Image Source="{SvgImage /Assets/pause.svg}" />
+            <Image Source="/Assets/Oxenfree.jpeg" />
             <Grid
                 Margin="10,10,10,10"
                 HorizontalAlignment="Center"
-                RowDefinitions="*, Auto">
+                RowDefinitions="Auto, *, Auto">
                 <!--  <Border  -->
                 <!--  Grid.Row="1"  -->
                 <!--  HorizontalAlignment="Center"  -->
                 <!--  BorderBrush="#FFFFFF"  -->
                 <!--  BorderThickness="0">  -->
-                <Grid ColumnDefinitions="Auto, Auto, Auto, Auto">
+                <Grid
+                    Grid.Row="0"
+                    HorizontalAlignment="Center"
+                    ColumnDefinitions="Auto">
+                    <Grid.Styles>
+                        <Style Selector="Border.tab-wrapper">
+                            <Setter Property="Margin" Value="20, 0, 20, 0" />
+                        </Style>
+                        <Style Selector="Grid.tab">
+                            <Setter Property="Margin" Value="5" />
+                        </Style>
+                        <Style Selector="Border">
+                            <Setter Property="Height" Value="20" />
+                            <Setter Property="Background" Value="#1C1C1E" />
+                        </Style>
+                        <!--  Behaviour of hovering style  -->
+                        <Style Selector="Border:pointerover">
+                            <Setter Property="Height" Value="40" />
+                        </Style>
+                        <Style Selector="Border:pointerover &gt; Grid">
+                            <Setter Property="Height" Value="40" />
+                        </Style>
+                        <Style Selector="Border &gt; Grid">
+                            <Setter Property="Height" Value="0" />
+                        </Style>
+                    </Grid.Styles>
+                    <Border
+                        Grid.Column="0"
+                        Padding="5,5,5,5"
+                        VerticalAlignment="Bottom"
+                        BorderBrush="#1C1C1E"
+                        BorderThickness="0"
+                        Classes="tab-wrapper"
+                        CornerRadius="7">
+                        <Grid
+                            Width="50"
+                            Classes="tab"
+                            ColumnDefinitions="Auto, Auto"
+                            RowDefinitions="*">
+                            <Button Background="Transparent" Command="{Binding ToggleAllBarHidden}">
+                                <Panel>
+                                    <Image IsVisible="{Binding AllBarHidden, Mode=TwoWay}" Source="{SvgImage /Assets/hidden.svg}" />
+                                    <Image IsVisible="{Binding !AllBarHidden, Mode=TwoWay}" Source="{SvgImage /Assets/shown.svg}" />
+                                </Panel>
+                            </Button>
+
+                        </Grid>
+                    </Border>
+                </Grid>
+                <Grid Grid.Row="2" ColumnDefinitions="Auto, Auto, Auto, Auto">
                     <!-- <Grid ColumnDefinitions="Auto, Auto, Auto"> -->
                     <Grid.Styles>
                         <!--  General style  -->
@@ -98,29 +147,28 @@
                         Classes.open="{Binding InputBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
                         <Grid
-                            Width="400"
+                            Width="600"
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
-                            <Button>fvdmfdkvmdlvkml</Button>
+                            <Button>Input</Button>
                         </Grid>
                     </Border>
                     <Border
                         Grid.Column="1"
-                        Padding="5,5,5,5"
                         VerticalAlignment="Bottom"
                         BorderBrush="#1C1C1E"
                         BorderThickness="0"
                         Classes="tab-wrapper"
-                        Classes.hidden="{Binding ResultBarIsHidden, Mode=TwoWay}"
-                        Classes.open="{Binding ResultBarIsOpen, Mode=TwoWay}"
+                        Classes.hidden="{Binding SearchBarIsHidden, Mode=TwoWay}"
+                        Classes.open="{Binding SearchBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
                         <Grid
-                            Width="200"
+                            Width="600"
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
-                            <Button>fvdmfdkvmdlvkml</Button>
+                            <Button>Search</Button>
                         </Grid>
                     </Border>
                     <Border
@@ -130,15 +178,58 @@
                         BorderBrush="#1C1C1E"
                         BorderThickness="0"
                         Classes="tab-wrapper"
-                        Classes.hidden="{Binding ReplayBarIsHidden, Mode=TwoWay}"
-                        Classes.open="{Binding ReplayBarIsOpen, Mode=TwoWay}"
+                        Classes.hidden="{Binding ResultBarIsHidden, Mode=TwoWay}"
+                        Classes.open="{Binding ResultBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
                         <Grid
-                            Width="200"
+                            Width="210"
                             Classes="tab"
-                            ColumnDefinitions="Auto, Auto"
+                            ColumnDefinitions="Auto, Auto, Auto"
                             RowDefinitions="*">
-                            <Button>fvdmfdkvmdlvkml</Button>
+                            <Grid.Styles>
+                                <Style Selector="StackPanel">
+                                    <Setter Property="Margin" Value="10, 0, 10, 0" />
+                                    <Setter Property="Spacing" Value="10" />
+                                </Style>
+                                <Style Selector="TextBlock.title">
+                                    <Setter Property="FontSize" Value="18" />
+                                    <Setter Property="FontWeight" Value="Bold" />
+
+                                </Style>
+                            </Grid.Styles>
+                            <StackPanel
+                                Grid.Column="0"
+                                HorizontalAlignment="Center"
+                                Orientation="Vertical">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Classes="title"
+                                    Text="Steps" />
+                                <TextBlock HorizontalAlignment="Center" Text="0" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Column="1"
+                                HorizontalAlignment="Center"
+                                Orientation="Vertical">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Classes="title"
+                                    Text="Nodes" />
+                                <TextBlock HorizontalAlignment="Center" Text="0" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Column="2"
+                                HorizontalAlignment="Center"
+                                Orientation="Vertical">
+                                <TextBlock
+                                    HorizontalAlignment="Center"
+                                    Classes="title"
+                                    Text="Time" />
+                                <TextBlock HorizontalAlignment="Center" Text="0" />
+                            </StackPanel>
+
+
+
                         </Grid>
                     </Border>
                     <Border
@@ -148,15 +239,32 @@
                         BorderBrush="#1C1C1E"
                         BorderThickness="0"
                         Classes="tab-wrapper"
+                        Classes.hidden="{Binding ReplayBarIsHidden, Mode=TwoWay}"
+                        Classes.open="{Binding ReplayBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
                         <Grid
-                            Width="50"
+                            Width="150"
                             Classes="tab"
-                            ColumnDefinitions="Auto, Auto"
+                            ColumnDefinitions="Auto, Auto, Auto"
                             RowDefinitions="*">
-                            <Button Command="{Binding ChangeState}">To show results</Button>
-                            <Button Command="{Binding ToggleAllBarHidden}">Toggle bar</Button>
-
+                            <Grid.Styles>
+                                <Style Selector="Button">
+                                    <Setter Property="Margin" Value="5, 0, 5, 0" />
+                                    <Setter Property="Background" Value="Transparent" />
+                                </Style>
+                            </Grid.Styles>
+                            <Button Grid.Column="0">
+                                <Panel>
+                                    <Image IsVisible="{Binding IsPausingRecording, Mode=TwoWay}" Source="{SvgImage /Assets/pause.svg}" />
+                                    <Image IsVisible="{Binding !IsPausingRecording, Mode=TwoWay}" Source="{SvgImage /Assets/play.svg}" />
+                                </Panel>
+                            </Button>
+                            <Button Grid.Column="1">
+                                <Image Source="{SvgImage /Assets/stop.svg}" />
+                            </Button>
+                            <Button Grid.Column="2">
+                                <Image Source="{SvgImage /Assets/replay.svg}" />
+                            </Button>
                         </Grid>
                     </Border>
                 </Grid>

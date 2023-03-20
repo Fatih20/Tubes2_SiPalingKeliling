@@ -28,20 +28,32 @@ public class MainWindowViewModel : ViewModelBase
         _inputBarIsHidden = this.WhenAnyValue(x => x.AllBarHidden).Select(condition => condition).ToProperty(this, x => x.InputBarIsHidden);
         _inputBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item1 == ApplicationState.FileNotLoaded && !condition.Item2).ToProperty(this, x => x.InputBarIsOpen);
         
+        _searchBarIsHidden = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item2 || condition.Item1 is ApplicationState.FileNotLoaded or ApplicationState.FileLoading).ToProperty(this, x => x.SearchBarIsHidden);
+        _searchBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item1 == ApplicationState.FileNotLoaded && !condition.Item2).ToProperty(this, x => x.SearchBarIsOpen);
+
+        
         _replayBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item1 == ApplicationState.PausingRecording && !condition.Item2).ToProperty(this, x => x.ReplayBarIsOpen);
-        _replayBarIsHidden = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item2 || condition.Item1 == ApplicationState.FileNotLoaded || condition.Item1 == ApplicationState.FileLoading || condition.Item1 == ApplicationState.FileLoaded || condition.Item1 == ApplicationState.CalculatingResults).ToProperty(this, x => x.ReplayBarIsHidden);
+        _replayBarIsHidden = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item2 || condition.Item1 is ApplicationState.FileNotLoaded or ApplicationState.FileLoading or ApplicationState.FileLoaded or ApplicationState.CalculatingResults).ToProperty(this, x => x.ReplayBarIsHidden);
         _replayBarIsDiscreet = this.WhenAnyValue(x => x.ReplayBarIsHidden, x => x.ReplayBarIsOpen, (o, h) => Tuple.Create(o, h)).Select(condition => !condition.Item1 && !condition.Item2).ToProperty(this, x => x.ReplayBarIsDiscreet);
 
-        _resultBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition =>  !condition.Item2 && condition.Item1 == ApplicationState.PausingRecording && condition.Item1 == ApplicationState.ShowingResults ).ToProperty(this, x => x.ResultBarIsOpen);
-        _resultBarIsHidden = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item2&& condition.Item1 == ApplicationState.FileNotLoaded && condition.Item1 == ApplicationState.FileLoading  && condition.Item1 == ApplicationState.FileLoaded  && condition.Item1 == ApplicationState.CalculatingResults ).ToProperty(this, x => x.ResultBarIsOpen);
+        _resultBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition =>  !condition.Item2 &&
+            (condition.Item1 is ApplicationState.PausingRecording or ApplicationState.ShowingResults)).ToProperty(this, x => x.ResultBarIsOpen);
+        _resultBarIsHidden = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item2 || condition.Item1 is ApplicationState.FileNotLoaded or ApplicationState.FileLoading or ApplicationState.FileLoaded or ApplicationState.CalculatingResults ).ToProperty(this, x => x.ResultBarIsHidden);
+        
         _resultBarIsDiscreet = this.WhenAnyValue(x => x.ResultBarIsHidden, x => x.ResultBarIsOpen, (o, h) => Tuple.Create(o, h)).Select(condition => !condition.Item1 && !condition.Item2).ToProperty(this, x => x.ResultBarIsDiscreet);
         
+        // Button behaviour
+        _isPausingRecording = this.WhenAnyValue(x => x.State)
+            .Select(condition => condition == ApplicationState.PausingRecording)
+            .ToProperty(this, x => x.IsPausingRecording);
+
+
         // Error showing
         _isError = this.WhenAnyValue(x => x.ExceptionMessage).Select(message => message != null)
             .ToProperty(this, x => x.IsError);
     }
     
-    private ApplicationState _state = ApplicationState.FileNotLoaded;
+    private ApplicationState _state = ApplicationState.ShowingResults;
 
     public ApplicationState State
     {
@@ -126,6 +138,12 @@ public class MainWindowViewModel : ViewModelBase
     public bool InputBarIsOpen => _inputBarIsOpen.Value;
     public bool InputBarIsHidden => _inputBarIsHidden.Value;
     
+    readonly ObservableAsPropertyHelper<bool> _searchBarIsOpen;
+    readonly ObservableAsPropertyHelper<bool> _searchBarIsHidden;
+
+    public bool SearchBarIsOpen => _searchBarIsOpen.Value;
+    public bool SearchBarIsHidden => _searchBarIsHidden.Value;
+    
     // Input Bar State
     readonly ObservableAsPropertyHelper<bool> _resultBarIsOpen;
     readonly ObservableAsPropertyHelper<bool> _resultBarIsHidden;
@@ -145,6 +163,10 @@ public class MainWindowViewModel : ViewModelBase
     public bool ReplayBarIsOpen => _replayBarIsOpen.Value;
     public bool ReplayBarIsHidden => _replayBarIsHidden.Value;
     public bool ReplayBarIsDiscreet => _replayBarIsDiscreet.Value;
+    
+    readonly ObservableAsPropertyHelper<bool> _isPausingRecording;
+
+    public bool IsPausingRecording => _isPausingRecording.Value;
 
     public void ChangeState()
     {
