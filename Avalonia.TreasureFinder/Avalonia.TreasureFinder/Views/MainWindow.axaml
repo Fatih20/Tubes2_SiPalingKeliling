@@ -53,6 +53,7 @@
                 <!--  BorderBrush="#FFFFFF"  -->
                 <!--  BorderThickness="0">  -->
                 <Grid ColumnDefinitions="Auto, Auto, Auto, Auto">
+                    <!-- <Grid ColumnDefinitions="Auto, Auto, Auto"> -->
                     <Grid.Styles>
                         <!--  General style  -->
                         <Style Selector="Border.tab-wrapper">
@@ -93,8 +94,8 @@
                         BorderBrush="#1C1C1E"
                         BorderThickness="0"
                         Classes="tab-wrapper"
-                        Classes.hidden="{Binding InputBarIsHidden}"
-                        Classes.open="{Binding InputBarIsOpen}"
+                        Classes.hidden="{Binding InputBarIsHidden, Mode=TwoWay}"
+                        Classes.open="{Binding InputBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
                         <Grid
                             Width="400"
@@ -111,8 +112,8 @@
                         BorderBrush="#1C1C1E"
                         BorderThickness="0"
                         Classes="tab-wrapper"
-                        Classes.hidden="{Binding ResultBarIsHidden}"
-                        Classes.open="{Binding ResultBarIsOpen}"
+                        Classes.hidden="{Binding ResultBarIsHidden, Mode=TwoWay}"
+                        Classes.open="{Binding ResultBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
                         <Grid
                             Width="200"
@@ -129,8 +130,8 @@
                         BorderBrush="#1C1C1E"
                         BorderThickness="0"
                         Classes="tab-wrapper"
-                        Classes.hidden="{Binding ReplayBarIsHidden}"
-                        Classes.open="{Binding ReplayBarIsOpen}"
+                        Classes.hidden="{Binding ReplayBarIsHidden, Mode=TwoWay}"
+                        Classes.open="{Binding ReplayBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
                         <Grid
                             Width="200"
