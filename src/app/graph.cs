@@ -108,12 +108,13 @@ public class Graph {
 
             // Initialize lists and queues
             List<Tuple<int,int>> pathBFS = new List<Tuple<int,int>>();
-            Queue<List<Tuple<int,int>>> trackBFS = new Queue<List<Tuple<int,int>>>();
+            PrioQueue<List<Tuple<int,int>>> trackBFS = new PrioQueue<List<Tuple<int,int>>>();
             List<Tuple<int,int>> treasureBFS = new List<Tuple<int,int>>();
 
             // Initialize lists
             char[,] solution = new char[M, N];
             bool[,] isVisited = new bool[M, N];
+            int[,] countVisit = new int[M,N];
 
             // Set all of the solution map with 'X' char
             Helper.memset(solution, 'X', M, N);
@@ -122,6 +123,7 @@ public class Graph {
             for(int i = 0; i < M; i++){
                 for(int j = 0; j < N; j++){
                     isVisited[i,j] = false;
+                    countVisit[i,j] = 0;
                 }
             }
 
@@ -137,16 +139,16 @@ public class Graph {
             Tuple<int,int> startingCoor = Helper.getStartingPoint(map, M, N);
 
             // Create queue and starting track for BFS
-            Queue<Tuple<int,int>> bfsTrack = new Queue<Tuple<int,int>>();
-            bfsTrack.Enqueue(startingCoor);
+            PrioQueue<Tuple<int,int>> bfsTrack = new PrioQueue<Tuple<int,int>>();
+            bfsTrack.Enqueue(new ElPrioQueue<Tuple<int,int>>(startingCoor, 0));
 
             List<Tuple<int,int>> startingTrack = new List<Tuple<int,int>>();
             startingTrack.Add(startingCoor);
-            trackBFS.Enqueue(startingTrack);
+            trackBFS.Enqueue(new ElPrioQueue<List<Tuple<int,int>>>(startingTrack, 0));
 
-            // DFS Algorithm
+            // BFS Algorithm
             BFS BFS = new BFS(startingCoor.Item1, startingCoor.Item2);
-            BFS.bfs(map, bfsTrack, isVisited, ref count, pathBFS, trackBFS, treasureBFS, progressBFS, ref nodes, M, N, this.treasures);
+            BFS.bfs(map, bfsTrack, isVisited, ref count, pathBFS, trackBFS, treasureBFS, progressBFS, ref nodes, M, N, this.treasures, countVisit);
 
             if(isTSP){
                 // Initialize Progress
@@ -154,7 +156,7 @@ public class Graph {
 
                 // Initialize lists
                 List<Tuple<int,int>> pathTSPBFS = new List<Tuple<int,int>>();
-                Queue<List<Tuple<int,int>>> trackTSPBFS = new Queue<List<Tuple<int,int>>>();
+                PrioQueue<List<Tuple<int,int>>> trackTSPBFS = new PrioQueue<List<Tuple<int,int>>>();
                 
                 // Initialize lists
                 char[,] tspMap = new char[M, N];
@@ -172,15 +174,16 @@ public class Graph {
 
                 // Create queue and starting track for TSP
                 Tuple<int,int> startingTSPCoor = new Tuple<int,int>(treasureBFS.Last().Item1,treasureBFS.Last().Item2);
-                Queue<Tuple<int,int>> tspBFSTrack = new Queue<Tuple<int,int>>();
-                tspBFSTrack .Enqueue(startingTSPCoor);
+                PrioQueue<Tuple<int,int>> tspBFSTrack = new PrioQueue<Tuple<int,int>>();
+                tspBFSTrack.Enqueue(new ElPrioQueue<Tuple<int,int>>(startingTSPCoor, 0));
 
                 List<Tuple<int,int>> startingTrackForTSP = new List<Tuple<int,int>>();
                 startingTrackForTSP.Add(startingTSPCoor);
-                trackTSPBFS.Enqueue(startingTrackForTSP);
+                trackTSPBFS.Enqueue(new ElPrioQueue<List<Tuple<int,int>>>(startingTrackForTSP, 0));
 
                 // TSP Algorithm
-                BFS.tspBFS(map, tspBFSTrack, isVisitedTSP, pathTSPBFS, trackTSPBFS, progressBFS, ref nodes, M, N);
+                BFS TSP = new BFS(treasureBFS.Last().Item1,treasureBFS.Last().Item2);
+                TSP.tspBFS(map, tspBFSTrack, isVisitedTSP, pathTSPBFS, trackTSPBFS, progressBFS, ref nodes, M, N, countVisit);
 
                 // Plotting the TSP
                 Helper.setSolutionTSP(solution, pathTSPBFS, startingCoor);

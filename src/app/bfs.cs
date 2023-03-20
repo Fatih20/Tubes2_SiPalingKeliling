@@ -14,7 +14,8 @@ public class BFS {
         this.startingXTSP = x;
         this.startingYTSP = y;
     }
-    public void bfs(char[,] map, Queue<Tuple<int,int>> current, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int>> solution, List<Tuple<int,int,string>> progress, ref int nodes, int M, int N, int treasures){
+
+    public void bfs(char[,] map, PrioQueue<Tuple<int,int>> current, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, PrioQueue<List<Tuple<int,int>>> track, List<Tuple<int,int>> solution, List<Tuple<int,int,string>> progress, ref int nodes, int M, int N, int treasures, int[,] countVisit){
         /*
             The main BFS recursive function
             Param :
@@ -28,7 +29,7 @@ public class BFS {
         */
 
         // If the queue is empty, no more nodes can be visited OR all treasures have been found
-        if(current.Count == 0 || count == treasures){
+        if(current.getNeff() == 0 || count == treasures){
             return;
         }
 
@@ -49,6 +50,7 @@ public class BFS {
                 // Visit map
                 nodes++;
                 isVisited[x,y] = true;
+                countVisit[x,y]++;
                 progress.Add(new Tuple<int,int,string>(x,y,"GREEN"));
 
                 // If it contains treasure
@@ -83,49 +85,71 @@ public class BFS {
 
                 /*  BFS on L-U-R-D pattern */
                 // Enqueue Left Node
-                current.Enqueue(new Tuple<int,int>(x, y-1));
+                int countVisitQueue;
+
+                if(y - 1 >= 0){
+                    countVisitQueue = countVisit[x,y-1];
+                } else {
+                    countVisitQueue = 0;
+                }
+                current.Enqueue(new ElPrioQueue<Tuple<int, int>>(new Tuple<int,int>(x, y-1), countVisitQueue));
 
                 // Create a new track to left node from starting point
                 List<Tuple<int,int>> newTrack = new List<Tuple<int,int>>(currentTrack);
                 newTrack.Add(new Tuple<int,int>(x, y-1));
 
                 // Enqueue the new track
-                track.Enqueue(newTrack);
+                track.Enqueue(new ElPrioQueue<List<Tuple<int, int>>>(newTrack, countVisitQueue));
 
                 // Enqueue Upper Node
-                current.Enqueue(new Tuple<int,int>(x-1, y));
+                if(x - 1 >= 0){
+                    countVisitQueue = countVisit[x-1,y];
+                } else {
+                    countVisitQueue = 0;
+                }
+                current.Enqueue(new ElPrioQueue<Tuple<int, int>>(new Tuple<int,int>(x-1, y), countVisitQueue));
 
                 // Create a new track to upper node from starting point
                 List<Tuple<int,int>> newTrack2 = new List<Tuple<int,int>>(currentTrack);
                 newTrack2.Add(new Tuple<int,int>(x-1, y));
 
                 // Enqueue the new track
-                track.Enqueue(newTrack2);
+                track.Enqueue(new ElPrioQueue<List<Tuple<int, int>>>(newTrack2, countVisitQueue));
 
                 // Enqueue Right Node
-                current.Enqueue(new Tuple<int,int>(x, y+1));
+                if(y + 1 < N){
+                    countVisitQueue = countVisit[x,y+1];
+                } else {
+                    countVisitQueue = 0;
+                }
+                current.Enqueue(new ElPrioQueue<Tuple<int, int>>(new Tuple<int,int>(x, y+1), countVisitQueue));
 
                 // Create a new track to right node from starting point
                 List<Tuple<int,int>> newTrack3 = new List<Tuple<int,int>>(currentTrack);
                 newTrack3.Add(new Tuple<int,int>(x, y+1));
 
                 // Enqueue the new track
-                track.Enqueue(newTrack3);
+                track.Enqueue(new ElPrioQueue<List<Tuple<int, int>>>(newTrack3, countVisitQueue));
 
                 // Enqueue Lower Node
-                current.Enqueue(new Tuple<int,int>(x+1, y));
+                if(x + 1 < M){
+                    countVisitQueue = countVisit[x+1,y];
+                } else {
+                    countVisitQueue = 0;
+                }
+                current.Enqueue(new ElPrioQueue<Tuple<int, int>>(new Tuple<int,int>(x+1, y), countVisitQueue));
 
                 // Create a new track to lower node from starting point
                 List<Tuple<int,int>> newTrack4 = new List<Tuple<int,int>>(currentTrack);
                 newTrack4.Add(new Tuple<int,int>(x+1, y));
 
                 // Enqueue the new track
-                track.Enqueue(newTrack4);
+                track.Enqueue(new ElPrioQueue<List<Tuple<int, int>>>(newTrack4, countVisitQueue));
             }
         }
 
         /* BFS to next node in queue */
-        bfs(map, current, isVisited, ref count, path, track, solution, progress, ref nodes, M , N, treasures);
+        bfs(map, current, isVisited, ref count, path, track, solution, progress, ref nodes, M , N, treasures, countVisit);
 
         // Pop last path from last treasure
         if(x == this.startingX && y == this.startingY){
@@ -136,7 +160,7 @@ public class BFS {
         }
     }
 
-    public void tspBFS(char[,] map, Queue<Tuple<int,int>> current, bool[,] isVisited, List<Tuple<int,int>> path, Queue<List<Tuple<int,int>>> track, List<Tuple<int,int,string>> progress, ref int nodes, int M, int N){
+    public void tspBFS(char[,] map, PrioQueue<Tuple<int,int>> current, bool[,] isVisited, List<Tuple<int,int>> path, PrioQueue<List<Tuple<int,int>>> track, List<Tuple<int,int,string>> progress, ref int nodes, int M, int N, int[,] countVisit){
         /*
             The main BFS recursive function
             Param :
@@ -148,7 +172,7 @@ public class BFS {
         */
 
         // If the queue is empty, no more nodes can be visited
-        if(current.Count == 0){
+        if(current.getNeff() == 0){
             return;
         }
 
@@ -166,62 +190,87 @@ public class BFS {
             if(isVisited[x,y] || map[x,y] == 'X'){
                 // Do nothing
             } else {
-                // Visit map
-                nodes++;
-                isVisited[x,y] = true;
-                progress.Add(new Tuple<int, int, string>(x,y,"GREEN"));
+                if(x != this.startingX || y != this.startingY){
+                    // Visit map
+                    nodes++;
+                    isVisited[x,y] = true;
+                    countVisit[x,y]++;
+                    progress.Add(new Tuple<int, int, string>(x,y,"GREEN"));
 
-                // Reached starting point
-                if(map[x,y] == 'K'){
-                    path.AddRange(currentTrack);
-                    return;
+                    // Reached starting point
+                    if(map[x,y] == 'K'){
+                        path.AddRange(currentTrack);
+                        return;
+                    }
                 }
 
                 /* TSP BFS on L-U-R-D pattern */
                 // Enqueue Left Node
-                current.Enqueue(new Tuple<int,int>(x, y-1));
+                int countVisitQueue;
+
+                if(y - 1 >= 0){
+                    countVisitQueue = countVisit[x,y-1];
+                } else {
+                    countVisitQueue = 0;
+                }
+                current.Enqueue(new ElPrioQueue<Tuple<int, int>>(new Tuple<int,int>(x, y-1), countVisitQueue));
 
                 // Create a new track to left node from starting point
                 List<Tuple<int,int>> newTrack = new List<Tuple<int,int>>(currentTrack);
                 newTrack.Add(new Tuple<int,int>(x, y-1));
 
                 // Enqueue the new track
-                track.Enqueue(newTrack);
+                track.Enqueue(new ElPrioQueue<List<Tuple<int, int>>>(newTrack, countVisitQueue));
 
                 // Enqueue Upper Node
-                current.Enqueue(new Tuple<int,int>(x-1, y));
+                if(x - 1 >= 0){
+                    countVisitQueue = countVisit[x-1,y];
+                } else {
+                    countVisitQueue = 0;
+                }
+                current.Enqueue(new ElPrioQueue<Tuple<int, int>>(new Tuple<int,int>(x-1, y), countVisitQueue));
 
                 // Create a new track to upper node from starting point
                 List<Tuple<int,int>> newTrack2 = new List<Tuple<int,int>>(currentTrack);
                 newTrack2.Add(new Tuple<int,int>(x-1, y));
 
                 // Enqueue the new track
-                track.Enqueue(newTrack2);
+                track.Enqueue(new ElPrioQueue<List<Tuple<int, int>>>(newTrack2, countVisitQueue));
 
                 // Enqueue Right Node
-                current.Enqueue(new Tuple<int,int>(x, y+1));
+                if(y + 1 < N){
+                    countVisitQueue = countVisit[x,y+1];
+                } else {
+                    countVisitQueue = 0;
+                }
+                current.Enqueue(new ElPrioQueue<Tuple<int, int>>(new Tuple<int,int>(x, y+1), countVisitQueue));
 
                 // Create a new track to right node from starting point
                 List<Tuple<int,int>> newTrack3 = new List<Tuple<int,int>>(currentTrack);
                 newTrack3.Add(new Tuple<int,int>(x, y+1));
 
                 // Enqueue the new track
-                track.Enqueue(newTrack3);
+                track.Enqueue(new ElPrioQueue<List<Tuple<int, int>>>(newTrack3, countVisitQueue));
 
                 // Enqueue Lower Node
-                current.Enqueue(new Tuple<int,int>(x+1, y));
+                if(x + 1 < M){
+                    countVisitQueue = countVisit[x+1,y];
+                } else {
+                    countVisitQueue = 0;
+                }
+                current.Enqueue(new ElPrioQueue<Tuple<int, int>>(new Tuple<int,int>(x+1, y), countVisitQueue));
 
                 // Create a new track to lower node from starting point
                 List<Tuple<int,int>> newTrack4 = new List<Tuple<int,int>>(currentTrack);
                 newTrack4.Add(new Tuple<int,int>(x+1, y));
 
                 // Enqueue the new track
-                track.Enqueue(newTrack4);
+                track.Enqueue(new ElPrioQueue<List<Tuple<int, int>>>(newTrack4, countVisitQueue));
             }
         }
 
         /* TSP BFS to next node in queue */
-        tspBFS(map, current, isVisited, path, track, progress, ref nodes, M, N);
+        tspBFS(map, current, isVisited, path, track, progress, ref nodes, M, N, countVisit);
 
         // Pop last path from last treasure
         if(x == this.startingXTSP && y == this.startingYTSP){
