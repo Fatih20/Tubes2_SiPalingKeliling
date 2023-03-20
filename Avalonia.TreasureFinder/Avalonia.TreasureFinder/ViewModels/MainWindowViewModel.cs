@@ -24,6 +24,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
+        // Bar behaviour
         _inputBarIsHidden = this.WhenAnyValue(x => x.AllBarHidden).Select(condition => condition).ToProperty(this, x => x.InputBarIsHidden);
         _inputBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item1 == ApplicationState.FileNotLoaded && !condition.Item2).ToProperty(this, x => x.InputBarIsOpen);
         
@@ -34,15 +35,17 @@ public class MainWindowViewModel : ViewModelBase
         _resultBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition =>  !condition.Item2 && condition.Item1 == ApplicationState.PausingRecording && condition.Item1 == ApplicationState.ShowingResults ).ToProperty(this, x => x.ResultBarIsOpen);
         _resultBarIsHidden = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item2&& condition.Item1 == ApplicationState.FileNotLoaded && condition.Item1 == ApplicationState.FileLoading  && condition.Item1 == ApplicationState.FileLoaded  && condition.Item1 == ApplicationState.CalculatingResults ).ToProperty(this, x => x.ResultBarIsOpen);
         _resultBarIsDiscreet = this.WhenAnyValue(x => x.ResultBarIsHidden, x => x.ResultBarIsOpen, (o, h) => Tuple.Create(o, h)).Select(condition => !condition.Item1 && !condition.Item2).ToProperty(this, x => x.ResultBarIsDiscreet);
-
+        
+        // Error showing
+        _isError = this.WhenAnyValue(x => x.ExceptionMessage).Select(message => message != null)
+            .ToProperty(this, x => x.IsError);
     }
     
     private ApplicationState _state = ApplicationState.FileNotLoaded;
-    // private ApplicationState _state = ApplicationState.ShowingResults;
 
     private Graph? _graphRepresentation;
 
-    private String? _exceptionMessage;
+    private string _exceptionMessage = "";
 
     private Solution? _solution;
 
@@ -62,7 +65,7 @@ public class MainWindowViewModel : ViewModelBase
         private set => this.RaiseAndSetIfChanged(ref _solution, value);
     }
 
-    public String? ExceptionMessage
+    public string ExceptionMessage
     {
         get => _exceptionMessage;
         private set => this.RaiseAndSetIfChanged(ref _exceptionMessage, value);
@@ -85,8 +88,12 @@ public class MainWindowViewModel : ViewModelBase
         get => _filenameToLoad;
         set => this.RaiseAndSetIfChanged(ref _filenameToLoad, value);
     }
+    
     // Appearance concerned attributes
     
+    readonly ObservableAsPropertyHelper<bool> _isError;
+    private bool IsError => _isError.Value;
+
     private bool _allBarHidden;
     public bool AllBarHidden
     {
@@ -98,8 +105,6 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
     
-    
-
     public void ToggleAllBarHidden()
     {
         AllBarHidden = !AllBarHidden;
@@ -178,10 +183,10 @@ public class MainWindowViewModel : ViewModelBase
     public void LoadingFile(string file)
     {
         State = ApplicationState.FileLoading;
+        ExceptionMessage = "";
         try
         {
             GraphRepresentation = new Graph(file);
-            ExceptionMessage = "";
             State = ApplicationState.FileLoaded;
             return;
         }
