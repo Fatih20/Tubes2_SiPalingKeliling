@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/fatihsthinkpadx270/Documents/Tugas Tugas Kuliah/4th/Stima/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj": {}
+    "/media/fatih/Mass Storage/Tugas-Tugas Kuliah/Semester 4/Stimaballs/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj": {}
   },
   "projects": {
-    "/home/fatihsthinkpadx270/Documents/Tugas Tugas Kuliah/4th/Stima/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj": {
+    "/media/fatih/Mass Storage/Tugas-Tugas Kuliah/Semester 4/Stimaballs/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/fatihsthinkpadx270/Documents/Tugas Tugas Kuliah/4th/Stima/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj",
+        "projectUniqueName": "/media/fatih/Mass Storage/Tugas-Tugas Kuliah/Semester 4/Stimaballs/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj",
         "projectName": "Avalonia.TreasureFinder",
-        "projectPath": "/home/fatihsthinkpadx270/Documents/Tugas Tugas Kuliah/4th/Stima/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj",
-        "packagesPath": "/home/fatihsthinkpadx270/.nuget/packages/",
-        "outputPath": "/home/fatihsthinkpadx270/Documents/Tugas Tugas Kuliah/4th/Stima/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/obj/",
+        "projectPath": "/media/fatih/Mass Storage/Tugas-Tugas Kuliah/Semester 4/Stimaballs/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj",
+        "packagesPath": "/home/fatih/.nuget/packages/",
+        "outputPath": "/media/fatih/Mass Storage/Tugas-Tugas Kuliah/Semester 4/Stimaballs/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/fatihsthinkpadx270/.nuget/NuGet/NuGet.Config"
+          "/home/fatih/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -74,18 +74,12 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.NETCore.App.Host.linux-x64",
-              "version": "[6.0.14, 6.0.14]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/7.0.103/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/7.0.202/RuntimeIdentifierGraph.json"
         }
       }
     }

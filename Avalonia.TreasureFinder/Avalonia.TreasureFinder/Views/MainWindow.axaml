@@ -52,7 +52,7 @@
                 <!--  HorizontalAlignment="Center"  -->
                 <!--  BorderBrush="#FFFFFF"  -->
                 <!--  BorderThickness="0">  -->
-                <Grid ColumnDefinitions="Auto, Auto, Auto, Auto">
+                <Grid Grid.Row="1" ColumnDefinitions="Auto, Auto, Auto, Auto">
                     <!-- <Grid ColumnDefinitions="Auto, Auto, Auto"> -->
                     <Grid.Styles>
                         <!--  General style  -->
@@ -102,7 +102,7 @@
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
-                            <Button>fvdmfdkvmdlvkml</Button>
+                            <Button>Input</Button>
                         </Grid>
                     </Border>
                     <Border
@@ -120,7 +120,7 @@
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
-                            <Button>fvdmfdkvmdlvkml</Button>
+                            <Button>Result</Button>
                         </Grid>
                     </Border>
                     <Border
@@ -138,7 +138,7 @@
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
-                            <Button>fvdmfdkvmdlvkml</Button>
+                            <Button>Replay</Button>
                         </Grid>
                     </Border>
                     <Border
@@ -154,8 +154,7 @@
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
-                            <Button Command="{Binding ChangeState}">To show results</Button>
-                            <Button Command="{Binding ToggleAllBarHidden}">Toggle bar</Button>
+                            <Button Command="{Binding ToggleAllBarHidden}">Toggle hidden</Button>
 
                         </Grid>
                     </Border>

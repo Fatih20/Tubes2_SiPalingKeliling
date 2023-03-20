@@ -12,10 +12,10 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Avalonia.TreasureFinder
-build_property.ProjectDir = /home/fatihsthinkpadx270/Documents/Tugas Tugas Kuliah/4th/Stima/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/
+build_property.ProjectDir = /media/fatih/Mass Storage/Tugas-Tugas Kuliah/Semester 4/Stimaballs/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/
 
-[/home/fatihsthinkpadx270/Documents/Tugas Tugas Kuliah/4th/Stima/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/App.axaml]
+[/media/fatih/Mass Storage/Tugas-Tugas Kuliah/Semester 4/Stimaballs/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[/home/fatihsthinkpadx270/Documents/Tugas Tugas Kuliah/4th/Stima/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/Views/MainWindow.axaml]
+[/media/fatih/Mass Storage/Tugas-Tugas Kuliah/Semester 4/Stimaballs/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
