@@ -15,7 +15,7 @@ public class DFS {
         this.startingYTSP = y;
     }
 
-    public void dfs(char[,] map, int x, int y, int xBefore, int yBefore, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, List<Tuple<int,int>> track, List<Tuple<int,int>> solution, List<Tuple<int,int,string>> progress, ref int nodes, int M, int N){
+    public void dfs(char[,] map, int x, int y, int xBefore, int yBefore, bool[,] isVisited, ref int count, List<Tuple<int,int>> path, List<Tuple<int,int>> track, List<Tuple<int,int>> solution, List<Tuple<int,int,string>> progress, ref int nodes, int M, int N, int treasures){
         /*
             The main DFS recursive function
             Param :
@@ -30,10 +30,12 @@ public class DFS {
                 track : collects temporary path to a treasure, will be removed if the current track doesn't end on treasure box
                 solution : collects coordinates of the treasures
                 nodes : count how many nodes visited
+                M, N : size of the map
+                treasures : the amount of available treasures
         */
 
-        // If map is not out of bounds
-        if(x >= 0 && x < M && y >= 0 && y < N){
+        // If map is not out of bounds and not all treasures have been collected
+        if(x >= 0 && x < M && y >= 0 && y < N && count != treasures){
             // If map is already visited or blocked
             if(isVisited[x,y] || map[x,y] == 'X'){
                 return;
@@ -52,28 +54,33 @@ public class DFS {
                     solution.Add(new Tuple<int,int>(x,y));
                     path.AddRange(track);
                     track.Clear();
+                    if(count == treasures) return;
                 }
                 
                 // DFS on L-U-R-D pattern
-                dfs(map, x, y-1, x, y, isVisited, ref count, path, track, solution, progress, ref nodes, M, N); 
+                dfs(map, x, y-1, x, y, isVisited, ref count, path, track, solution, progress, ref nodes, M, N, treasures); 
+                if(count == treasures) return;
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                     nodes++;
                 }
 
-                dfs(map, x-1, y, x, y, isVisited, ref count, path, track, solution, progress, ref nodes, M, N);
+                dfs(map, x-1, y, x, y, isVisited, ref count, path, track, solution, progress, ref nodes, M, N, treasures);
+                if(count == treasures) return;
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                     nodes++;
                 }
 
-                dfs(map, x, y+1, x, y, isVisited, ref count, path, track, solution, progress, ref nodes, M, N);
+                dfs(map, x, y+1, x, y, isVisited, ref count, path, track, solution, progress, ref nodes, M, N, treasures);
+                if(count == treasures) return;
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                     nodes++;
                 }
 
-                dfs(map, x+1, y, x, y, isVisited, ref count, path, track, solution, progress, ref nodes, M, N);
+                dfs(map, x+1, y, x, y, isVisited, ref count, path, track, solution, progress, ref nodes, M, N, treasures);
+                if(count == treasures) return;
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                     nodes++;
@@ -122,42 +129,48 @@ public class DFS {
             if(isVisited[x,y] || map[x,y] == 'X'){
                 return;
             } else {
-                // Visit map
-                nodes++;
-                isVisited[x,y] = true;
-                progress.Add(new Tuple<int, int, string>(x,y,"GREEN"));
+                if(x != xBefore || y != yBefore) {
+                    // Visit map
+                    nodes++;
+                    isVisited[x,y] = true;
+                    progress.Add(new Tuple<int, int, string>(x,y,"GREEN"));
 
-                // Add map to track
-                track.Add(new Tuple<int,int>(x,y));
+                    // Add map to track
+                    track.Add(new Tuple<int,int>(x,y));
 
-                // If it reached starting point
-                if(map[x,y] == 'K'){
-                    finish = true;
-                    path.AddRange(track);
-                    track.Clear();
-                    return;
+                    // If it reached starting point
+                    if(map[x,y] == 'K'){
+                        finish = true;
+                        path.AddRange(track);
+                        track.Clear();
+                        return;
+                    }
                 }
 
                 // DFS on L-U-R-D pattern
                 tspDFS(map, x, y-1, x, y, isVisited, path, track, ref finish, progress, ref nodes, M, N);
+                if(finish) return;
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                     nodes++;
                 }
 
                 tspDFS(map, x-1, y, x, y, isVisited, path, track, ref finish, progress, ref nodes, M, N);
+                if(finish) return;
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                     nodes++;
                 }
 
                 tspDFS(map, x, y+1, x, y, isVisited, path, track, ref finish, progress, ref nodes, M, N);
+                if(finish) return;
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                     nodes++;
                 }
 
                 tspDFS(map, x+1, y, x, y, isVisited, path, track, ref finish, progress, ref nodes, M, N);
+                if(finish) return;
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
                     nodes++;

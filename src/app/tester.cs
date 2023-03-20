@@ -10,10 +10,10 @@ class MainProgram {
             Helper.printMap(TreasureMap.getMap(), TreasureMap.getM(), TreasureMap.getN());
 
             // Solve
-            Solution solution = TreasureMap.Solve(true, false);
+            Solution solution = TreasureMap.Solve(false, true);
 
             // Print solution
-            Console.WriteLine("\nDENGAN BFS");
+            Console.WriteLine("\nDENGAN DFS");
 
             // Output Peta
             Console.WriteLine("Peta Jalur Kemenangan");

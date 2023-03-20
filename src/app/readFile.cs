@@ -1,5 +1,5 @@
 public class ReadFile {
-    public static char[,] readFile(string pathfile){
+    public static Tuple<char[,],int> readFile(string pathfile){
         // Function to read map from file
 
         // Try to read file
@@ -21,6 +21,7 @@ public class ReadFile {
         // Initialize variable and array
         char[,] map = new Char[M, N];
         int i = 0;
+        int treasures = 0;
 
         // Loop through all lines
         foreach(string line in lines){
@@ -33,13 +34,14 @@ public class ReadFile {
                     throw new Exception("Karakter tidak sesuai isi dari peta!");
                 } else {
                     map[i,j] = line[j];
+                    if(line[j] == 'T') treasures++;
                 }
             }
             i++;
         }
 
         // Return map
-        return map;
+        return new Tuple<char[,],int>(map, treasures);
     }
 
     // Example using try and catch to handle errors

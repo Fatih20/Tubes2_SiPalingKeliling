@@ -3,9 +3,12 @@ public class Graph {
     private int M;
     private int N;
     private char[,] map;
+    private int treasures;
 
     public Graph(String pathfile){
-        this.map = ReadFile.readFile(pathfile);
+        Tuple<char[,],int> config = ReadFile.readFile(pathfile);
+        this.map = config.Item1;
+        this.treasures = config.Item2;
         this.M = this.map.GetLength(0);
         this.N = this.map.GetLength(1);
     }
@@ -60,7 +63,7 @@ public class Graph {
     
             // DFS Algorithm
             DFS DFS = new DFS(startingCoor.Item1, startingCoor.Item2);
-            DFS.dfs(map, startingCoor.Item1, startingCoor.Item2, startingCoor.Item1, startingCoor.Item2, isVisited, ref count, path, track, treasure, progressDFS, ref nodes, M, N);
+            DFS.dfs(map, startingCoor.Item1, startingCoor.Item2, startingCoor.Item1, startingCoor.Item2, isVisited, ref count, path, track, treasure, progressDFS, ref nodes, M, N, this.treasures);
 
             if(isTSP){
                 // Initialize lists
