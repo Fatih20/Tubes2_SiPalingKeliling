@@ -58,21 +58,25 @@ public class DFS {
                 dfs(map, x, y-1, x, y, isVisited, ref count, path, track, solution, progress, ref nodes, M, N); 
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                    nodes++;
                 }
 
                 dfs(map, x-1, y, x, y, isVisited, ref count, path, track, solution, progress, ref nodes, M, N);
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                    nodes++;
                 }
 
                 dfs(map, x, y+1, x, y, isVisited, ref count, path, track, solution, progress, ref nodes, M, N);
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                    nodes++;
                 }
 
                 dfs(map, x+1, y, x, y, isVisited, ref count, path, track, solution, progress, ref nodes, M, N);
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                    nodes++;
                 }
 
                 // If track is blocked and nowhere to continue
@@ -88,6 +92,7 @@ public class DFS {
                     Tuple<int,int, string> startingCoor = new Tuple<int, int, string>(solution.Last().Item1, solution.Last().Item2, "GREEN");
                     while(!progress.Last().Equals(startingCoor)){
                         progress.RemoveAt(progress.Count - 1);
+                        nodes--;
                     }
                 }
                 return;
@@ -137,21 +142,25 @@ public class DFS {
                 tspDFS(map, x, y-1, x, y, isVisited, path, track, ref finish, progress, ref nodes, M, N);
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                    nodes++;
                 }
 
                 tspDFS(map, x-1, y, x, y, isVisited, path, track, ref finish, progress, ref nodes, M, N);
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                    nodes++;
                 }
 
                 tspDFS(map, x, y+1, x, y, isVisited, path, track, ref finish, progress, ref nodes, M, N);
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                    nodes++;
                 }
 
                 tspDFS(map, x+1, y, x, y, isVisited, path, track, ref finish, progress, ref nodes, M, N);
                 if(progress.Last().Item1 != x || progress.Last().Item2 != y) {
                     progress.Add(new Tuple<int, int, string>(x,y,"RED"));
+                    nodes++;
                 }
 
                 // If track is blocked and nowhere to continue
@@ -167,6 +176,7 @@ public class DFS {
                     Tuple<int,int, string> startingCoor = new Tuple<int, int, string>(this.startingX, this.startingY, "GREEN");
                     while(!progress.Last().Equals(startingCoor)){
                         progress.RemoveAt(progress.Count - 1);
+                        nodes--;
                     }
                 }
                 return;

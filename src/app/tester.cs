@@ -10,7 +10,7 @@ class MainProgram {
             Helper.printMap(TreasureMap.getMap(), TreasureMap.getM(), TreasureMap.getN());
 
             // Solve
-            Solution solution = TreasureMap.Solve(false, false);
+            Solution solution = TreasureMap.Solve(true, false);
 
             // Print solution
             Console.WriteLine("\nDENGAN BFS");
