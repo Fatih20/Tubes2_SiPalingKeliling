@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="using:Avalonia.TreasureFinder.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Avalonia.TreasureFinder.ViewModels"
     Title="TreasureFinder"
@@ -39,34 +40,135 @@
                     TintOpacity="1" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
 
-            <!--  IsVisible="{Binding ShowError}"  -->
-            <TextBlock
-                HorizontalAlignment="Center"
-                Classes="error-text"
-                IsVisible="True"
-                Text="{Binding ExceptionMessage}" />
+        <Grid>
+            <Image Source="{SvgImage /Assets/pause.svg}" />
+            <Grid Margin="10,10,10,10" RowDefinitions="*, Auto">
+                <Border
+                    Grid.Row="1"
+                    HorizontalAlignment="Center"
+                    BorderBrush="#FFFFFF"
+                    BorderThickness="0">
+                    <Grid ColumnDefinitions="Auto, Auto, Auto, Auto">
+                        <Grid.Styles>
+                            <Style Selector="Border.tab-wrapper">
+                                <Setter Property="Margin" Value="20, 0, 20, 0" />
+                            </Style>
+                            <Style Selector="Border:pointerover">
+                                <Setter Property="Height" Value="100" />
+                            </Style>
+                            <Style Selector="Border:pointerover Grid">
+                                <!-- <Setter Property="IsVisible" Value="True" /> -->
+                                <Setter Property="Height" Value="40" />
+                            </Style>
+                            <!-- <Style Selector="Border:pointerover StackPanel .tab-content"> -->
+                            <!--     ~1~ <Setter Property="IsVisible" Value="True" /> @1@ -->
+                            <!-- </Style> -->
+                            <Style Selector="Border Grid">
+                                <!-- <Setter Property="IsVisible" Value="False" /> -->
+                                <Setter Property="Height" Value="0" />
+                            </Style>
+                            <!-- <Style Selector="StackPanel .tab-content"> -->
+                            <!--     ~1~ <Setter Property="IsVisible" Value="False" /> @1@ -->
+                            <!--     <Setter Property="Height" Value="0" /> -->
+                            <!--    -->
+                            <!-- </Style> -->
 
-            <Button Height="40">
-                <Image Source="{SvgImage /Assets/pause.svg}" />
-            </Button>
-            <Button
-                HorizontalAlignment="Left"
-                Command="{Binding ButtonClicked}"
-                Content="{Binding State}" />
-            <Button
-                HorizontalAlignment="Left"
-                Command="{Binding ButtonClicked}"
-                Content="{Binding State}">
-                <!-- <PathIcon Data="{StaticResource play_regular}" /> -->
-            </Button>
-            <Button
-                HorizontalAlignment="Left"
-                Command="{Binding ButtonClicked}"
-                Content="{Binding State}" />
+                            <Style Selector="Border">
+                                <Setter Property="Height" Value="20" />
+                                <Setter Property="Background" Value="#1C1C1E" />
+                            </Style>
+                        </Grid.Styles>
 
-        </StackPanel>
+                        <Border
+                            Grid.Column="0"
+                            Padding="5,5,5,5"
+                            VerticalAlignment="Bottom"
+                            BorderBrush="#1C1C1E"
+                            BorderThickness="0"
+                            Classes="tab-wrapper"
+                            CornerRadius="7">
+                            <Grid
+                                Width="200"
+                                Classes="tab"
+                                ColumnDefinitions="Auto, Auto"
+                                RowDefinitions="*" />
+                        </Border>
+                        <Border
+                            Grid.Column="1"
+                            Padding="5,5,5,5"
+                            VerticalAlignment="Bottom"
+                            BorderBrush="#1C1C1E"
+                            BorderThickness="0"
+                            Classes="tab-wrapper"
+                            CornerRadius="7">
+                            <Grid
+                                Width="200"
+                                Classes="tab"
+                                ColumnDefinitions="Auto, Auto"
+                                RowDefinitions="*" />
+                        </Border>
+                        <Border
+                            Grid.Column="2"
+                            Padding="5,5,5,5"
+                            VerticalAlignment="Bottom"
+                            BorderBrush="#1C1C1E"
+                            BorderThickness="0"
+                            Classes="tab-wrapper"
+                            CornerRadius="7">
+                            <Grid
+                                Width="200"
+                                Classes="tab"
+                                ColumnDefinitions="Auto, Auto"
+                                RowDefinitions="*" />
+                        </Border>
+                        <Border
+                            Grid.Column="3"
+                            Padding="5,5,5,5"
+                            VerticalAlignment="Bottom"
+                            BorderBrush="#1C1C1E"
+                            BorderThickness="0"
+                            Classes="tab-wrapper"
+                            CornerRadius="7">
+                            <Grid
+                                Width="200"
+                                Classes="tab"
+                                ColumnDefinitions="Auto, Auto"
+                                RowDefinitions="*" />
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+
+        <!-- <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top"> -->
+        <!--    -->
+        <!--  ~1~  IsVisible="{Binding ShowError}"  @1@  -->
+        <!--  <TextBlock  -->
+        <!--  HorizontalAlignment="Center"  -->
+        <!--  Classes="error-text"  -->
+        <!--  IsVisible="True"  -->
+        <!--  Text="{Binding ExceptionMessage}" />  -->
+        <!--    -->
+        <!--     <Button Height="40"> -->
+        <!--         <Image Source="{SvgImage /Assets/pause.svg}" /> -->
+        <!--     </Button> -->
+        <!--  <Button  -->
+        <!--  HorizontalAlignment="Left"  -->
+        <!--  Command="{Binding ButtonClicked}"  -->
+        <!--  Content="{Binding State}" />  -->
+        <!--  <Button  -->
+        <!--  HorizontalAlignment="Left"  -->
+        <!--  Command="{Binding ButtonClicked}"  -->
+        <!--  Content="{Binding State}">  -->
+        <!--         ~1~ <PathIcon Data="{StaticResource play_regular}" /> @1@ -->
+        <!--     </Button> -->
+        <!--  <Button  -->
+        <!--  HorizontalAlignment="Left"  -->
+        <!--  Command="{Binding ButtonClicked}"  -->
+        <!--  Content="{Binding State}" />  -->
+        <!--    -->
+        <!-- </StackPanel> -->
     </Panel>
 
 </Window>
