@@ -7,19 +7,20 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ReactiveUI;
 
 namespace Avalonia.TreasureFinder.ViewModels;
-public enum ApplicationState
+public enum ApplicationState : int
 {
-    FileNotLoaded,
-    FileLoading,
-    FileLoaded,
-    CalculatingResults,
-    ShowingResults,
-    PlayingRecording,
-    PausingRecording
+    FileNotLoaded = 0,
+    FileLoading = 1,
+    FileLoaded = 2,
+    CalculatingResults = 3,
+    ShowingResults = 4,
+    PlayingRecording = 5,
+    PausingRecording = 6,
 }
 public class MainWindowViewModel : ViewModelBase
 {
-    private ApplicationState _state = ApplicationState.FileNotLoaded;
+    // private ApplicationState _state = ApplicationState.FileNotLoaded;
+    private ApplicationState _state = ApplicationState.ShowingResults;
 
     private Graph? _graphRepresentation;
 
@@ -28,13 +29,8 @@ public class MainWindowViewModel : ViewModelBase
     private Solution? _solution;
 
     private string _filenameToLoad = "";
-
-    private Tuple<List<Tuple<int, int, string>>, int>? _resultReplay = null;
-
-    public bool ShowError
-    {
-        get => ExceptionMessage != null;
-    }
+    
+    private Tuple<List<Tuple<int, int, string>>, int>? _resultReplay;
 
     public Tuple<List<Tuple<int, int, string>>, int>? ResultReplay
     {
@@ -71,6 +67,70 @@ public class MainWindowViewModel : ViewModelBase
         get => _filenameToLoad;
         set => this.RaiseAndSetIfChanged(ref _filenameToLoad, value);
     }
+    // Appearance concerned attributes
+    
+    private bool _allBarHidden = true;
+    public bool AllBarHidden
+    {
+        get => _allBarHidden;
+        set => this.RaiseAndSetIfChanged(ref _allBarHidden, value);
+    }
+
+    public void ToggleAllBarHidden()
+    {
+        AllBarHidden = true;
+    }
+    
+    public bool ShowError
+    {
+        get => ExceptionMessage != null;
+    }
+    
+    // Input Bar State
+    public bool InputBarIsOpen
+    {
+        get => State == ApplicationState.FileNotLoaded && !AllBarHidden;
+    }
+    
+    public bool InputBarIsHidden
+    {
+        get => AllBarHidden;
+    }
+    
+    // Result Bar State
+    public bool ResultBarIsHidden
+    {
+        get => AllBarHidden || State == ApplicationState.FileNotLoaded || State == ApplicationState.FileLoading || State == ApplicationState.FileLoaded || State == ApplicationState.CalculatingResults;
+    }
+    
+    public bool ResultBarIsDiscreet
+    {
+        get => !ResultBarIsHidden && !ResultBarIsOpen;
+    }
+    
+    public bool ResultBarIsOpen
+    {
+        get => State == ApplicationState.PausingRecording || State == ApplicationState.ShowingResults && !AllBarHidden;
+    }
+    
+    // Replay Bar State
+    public bool ReplayBarIsHidden
+    {
+        get => AllBarHidden || State == ApplicationState.FileNotLoaded || State == ApplicationState.FileLoading || State == ApplicationState.FileLoaded || State == ApplicationState.CalculatingResults;
+    }
+    
+    
+    public bool ReplayBarIsDiscreet
+    {
+        get => !ReplayBarIsHidden && !ReplayBarIsOpen;
+    }
+    
+    public bool ReplayBarIsOpen
+    {
+        get => State == ApplicationState.PausingRecording && !AllBarHidden;
+    }
+
+
 
     public event PropertyChangedEventHandler PropertyChanged;
 

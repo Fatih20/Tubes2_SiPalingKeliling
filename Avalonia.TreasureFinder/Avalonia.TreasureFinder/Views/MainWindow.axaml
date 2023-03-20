@@ -92,7 +92,9 @@
                         VerticalAlignment="Bottom"
                         BorderBrush="#1C1C1E"
                         BorderThickness="0"
-                        Classes="hidden"
+                        Classes="tab-wrapper"
+                        Classes.hidden="{Binding InputBarIsHidden}"
+                        Classes.open="{Binding InputBarIsOpen}"
                         CornerRadius="7">
                         <Grid
                             Width="400"
@@ -109,6 +111,8 @@
                         BorderBrush="#1C1C1E"
                         BorderThickness="0"
                         Classes="tab-wrapper"
+                        Classes.hidden="{Binding ResultBarIsHidden}"
+                        Classes.open="{Binding ResultBarIsOpen}"
                         CornerRadius="7">
                         <Grid
                             Width="200"
@@ -125,6 +129,8 @@
                         BorderBrush="#1C1C1E"
                         BorderThickness="0"
                         Classes="tab-wrapper"
+                        Classes.hidden="{Binding ReplayBarIsHidden}"
+                        Classes.open="{Binding ReplayBarIsOpen}"
                         CornerRadius="7">
                         <Grid
                             Width="200"
@@ -140,14 +146,14 @@
                         VerticalAlignment="Bottom"
                         BorderBrush="#1C1C1E"
                         BorderThickness="0"
-                        Classes="tab-wrapper open"
+                        Classes="tab-wrapper"
                         CornerRadius="7">
                         <Grid
                             Width="50"
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
-                            <Button>fvdmfdkvmdlvkml</Button>
+                            <Button Command="{Binding ToggleAllBarHidden}">fvdmfdkvmdlvkml</Button>
 
                         </Grid>
                     </Border>
