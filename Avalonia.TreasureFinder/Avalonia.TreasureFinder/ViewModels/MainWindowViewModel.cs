@@ -38,6 +38,12 @@ public class MainWindowViewModel : ViewModelBase
         
         _resultBarIsDiscreet = this.WhenAnyValue(x => x.ResultBarIsHidden, x => x.ResultBarIsOpen, (o, h) => Tuple.Create(o, h)).Select(condition => !condition.Item1 && !condition.Item2).ToProperty(this, x => x.ResultBarIsDiscreet);
         
+        // Button behaviour
+        _isPausingRecording = this.WhenAnyValue(x => x.State)
+            .Select(condition => condition == ApplicationState.PausingRecording)
+            .ToProperty(this, x => x.IsPausingRecording);
+
+
         // Error showing
         _isError = this.WhenAnyValue(x => x.ExceptionMessage).Select(message => message != null)
             .ToProperty(this, x => x.IsError);
@@ -138,6 +144,10 @@ public class MainWindowViewModel : ViewModelBase
     public bool ReplayBarIsOpen => _replayBarIsOpen.Value;
     public bool ReplayBarIsHidden => _replayBarIsHidden.Value;
     public bool ReplayBarIsDiscreet => _replayBarIsDiscreet.Value;
+    
+    readonly ObservableAsPropertyHelper<bool> _isPausingRecording;
+
+    public bool IsPausingRecording => _isPausingRecording.Value;
 
     public void ChangeState()
     {

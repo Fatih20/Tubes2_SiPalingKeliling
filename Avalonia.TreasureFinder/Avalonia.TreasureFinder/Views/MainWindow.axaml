@@ -42,7 +42,7 @@
         </ExperimentalAcrylicBorder>
 
         <Grid>
-            <Image Source="{SvgImage /Assets/pause.svg}" />
+            <Image Source="/Assets/Oxenfree.jpeg" />
             <Grid
                 Margin="10,10,10,10"
                 HorizontalAlignment="Center"
@@ -183,11 +183,28 @@
                         Classes.open="{Binding ReplayBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
                         <Grid
-                            Width="200"
+                            Width="150"
                             Classes="tab"
-                            ColumnDefinitions="Auto, Auto"
+                            ColumnDefinitions="Auto, Auto, Auto"
                             RowDefinitions="*">
-                            <Button>Replay</Button>
+                            <Grid.Styles>
+                                <Style Selector="Button">
+                                    <Setter Property="Margin" Value="5, 0, 5, 0" />
+                                    <Setter Property="Background" Value="Transparent" />
+                                </Style>
+                            </Grid.Styles>
+                            <Button Grid.Column="0">
+                                <Panel>
+                                    <Image IsVisible="{Binding IsPausingRecording, Mode=TwoWay}" Source="{SvgImage /Assets/pause.svg}" />
+                                    <Image IsVisible="{Binding !IsPausingRecording, Mode=TwoWay}" Source="{SvgImage /Assets/play.svg}" />
+                                </Panel>
+                            </Button>
+                            <Button Grid.Column="1">
+                                <Image Source="{SvgImage /Assets/stop.svg}" />
+                            </Button>
+                            <Button Grid.Column="2">
+                                <Image Source="{SvgImage /Assets/replay.svg}" />
+                            </Button>
                         </Grid>
                     </Border>
                 </Grid>
