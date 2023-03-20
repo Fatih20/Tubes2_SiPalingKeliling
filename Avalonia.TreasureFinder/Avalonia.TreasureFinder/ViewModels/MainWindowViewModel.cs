@@ -24,8 +24,17 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        _inputBarIsOpen = this.WhenAnyValue(x => x.State).Select(condition => State == ApplicationState.FileNotLoaded).ToProperty(this, x => x.InputBarIsOpen);
         _inputBarIsHidden = this.WhenAnyValue(x => x.AllBarHidden).Select(condition => condition).ToProperty(this, x => x.InputBarIsHidden);
+        _inputBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item1 == ApplicationState.FileNotLoaded && !condition.Item2).ToProperty(this, x => x.InputBarIsOpen);
+        
+        _replayBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item1 == ApplicationState.PausingRecording && !condition.Item2).ToProperty(this, x => x.ReplayBarIsOpen);
+        _replayBarIsHidden = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item2 || condition.Item1 == ApplicationState.FileNotLoaded || condition.Item1 == ApplicationState.FileLoading || condition.Item1 == ApplicationState.FileLoaded || condition.Item1 == ApplicationState.CalculatingResults).ToProperty(this, x => x.ReplayBarIsHidden);
+        _replayBarIsDiscreet = this.WhenAnyValue(x => x.ReplayBarIsHidden, x => x.ReplayBarIsOpen, (o, h) => Tuple.Create(o, h)).Select(condition => !condition.Item1 && !condition.Item2).ToProperty(this, x => x.ReplayBarIsDiscreet);
+
+        _resultBarIsOpen = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition =>  !condition.Item2 && condition.Item1 == ApplicationState.PausingRecording && condition.Item1 == ApplicationState.ShowingResults ).ToProperty(this, x => x.ResultBarIsOpen);
+        _resultBarIsHidden = this.WhenAnyValue(x => x.State, x => x.AllBarHidden, (s, h) => Tuple.Create(s, h)).Select(condition => condition.Item2&& condition.Item1 == ApplicationState.FileNotLoaded && condition.Item1 == ApplicationState.FileLoading  && condition.Item1 == ApplicationState.FileLoaded  && condition.Item1 == ApplicationState.CalculatingResults ).ToProperty(this, x => x.ResultBarIsOpen);
+        _resultBarIsDiscreet = this.WhenAnyValue(x => x.ResultBarIsHidden, x => x.ResultBarIsOpen, (o, h) => Tuple.Create(o, h)).Select(condition => !condition.Item1 && !condition.Item2).ToProperty(this, x => x.ResultBarIsDiscreet);
+
     }
     
     private ApplicationState _state = ApplicationState.FileNotLoaded;
@@ -93,101 +102,40 @@ public class MainWindowViewModel : ViewModelBase
 
     public void ToggleAllBarHidden()
     {
-        Console.WriteLine("Toggling");
         AllBarHidden = !AllBarHidden;
-        // Console.WriteLine("The all bar condition");
-        // Console.WriteLine(AllBarHidden);
-        // Console.WriteLine("The rest of the bar condition");
-        // Console.WriteLine(InputBarIsHidden);
-        // Console.WriteLine(ReplayBarIsHidden);
-        // Console.WriteLine(ResultBarIsHidden);
-        // Console.WriteLine("The rest of the bar open condition");
-        // Console.WriteLine(InputBarIsOpen);
-        // Console.WriteLine(ReplayBarIsOpen);
-        // Console.WriteLine(ResultBarIsOpen);
-        
-        // // Change input bar status
-        // InputBarIsOpen = !AllBarHidden;
-        // InputBarIsHidden = AllBarHidden;
-        //
-        // // Change result bar status
-        // ResultBarIsHidden = AllBarHidden;
-        // ResultBarIsDiscreet = !AllBarHidden;
-        // ResultBarIsOpen = !AllBarHidden;
-        //
-        // // Change replay bar status
-        // ReplayBarIsHidden = AllBarHidden;
-        // ReplayBarIsDiscreet = !AllBarHidden;
-        // ReplayBarIsOpen = AllBarHidden;
-
-        Console.WriteLine("Toggled");
     }
     
+    // Input Bar State
     readonly ObservableAsPropertyHelper<bool> _inputBarIsOpen;
     readonly ObservableAsPropertyHelper<bool> _inputBarIsHidden;
 
     public bool InputBarIsOpen => _inputBarIsOpen.Value;
     public bool InputBarIsHidden => _inputBarIsHidden.Value;
+    
+    // Input Bar State
+    readonly ObservableAsPropertyHelper<bool> _resultBarIsOpen;
+    readonly ObservableAsPropertyHelper<bool> _resultBarIsHidden;
+    readonly ObservableAsPropertyHelper<bool> _resultBarIsDiscreet;
 
-    // public bool InputBarIsOpen
-    // {
-    //     get => State == ApplicationState.FileNotLoaded && !AllBarHidden;
-    //     private set
-    //     {
-    //     }
-    // }
-    
-    // public bool InputBarIsHidden
-    // {
-    //     get => AllBarHidden;
-    //     private set {}
-    // }
-    //
-    // Result Bar State
-    public bool ResultBarIsHidden
-    {
-        get => AllBarHidden || State == ApplicationState.FileNotLoaded || State == ApplicationState.FileLoading || State == ApplicationState.FileLoaded || State == ApplicationState.CalculatingResults;
-        private set {}
-    }
-    
-    public bool ResultBarIsDiscreet
-    {
-        get => !ResultBarIsHidden && !ResultBarIsOpen;
-        private set {}
-    }
-    
-    public bool ResultBarIsOpen
-    {
-        get => State == ApplicationState.PausingRecording || State == ApplicationState.ShowingResults && !AllBarHidden;
-        private set {}
-    }
+
+    public bool ResultBarIsOpen => _resultBarIsOpen.Value;
+    public bool ResultBarIsHidden => _resultBarIsHidden.Value;
+    public bool ResultBarIsDiscreet => _resultBarIsDiscreet.Value;
     
     // Replay Bar State
-    public bool ReplayBarIsHidden
-    {
-        get => AllBarHidden || State == ApplicationState.FileNotLoaded || State == ApplicationState.FileLoading || State == ApplicationState.FileLoaded || State == ApplicationState.CalculatingResults;
-        private set {}
-    }
-    
-    
-    public bool ReplayBarIsDiscreet
-    {
-        get => !ReplayBarIsHidden && !ReplayBarIsOpen;
-        private set {}
-    }
-    
-    public bool ReplayBarIsOpen
-    {
-        get => State == ApplicationState.PausingRecording && !AllBarHidden;
-        private set {}
-    }
+    readonly ObservableAsPropertyHelper<bool> _replayBarIsOpen;
+    readonly ObservableAsPropertyHelper<bool> _replayBarIsHidden;
+    readonly ObservableAsPropertyHelper<bool> _replayBarIsDiscreet;
+
+
+    public bool ReplayBarIsOpen => _replayBarIsOpen.Value;
+    public bool ReplayBarIsHidden => _replayBarIsHidden.Value;
+    public bool ReplayBarIsDiscreet => _replayBarIsDiscreet.Value;
 
     public void ChangeState()
     {
         State = ApplicationState.ShowingResults;
     }
-
-
 
     public event PropertyChangedEventHandler PropertyChanged;
 

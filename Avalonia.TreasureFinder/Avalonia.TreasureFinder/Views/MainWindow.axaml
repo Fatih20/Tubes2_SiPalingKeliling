@@ -154,7 +154,8 @@
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
-                            <Button Command="{Binding ToggleAllBarHidden}">fvdmfdkvmdlvkml</Button>
+                            <Button Command="{Binding ChangeState}">To show results</Button>
+                            <Button Command="{Binding ToggleAllBarHidden}">Toggle bar</Button>
 
                         </Grid>
                     </Border>
