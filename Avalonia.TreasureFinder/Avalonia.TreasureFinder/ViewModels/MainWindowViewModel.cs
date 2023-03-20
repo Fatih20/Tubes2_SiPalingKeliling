@@ -24,7 +24,7 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        _inputBarIsOpen = this.WhenAnyValue(x => x).Select(condition => condition.State == ApplicationState.FileNotLoaded).ToProperty(this, x => x.InputBarIsOpen);
+        _inputBarIsOpen = this.WhenAnyValue(x => x.State).Select(condition => State == ApplicationState.FileNotLoaded).ToProperty(this, x => x.InputBarIsOpen);
         _inputBarIsHidden = this.WhenAnyValue(x => x.AllBarHidden).Select(condition => condition).ToProperty(this, x => x.InputBarIsHidden);
     }
     
