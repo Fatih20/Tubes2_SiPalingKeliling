@@ -197,9 +197,9 @@ public class Graph {
             stopwatch.Stop();
             
             if(isTSP){
-                return new Solution(nodes, progressBFS, sequence, progressBFS.Count - 1, stopwatch, solution);
+                return new Solution(nodes, progressBFS, sequence, sequence.Count, stopwatch, solution);
             } else {
-                return new Solution(nodes, progressBFS, sequence, progressBFS.Count - 1, stopwatch, solution);
+                return new Solution(nodes, progressBFS, sequence, sequence.Count, stopwatch, solution);
             }
         }
     }
