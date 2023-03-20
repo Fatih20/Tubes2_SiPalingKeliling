@@ -147,11 +147,24 @@
                         Classes.open="{Binding InputBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
                         <Grid
-                            Width="600"
+                            Width="250"
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
-                            <Button>Input</Button>
+                            <TextBox
+                                Grid.Column="0"
+                                Width="150"
+                                MinHeight="0"
+                                Margin="10,0,10,0"
+                                VerticalAlignment="Stretch"
+                                Text="{Binding FilenameToLoad, Mode=TwoWay}"
+                                Watermark="Filename" />
+                            <Button
+                                Grid.Column="1"
+                                Margin="10,0,10,0"
+                                Command="{Binding LoadingFile}">
+                                Load
+                            </Button>
                         </Grid>
                     </Border>
                     <Border
@@ -168,7 +181,29 @@
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
-                            <Button>Search</Button>
+                            <StackPanel
+                                Grid.Column="0"
+                                MinHeight="0"
+                                VerticalAlignment="Stretch"
+                                Orientation="Horizontal">
+                                <RadioButton
+                                    Content="DFS"
+                                    GroupName="Search Mode Group"
+                                    IsChecked="{Binding IsDFS, Mode=TwoWay}" />
+                                <RadioButton
+                                    Content="BFS"
+                                    GroupName="Search Mode Group"
+                                    IsChecked="{Binding !IsDFS, Mode=TwoWay}"
+                                    IsThreeState="False" />
+                            </StackPanel>
+                            <StackPanel
+                                Grid.Column="1"
+                                MinHeight="0"
+                                VerticalAlignment="Stretch"
+                                Orientation="Vertical">
+                                <Button Command="{Binding Calculate}">Search</Button>
+                                <CheckBox IsChecked="{Binding IsTSP, Mode=TwoWay}">TSP</CheckBox>
+                            </StackPanel>
                         </Grid>
                     </Border>
                     <Border

@@ -182,7 +182,7 @@ public class MainWindowViewModel : ViewModelBase
         switch (State)
         {
             case ApplicationState.FileNotLoaded:
-                LoadingFile(FilenameToLoad);
+                LoadingFile();
                 break;
             case ApplicationState.FileLoading:
                 break;
@@ -218,13 +218,14 @@ public class MainWindowViewModel : ViewModelBase
         AllBarHidden = !AllBarHidden;
     }
     
-    public void LoadingFile(string file)
+    public void LoadingFile()
     {
         State = ApplicationState.FileLoading;
         ExceptionMessage = "";
+        Console.WriteLine(FilenameToLoad);
         try
         {
-            GraphRepresentation = new Graph(file);
+            GraphRepresentation = new Graph(FilenameToLoad);
             State = ApplicationState.FileLoaded;
             return;
         }
