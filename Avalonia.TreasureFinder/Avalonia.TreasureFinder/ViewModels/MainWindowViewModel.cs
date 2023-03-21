@@ -52,7 +52,7 @@ public class MainWindowViewModel : ViewModelBase
             .ToProperty(this, x => x.IsError);
     }
     
-    private ApplicationState _state = ApplicationState.ShowingResults;
+    private ApplicationState _state = ApplicationState.PlayingRecording;
 
     public ApplicationState State
     {
@@ -112,6 +112,21 @@ public class MainWindowViewModel : ViewModelBase
     {
         get => _isTSP;
         private set => this.RaiseAndSetIfChanged(ref _isTSP, value);
+    }
+
+    public void ChooseDFS()
+    {
+        IsDFS = true;
+    }
+    
+    public void ChooseBFS()
+    {
+        IsDFS = false;
+    }
+
+    public void ToggleTSP()
+    {
+        IsTSP = !IsTSP;
     }
 
     // Appearance concerned attributes
