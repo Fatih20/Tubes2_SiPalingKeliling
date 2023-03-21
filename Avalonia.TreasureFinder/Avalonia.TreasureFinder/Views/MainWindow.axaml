@@ -91,7 +91,12 @@
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
-                            <Button Background="Transparent" Command="{Binding ToggleAllBarHidden}">
+                            <Grid.Styles>
+                                <Style Selector="Button">
+                                    <Setter Property="Background" Value="Transparent" />
+                                </Style>
+                            </Grid.Styles>
+                            <Button Command="{Binding ToggleAllBarHidden}">
                                 <Panel>
                                     <Image IsVisible="{Binding AllBarHidden, Mode=TwoWay}" Source="{SvgImage /Assets/hidden.svg}" />
                                     <Image IsVisible="{Binding !AllBarHidden, Mode=TwoWay}" Source="{SvgImage /Assets/shown.svg}" />
@@ -256,6 +261,17 @@
                         Classes.hidden="{Binding ResultBarIsHidden, Mode=TwoWay}"
                         Classes.open="{Binding ResultBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
+                        <Border.Styles>
+                            <Style Selector="Border.tab-wrapper:pointerover">
+                                <Setter Property="Height" Value="70" />
+                            </Style>
+                            <Style Selector="Border:pointerover &gt; Grid">
+                                <Setter Property="Height" Value="50" />
+                            </Style>
+                            <Style Selector="Border.open">
+                                <Setter Property="Height" Value="100" />
+                            </Style>
+                        </Border.Styles>
                         <Grid
                             Width="210"
                             Classes="tab"
@@ -269,50 +285,97 @@
                                 <Style Selector="TextBlock.title">
                                     <Setter Property="FontSize" Value="18" />
                                     <Setter Property="FontWeight" Value="Bold" />
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                    <Setter Property="VerticalAlignment" Value="Top" />
+                                </Style>
+                                <Style Selector="TextBlock.value">
+                                    <Setter Property="HorizontalAlignment" Value="Center" />
+                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                </Style>
+                                <Style Selector="TextBlock">
+                                    <Setter Property="MinHeight" Value="0" />
+                                </Style>
+                                <Style Selector="Grid.value-container">
+                                    <Setter Property="MinHeight" Value="0" />
+                                    <Setter Property="Margin" Value="10, 0, 10, 0" />
                                 </Style>
                             </Grid.Styles>
                             <Grid
                                 Grid.Column="0"
-                                HorizontalAlignment="Center"
+                                VerticalAlignment="Stretch"
+                                Classes="value-container"
                                 ColumnDefinitions="Auto"
-                                RowDefinitions="Auto, Auto">
+                                RowDefinitions="*, *">
                                 <TextBlock
                                     Grid.Row="0"
-                                    MinHeight="0"
-                                    HorizontalAlignment="Center"
+                                    Grid.Column="0"
                                     Classes="title"
                                     Text="Steps" />
                                 <TextBlock
                                     Grid.Row="1"
-                                    MinHeight="0"
-                                    HorizontalAlignment="Center"
+                                    Grid.Column="0"
+                                    Classes="value"
                                     Text="0" />
                             </Grid>
-                            <StackPanel
+                            <Grid
                                 Grid.Column="1"
-                                MinHeight="0"
-                                HorizontalAlignment="Center"
-                                Orientation="Vertical">
+                                VerticalAlignment="Stretch"
+                                Classes="value-container"
+                                ColumnDefinitions="Auto"
+                                RowDefinitions="*, *">
                                 <TextBlock
-                                    MinHeight="0"
-                                    HorizontalAlignment="Center"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
                                     Classes="title"
                                     Text="Nodes" />
                                 <TextBlock
-                                    MinHeight="0"
-                                    HorizontalAlignment="Center"
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Classes="value"
                                     Text="0" />
-                            </StackPanel>
-                            <StackPanel
+                            </Grid>
+                            <Grid
                                 Grid.Column="2"
-                                HorizontalAlignment="Center"
-                                Orientation="Vertical">
+                                VerticalAlignment="Stretch"
+                                Classes="value-container"
+                                ColumnDefinitions="Auto"
+                                RowDefinitions="*, *">
                                 <TextBlock
-                                    HorizontalAlignment="Center"
+                                    Grid.Row="0"
+                                    Grid.Column="0"
                                     Classes="title"
                                     Text="Time" />
-                                <TextBlock HorizontalAlignment="Center" Text="0" />
-                            </StackPanel>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    Grid.Column="0"
+                                    Classes="value"
+                                    Text="0" />
+                            </Grid>
+                            <!--  <StackPanel  -->
+                            <!--  Grid.Column="1"  -->
+                            <!--  MinHeight="0"  -->
+                            <!--  HorizontalAlignment="Center"  -->
+                            <!--  Orientation="Vertical">  -->
+                            <!--  <TextBlock  -->
+                            <!--  MinHeight="0"  -->
+                            <!--  HorizontalAlignment="Center"  -->
+                            <!--  Classes="title"  -->
+                            <!--  Text="Nodes" />  -->
+                            <!--  <TextBlock  -->
+                            <!--  MinHeight="0"  -->
+                            <!--  HorizontalAlignment="Center"  -->
+                            <!--  Text="0" />  -->
+                            <!-- </StackPanel> -->
+                            <!--  <StackPanel  -->
+                            <!--  Grid.Column="2"  -->
+                            <!--  HorizontalAlignment="Center"  -->
+                            <!--  Orientation="Vertical">  -->
+                            <!--  <TextBlock  -->
+                            <!--  HorizontalAlignment="Center"  -->
+                            <!--  Classes="title"  -->
+                            <!--  Text="Time" />  -->
+                            <!--     <TextBlock HorizontalAlignment="Center" Text="0" /> -->
+                            <!-- </StackPanel> -->
 
 
 
@@ -352,8 +415,8 @@
                             </Grid.Styles>
                             <Button Grid.Column="0" Command="{Binding OnPlayPauseClick}">
                                 <Panel>
-                                    <Image IsVisible="{Binding IsPausingRecording, Mode=TwoWay}" Source="{SvgImage /Assets/pause.svg}" />
-                                    <Image IsVisible="{Binding !IsPausingRecording, Mode=TwoWay}" Source="{SvgImage /Assets/play.svg}" />
+                                    <Image IsVisible="{Binding !IsPausingRecording, Mode=TwoWay}" Source="{SvgImage /Assets/pause.svg}" />
+                                    <Image IsVisible="{Binding IsPausingRecording, Mode=TwoWay}" Source="{SvgImage /Assets/play.svg}" />
                                 </Panel>
                             </Button>
                             <Button Grid.Column="1" Command="{Binding StopPlayingRecording}">
