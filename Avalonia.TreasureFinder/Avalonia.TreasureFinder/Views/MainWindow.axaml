@@ -120,7 +120,7 @@
                             <Setter Property="Height" Value="100" />
                         </Style>
                         <Style Selector="Border:pointerover &gt; Grid">
-                            <Setter Property="Height" Value="40" />
+                            <Setter Property="Height" Value="80" />
                         </Style>
                         <Style Selector="Border &gt; Grid">
                             <Setter Property="Height" Value="0" />
@@ -177,39 +177,50 @@
                         Classes.open="{Binding SearchBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
                         <Grid
-                            Width="600"
+                            Width="210"
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto, Auto, Auto"
-                            RowDefinitions="*">
+                            RowDefinitions="*, *">
                             <Grid.Styles>
                                 <Style Selector="Button">
                                     <Setter Property="Margin" Value="10, 0, 10, 0" />
+                                    <!-- <Setter Property="Padding" Value="10, 0, 10, 0" /> -->
                                 </Style>
                                 <Style Selector="Button.selected">
                                     <Setter Property="Background" Value="#0A84FF" />
                                 </Style>
                             </Grid.Styles>
                             <Button
+                                Grid.Row="0"
                                 Grid.Column="0"
+                                MinHeight="0"
                                 Classes.selected="{Binding IsDFS, Mode=TwoWay}"
                                 Command="{Binding ChooseDFS}">
                                 DFS
                             </Button>
                             <Button
+                                Grid.Row="0"
                                 Grid.Column="1"
+                                MinHeight="0"
                                 Classes.selected="{Binding !IsDFS, Mode=TwoWay}"
                                 Command="{Binding ChooseBFS}">
                                 BFS
                             </Button>
                             <Button
+                                Grid.Row="0"
                                 Grid.Column="2"
+                                MinHeight="0"
                                 Classes.selected="{Binding IsTSP, Mode=TwoWay}"
                                 Command="{Binding ToggleTSP}">
                                 TSP
                             </Button>
                             <Button
-                                Grid.Column="3"
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                Grid.ColumnSpan="3"
                                 MinHeight="0"
+                                HorizontalAlignment="Stretch"
+                                HorizontalContentAlignment="Center"
                                 Command="{Binding Calculate}">
                                 Search
                             </Button>
@@ -240,25 +251,37 @@
                                     <Setter Property="FontWeight" Value="Bold" />
                                 </Style>
                             </Grid.Styles>
-                            <StackPanel
+                            <Grid
                                 Grid.Column="0"
                                 HorizontalAlignment="Center"
-                                Orientation="Vertical">
+                                ColumnDefinitions="Auto"
+                                RowDefinitions="Auto, Auto">
                                 <TextBlock
+                                    Grid.Row="0"
+                                    MinHeight="0"
                                     HorizontalAlignment="Center"
                                     Classes="title"
                                     Text="Steps" />
-                                <TextBlock HorizontalAlignment="Center" Text="0" />
-                            </StackPanel>
+                                <TextBlock
+                                    Grid.Row="1"
+                                    MinHeight="0"
+                                    HorizontalAlignment="Center"
+                                    Text="0" />
+                            </Grid>
                             <StackPanel
                                 Grid.Column="1"
+                                MinHeight="0"
                                 HorizontalAlignment="Center"
                                 Orientation="Vertical">
                                 <TextBlock
+                                    MinHeight="0"
                                     HorizontalAlignment="Center"
                                     Classes="title"
                                     Text="Nodes" />
-                                <TextBlock HorizontalAlignment="Center" Text="0" />
+                                <TextBlock
+                                    MinHeight="0"
+                                    HorizontalAlignment="Center"
+                                    Text="0" />
                             </StackPanel>
                             <StackPanel
                                 Grid.Column="2"
