@@ -269,6 +269,19 @@ public class MainWindowViewModel : ViewModelBase
         State = ApplicationState.FileLoaded;
     }
 
+    public void OnPlayPauseClick()
+    {
+        if (State == ApplicationState.PausingRecording)
+        {
+            State = ApplicationState.PlayingRecording;
+        }
+        else if (State == ApplicationState.PlayingRecording)
+        {
+            State = ApplicationState.PausingRecording;
+            
+        }
+    }
+
     public void PlayRecording() { State = ApplicationState.PlayingRecording; }
 
     public void PauseRecording() { State = ApplicationState.PausingRecording; }

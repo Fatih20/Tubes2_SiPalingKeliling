@@ -69,7 +69,7 @@
                         </Style>
                         <!--  Behaviour of hovering style  -->
                         <Style Selector="Border:pointerover">
-                            <Setter Property="Height" Value="40" />
+                            <Setter Property="Height" Value="60" />
                         </Style>
                         <Style Selector="Border:pointerover &gt; Grid">
                             <Setter Property="Height" Value="40" />
@@ -87,7 +87,7 @@
                         Classes="tab-wrapper"
                         CornerRadius="7">
                         <Grid
-                            Width="50"
+                            Width="45"
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto"
                             RowDefinitions="*">
@@ -117,18 +117,16 @@
                         </Style>
                         <!--  Behaviour of hovering style  -->
                         <Style Selector="Border.tab-wrapper:pointerover">
-                            <Setter Property="Height" Value="100" />
+                            <!-- <Setter Property="Height" Value="100" /> -->
                         </Style>
                         <Style Selector="Border:pointerover &gt; Grid">
-                            <Setter Property="Height" Value="80" />
+                            <!-- <Setter Property="Height" Value="80" /> -->
                         </Style>
                         <Style Selector="Border &gt; Grid">
                             <Setter Property="Height" Value="0" />
                         </Style>
                         <!--  Differentiate between hidden and open  -->
-                        <Style Selector="Border.open">
-                            <Setter Property="Height" Value="100" />
-                        </Style>
+
                         <Style Selector="Border.hidden">
                             <Setter Property="IsVisible" Value="False" />
                         </Style>
@@ -146,6 +144,17 @@
                         Classes.hidden="{Binding InputBarIsHidden, Mode=TwoWay}"
                         Classes.open="{Binding InputBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
+                        <Border.Styles>
+                            <Style Selector="Border.tab-wrapper:pointerover">
+                                <Setter Property="Height" Value="50" />
+                            </Style>
+                            <Style Selector="Border:pointerover &gt; Grid">
+                                <Setter Property="Height" Value="30" />
+                            </Style>
+                            <Style Selector="Border.open">
+                                <Setter Property="Height" Value="50" />
+                            </Style>
+                        </Border.Styles>
                         <Grid
                             Width="250"
                             Classes="tab"
@@ -176,8 +185,19 @@
                         Classes.hidden="{Binding SearchBarIsHidden, Mode=TwoWay}"
                         Classes.open="{Binding SearchBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
+                        <Border.Styles>
+                            <Style Selector="Border.tab-wrapper:pointerover">
+                                <Setter Property="Height" Value="100" />
+                            </Style>
+                            <Style Selector="Border:pointerover &gt; Grid">
+                                <Setter Property="Height" Value="80" />
+                            </Style>
+                            <Style Selector="Border.open">
+                                <Setter Property="Height" Value="100" />
+                            </Style>
+                        </Border.Styles>
                         <Grid
-                            Width="210"
+                            Width="195"
                             Classes="tab"
                             ColumnDefinitions="Auto, Auto, Auto, Auto"
                             RowDefinitions="*, *">
@@ -308,6 +328,17 @@
                         Classes.hidden="{Binding ReplayBarIsHidden, Mode=TwoWay}"
                         Classes.open="{Binding ReplayBarIsOpen, Mode=TwoWay}"
                         CornerRadius="7">
+                        <Border.Styles>
+                            <Style Selector="Border.tab-wrapper:pointerover">
+                                <Setter Property="Height" Value="60" />
+                            </Style>
+                            <Style Selector="Border:pointerover &gt; Grid">
+                                <Setter Property="Height" Value="40" />
+                            </Style>
+                            <Style Selector="Border.open">
+                                <Setter Property="Height" Value="60" />
+                            </Style>
+                        </Border.Styles>
                         <Grid
                             Width="150"
                             Classes="tab"
@@ -319,16 +350,16 @@
                                     <Setter Property="Background" Value="Transparent" />
                                 </Style>
                             </Grid.Styles>
-                            <Button Grid.Column="0">
+                            <Button Grid.Column="0" Command="{Binding OnPlayPauseClick}">
                                 <Panel>
                                     <Image IsVisible="{Binding IsPausingRecording, Mode=TwoWay}" Source="{SvgImage /Assets/pause.svg}" />
                                     <Image IsVisible="{Binding !IsPausingRecording, Mode=TwoWay}" Source="{SvgImage /Assets/play.svg}" />
                                 </Panel>
                             </Button>
-                            <Button Grid.Column="1">
+                            <Button Grid.Column="1" Command="{Binding StopPlayingRecording}">
                                 <Image Source="{SvgImage /Assets/stop.svg}" />
                             </Button>
-                            <Button Grid.Column="2">
+                            <Button Grid.Column="2" Command="{Binding ReplayingRecording}">
                                 <Image Source="{SvgImage /Assets/replay.svg}" />
                             </Button>
                         </Grid>
