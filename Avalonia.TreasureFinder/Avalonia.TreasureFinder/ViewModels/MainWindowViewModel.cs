@@ -4,7 +4,9 @@ using System;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
+using System.Runtime.CompilerServices;
 using Avalonia.TreasureFinder.Models;
+using JetBrains.Annotations;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using ReactiveUI;
 
@@ -50,9 +52,12 @@ public class MainWindowViewModel : ViewModelBase
         // Error showing
         _isError = this.WhenAnyValue(x => x.ExceptionMessage).Select(message => message != null)
             .ToProperty(this, x => x.IsError);
+        
+        // Center content
+        CenterContent = new ExceptionMessageViewModel(ExceptionMessage);
     }
     
-    private ApplicationState _state = ApplicationState.PlayingRecording;
+    private ApplicationState _state = ApplicationState.FileNotLoaded;
 
     public ApplicationState State
     {
@@ -61,7 +66,7 @@ public class MainWindowViewModel : ViewModelBase
     }
     
     // File-loading concerned attributes
-    private string _exceptionMessage = "";
+    private string _exceptionMessage = "No file loaded";
     private string _filenameToLoad = "";
 
     public string FilenameToLoad
@@ -73,9 +78,16 @@ public class MainWindowViewModel : ViewModelBase
     public string ExceptionMessage
     {
         get => _exceptionMessage;
-        private set => this.RaiseAndSetIfChanged(ref _exceptionMessage, value);
+        private set {
+        this.RaiseAndSetIfChanged(ref _exceptionMessage, value);
+        this.OnPropertyChanged(nameof(ExceptionMessage));
+
+    }
     }
     
+    // Background element
+    public ViewModelBase CenterContent { get; set; } 
+
     // Solution concered attributes
     
     private Graph? _graphRepresentation;
@@ -140,7 +152,6 @@ public class MainWindowViewModel : ViewModelBase
         get => _allBarHidden;
         set {
         this.RaiseAndSetIfChanged(ref _allBarHidden, value);
-        // PropertyChanged(nameof(_allBarHidden));
 
         }
     }
@@ -189,6 +200,12 @@ public class MainWindowViewModel : ViewModelBase
 
     public event PropertyChangedEventHandler PropertyChanged;
 
+    [NotifyPropertyChangedInvocator]
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+    }
+
 
 
     public void ButtonClicked()
@@ -235,7 +252,7 @@ public class MainWindowViewModel : ViewModelBase
     public void LoadingFile()
     {
         State = ApplicationState.FileLoading;
-        ExceptionMessage = "";
+        ExceptionMessage = "File is loading";
         Console.WriteLine(FilenameToLoad);
         try
         {
@@ -245,13 +262,14 @@ public class MainWindowViewModel : ViewModelBase
         }
         catch (FileNotFoundException)
         {
-            ExceptionMessage = "File tidak ditemukan!";
+            ExceptionMessage = "File not found!";
         }
         catch (Exception e)
         {
-            ExceptionMessage = e.GetType() == typeof(System.IO.DirectoryNotFoundException) ? "Directory file tidak ditemukan!" : e.Message;
+            ExceptionMessage = e.GetType() == typeof(System.IO.DirectoryNotFoundException) ? "File's directory not found!" : e.Message;
         }
         
+        Console.WriteLine(ExceptionMessage);
         State = ApplicationState.FileNotLoaded;
     }
 
