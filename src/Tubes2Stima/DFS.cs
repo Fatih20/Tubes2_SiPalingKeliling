@@ -180,6 +180,9 @@ namespace Tubes2Stima
                             track.Clear();
                             return;
                         }
+                    } else
+                    {
+                        isVisited[x, y] = true;
                     }
 
                     // DFS on L-U-R-D pattern
