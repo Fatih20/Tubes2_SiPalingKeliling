@@ -21,11 +21,6 @@ namespace Tubes2Stima
             radioButton1.Checked = true;
         }
 
-        private void Form1_Resize(object sender, EventArgs e)
-        {
-            route.Location = new Point((int)((this.Width - route.Width) / 2), label7.Location.Y + 25);
-        }
-
         private void label2_Click(object sender, EventArgs e)
         {
 
@@ -35,156 +30,256 @@ namespace Tubes2Stima
         {
             try
             {
+                button1.Enabled = false;
+                button2.Enabled = false;
+                radioButton1.Enabled = false;
+                radioButton2.Enabled = false;
+                checkBox1.Enabled = false;
+                trackBar1.Enabled = false;
+                textBox1.Enabled = false;
+
                 this.graph = new Graph(textBox1.Text);
+                dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+                dataGridView1.ColumnHeadersVisible = false;
+                dataGridView1.RowHeadersVisible = false;
+                dataGridView1.AllowUserToAddRows = false;
+                dataGridView1.DataSource = Helper.DataTableFromTextFile(textBox1.Text);
+                dataGridView1.CurrentCell = dataGridView1[0, 0];
+                dataGridView1.CurrentCell.Selected = false;
+
+                for (int i = 0; i < dataGridView1.Columns.Count; i++)
+                {
+                    for (int j = 0; j < dataGridView1.Rows.Count; j++)
+                    {
+                        if (dataGridView1[i, j].Value.ToString() == "X")
+                        {
+                            dataGridView1[i, j].Value = "";
+                            dataGridView1[i, j].Style.BackColor = Color.Black;
+                        }
+                        else if (dataGridView1[i, j].Value.ToString() == "R")
+                        {
+                            dataGridView1[i, j].Value = "";
+                        }
+                        else if (dataGridView1[i, j].Value.ToString() == "K")
+                        {
+                            dataGridView1[i, j].Value = "Start";
+                        }
+                        else
+                        {
+                            dataGridView1[i, j].Value = "Treasure";
+                        }
+                    }
+                }
+
+                dataGridView1.ScrollBars = ScrollBars.None;
+                dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
+                dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
+                dataGridView1.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
+                int tinggi = dataGridView1.Height / dataGridView1.Rows.Count;
+                foreach (DataGridViewRow row in dataGridView1.Rows)
+                {
+                    row.Height = tinggi;
+                }
+
+                button1.Enabled = true;
+                button2.Enabled = true;
+                radioButton1.Enabled = true;
+                radioButton2.Enabled = true;
+                checkBox1.Enabled = true;
+                trackBar1.Enabled = true;
+                textBox1.Enabled = true;
             }
             catch (FileNotFoundException)
             {
-                MessageBox.Show("File tidak ditemukan!");
+                MessageBox.Show("File tidak ditemukan!", "Error");
+                button1.Enabled = true;
+                button2.Enabled = true;
+                radioButton1.Enabled = true;
+                radioButton2.Enabled = true;
+                checkBox1.Enabled = true;
+                trackBar1.Enabled = true;
+                textBox1.Enabled = true;
             }
             catch (Exception err)
             {
                 if (err.GetType() == typeof(DirectoryNotFoundException))
                 {
-                    MessageBox.Show("Directory file tidak ditemukan!");
+                    MessageBox.Show("Directory file tidak ditemukan!", "Error");
+                    button1.Enabled = true;
+                    button2.Enabled = true;
+                    radioButton1.Enabled = true;
+                    radioButton2.Enabled = true;
+                    checkBox1.Enabled = true;
+                    trackBar1.Enabled = true;
+                    textBox1.Enabled = true;
                 }
                 else
                 {
-                    MessageBox.Show(err.Message);
+                    MessageBox.Show(err.Message, "Error");
+                    button1.Enabled = true;
+                    button2.Enabled = true;
+                    radioButton1.Enabled = true;
+                    radioButton2.Enabled = true;
+                    checkBox1.Enabled = true;
+                    trackBar1.Enabled = true;
+                    textBox1.Enabled = true;
                 }
-            }
-            dataGridView1.ColumnHeadersVisible = false;
-            dataGridView1.RowHeadersVisible = false;
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.DataSource = Helper.DataTableFromTextFile(textBox1.Text);
-            dataGridView1.CurrentCell = dataGridView1[0, 0];
-            dataGridView1.CurrentCell.Selected = false;
-
-            for (int i = 0; i < dataGridView1.Columns.Count; i++)
-            {
-                for (int j = 0; j < dataGridView1.Rows.Count; j++)
-                {
-                    if (dataGridView1[i, j].Value.ToString() == "X")
-                    {
-                        dataGridView1[i, j].Value = "";
-                        dataGridView1[i, j].Style.BackColor = Color.Black;
-                    }
-                    else if (dataGridView1[i, j].Value.ToString() == "R")
-                    {
-                        dataGridView1[i, j].Value = "";
-                    }
-                    else if (dataGridView1[i, j].Value.ToString() == "K")
-                    {
-                        dataGridView1[i, j].Value = "Start";
-                    }
-                    else
-                    {
-                        dataGridView1[i, j].Value = "Treasure";
-                    }
-                }
-            }
-
-            dataGridView1.ScrollBars = ScrollBars.None;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
-            dataGridView1.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
-            int tinggi = dataGridView1.Height / dataGridView1.Rows.Count;
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                row.Height = tinggi;
             }
         }
 
         private void button2_Click(object sender, EventArgs e)
         {
-            // Reset Color
-            for (int i = 0; i < dataGridView1.Columns.Count; i++)
+            try
             {
-                for (int j = 0; j < dataGridView1.Rows.Count; j++)
+                button1.Enabled = false;
+                button2.Enabled = false;
+                radioButton1.Enabled = false;
+                radioButton2.Enabled = false;
+                checkBox1.Enabled = false;
+                trackBar1.Enabled = false;
+                textBox1.Enabled = false;
+
+                // Reset Color
+                for (int i = 0; i < dataGridView1.Columns.Count; i++)
                 {
-                    if (dataGridView1[i, j].Style.BackColor != Color.Black)
+                    for (int j = 0; j < dataGridView1.Rows.Count; j++)
                     {
-                        dataGridView1[i, j].Style.BackColor = Color.White;
+                        if (dataGridView1[i, j].Style.BackColor != Color.Black)
+                        {
+                            dataGridView1[i, j].Style.BackColor = Color.White;
+                        }
                     }
                 }
-            }
 
-            Graph problem = new Graph(this.graph);
-            Solution solution = problem.Solve(radioButton2.Checked, checkBox1.Checked);
+                Graph problem = new Graph(this.graph);
+                Solution solution = problem.Solve(radioButton2.Checked, checkBox1.Checked);
 
-            // Route
-            route.Text = solution.getRoute();
-            route.Location = new Point((int)((this.Width - route.Width) / 2), label7.Location.Y + 25);
-
-            // Nodes
-            nodes.Text = solution.getNodes().ToString();
-
-            // Steps
-            steps.Text = solution.getSteps().ToString();
-
-            // Execution Time
-            executionTime.Text = solution.getExecutionTime().ElapsedMilliseconds.ToString() + " ms";
-
-            int[,] countVisit = new int[dataGridView1.ColumnCount, dataGridView1.RowCount];
-            for (int i = 0; i < dataGridView1.ColumnCount; i++)
-            {
-                for (int j = 0; j < dataGridView1.RowCount; j++)
+                // Route
+                route.Text = solution.getRoute();
+                route.Location = new Point((int)((this.Width - route.Width) / 2), label7.Location.Y + 30);
+                if (route.Text.Length > this.Width)
                 {
-                    countVisit[i, j] = 0;
+                    route.Font = new Font("Segoe UI", 5F, FontStyle.Bold);
                 }
-            }
-
-            // Visualize Progress
-            List<Tuple<int, int, string>> progress = solution.getProgress();
-            for (int i = 0; i < progress.Count; i++)
-            {
-                int x = progress.ElementAt(i).Item1;
-                int y = progress.ElementAt(i).Item2;
-                if (progress.ElementAt(i).Item3 == "RED")
+                else if (route.Text.Length > this.Width / 2)
                 {
-                    dataGridView1[y, x].Style.BackColor = Color.Red;
+                    route.Font = new Font("Segoe UI", 6F, FontStyle.Bold);
+                }
+                else if (route.Text.Length > this.Width / 4)
+                {
+                    route.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+                }
+                else if (route.Text.Length > this.Width / 8)
+                {
+                    route.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
                 }
                 else
                 {
-                    dataGridView1[y, x].Style.BackColor = Color.FromArgb(99, 230, 226);
+                    route.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
                 }
-                Thread.Sleep(trackBar1.Value);
-                Application.DoEvents();
-                if (i == progress.Count - 1)
+
+                // Nodes
+                nodes.Text = solution.getNodes().ToString();
+
+                // Steps
+                steps.Text = solution.getSteps().ToString();
+
+                // Execution Time
+                executionTime.Text = solution.getExecutionTime().ElapsedMilliseconds.ToString() + " ms";
+
+                int[,] countVisit = new int[dataGridView1.ColumnCount, dataGridView1.RowCount];
+                for (int i = 0; i < dataGridView1.ColumnCount; i++)
                 {
+                    for (int j = 0; j < dataGridView1.RowCount; j++)
+                    {
+                        countVisit[i, j] = 0;
+                    }
+                }
+
+                // Visualize Progress
+                List<Tuple<int, int, string>> progress = solution.getProgress();
+                for (int i = 0; i < progress.Count; i++)
+                {
+                    int x = progress.ElementAt(i).Item1;
+                    int y = progress.ElementAt(i).Item2;
+                    if (progress.ElementAt(i).Item3 == "RED")
+                    {
+                        dataGridView1[y, x].Style.BackColor = Color.Red;
+                    }
+                    else
+                    {
+                        dataGridView1[y, x].Style.BackColor = Color.FromArgb(99, 230, 226);
+                    }
                     Thread.Sleep(trackBar1.Value);
-                }
-                Application.DoEvents();
-
-                dataGridView1[y, x].Style.BackColor = Color.FromArgb(255 - (30 * countVisit[y, x]), 214 - (30 * countVisit[y, x]), 10);
-
-                countVisit[y, x]++;
-            }
-
-            // Reset Color
-            for (int i = 0; i < dataGridView1.Columns.Count; i++)
-            {
-                for (int j = 0; j < dataGridView1.Rows.Count; j++)
-                {
-                    if (dataGridView1[i, j].Style.BackColor != Color.Black)
+                    Application.DoEvents();
+                    if (i == progress.Count - 1)
                     {
-                        dataGridView1[i, j].Style.BackColor = Color.White;
+                        Thread.Sleep(trackBar1.Value);
+                    }
+                    Application.DoEvents();
+
+                    dataGridView1[y, x].Style.BackColor = Color.FromArgb(255 - (30 * countVisit[y, x]), 214 - (30 * countVisit[y, x]), 10);
+
+                    countVisit[y, x]++;
+                }
+
+                // Reset Color
+                for (int i = 0; i < dataGridView1.Columns.Count; i++)
+                {
+                    for (int j = 0; j < dataGridView1.Rows.Count; j++)
+                    {
+                        if (dataGridView1[i, j].Style.BackColor != Color.Black)
+                        {
+                            dataGridView1[i, j].Style.BackColor = Color.White;
+                        }
                     }
                 }
-            }
 
-            // Change Color
-            char[,] solutionPath = solution.getSolutionMap();
+                // Change Color
+                char[,] solutionPath = solution.getSolutionMap();
 
-            for (int i = 0; i < solutionPath.GetLength(0); i++)
-            {
-                for (int j = 0; j < solutionPath.GetLength(1); j++)
+                for (int i = 0; i < solutionPath.GetLength(0); i++)
                 {
-                    if (solutionPath[i, j] != 'X')
+                    for (int j = 0; j < solutionPath.GetLength(1); j++)
                     {
-                        dataGridView1[j, i].Style.BackColor = Color.GreenYellow;
+                        if (solutionPath[i, j] != 'X')
+                        {
+                            dataGridView1[j, i].Style.BackColor = Color.FromArgb(48, 209, 88);
+                        }
                     }
                 }
+
+                button1.Enabled = true;
+                button2.Enabled = true;
+                radioButton1.Enabled = true;
+                radioButton2.Enabled = true;
+                checkBox1.Enabled = true;
+                trackBar1.Enabled = true;
+                textBox1.Enabled = true;
             }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("Silahkan isi file peta terlebih dahulu!", "Error");
+                button1.Enabled = true;
+                button2.Enabled = true;
+                radioButton1.Enabled = true;
+                radioButton2.Enabled = true;
+                checkBox1.Enabled = true;
+                trackBar1.Enabled = true;
+                textBox1.Enabled = true;
+            }
+            catch (Exception err)
+            {
+                MessageBox.Show(err.Message, "Error");
+                button1.Enabled = true;
+                button2.Enabled = true;
+                radioButton1.Enabled = true;
+                radioButton2.Enabled = true;
+                checkBox1.Enabled = true;
+                trackBar1.Enabled = true;
+                textBox1.Enabled = true;
+            }
+
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)

@@ -53,6 +53,8 @@
             executionTime = new Label();
             panel3 = new Panel();
             panel4 = new Panel();
+            label2 = new Label();
+            label3 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
@@ -150,6 +152,8 @@
             // 
             textBox1.Anchor = AnchorStyles.None;
             textBox1.BackColor = Color.FromArgb(28, 28, 30);
+            textBox1.BorderStyle = BorderStyle.None;
+            textBox1.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             textBox1.ForeColor = SystemColors.ButtonHighlight;
             textBox1.Location = new Point(15, 17);
             textBox1.Margin = new Padding(0);
@@ -319,7 +323,7 @@
             nodes.AutoSize = true;
             nodes.BackColor = Color.FromArgb(58, 58, 60);
             nodes.ForeColor = Color.White;
-            nodes.Location = new Point(label6.Location.X, label6.Location.Y + 20);
+            nodes.Location = new Point(label6.Location.X + 10, label6.Location.Y + 20);
             // 
             // steps
             // 
@@ -327,16 +331,16 @@
             steps.AutoSize = true;
             steps.BackColor = Color.FromArgb(58, 58, 60);
             steps.ForeColor = Color.White;
-            steps.Location = new Point(label8.Location.X, label8.Location.Y + 20);
+            steps.Location = new Point(label8.Location.X + 10, label8.Location.Y + 20);
             // 
             // route
             // 
             route.Anchor = AnchorStyles.None;
             route.AutoSize = true;
             route.BackColor = Color.FromArgb(58, 58, 60);
-            route.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            route.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             route.ForeColor = Color.White;
-            route.Location = new Point(label7.Location.X + 55, label7.Location.Y);
+            route.MaximumSize = new Size(1200, 0);
             // 
             // executionTime
             // 
@@ -344,12 +348,14 @@
             executionTime.AutoSize = true;
             executionTime.BackColor = Color.FromArgb(58, 58, 60);
             executionTime.ForeColor = Color.White;
-            executionTime.Location = new Point(label9.Location.X, label9.Location.Y + 20);
+            executionTime.Location = new Point(label9.Location.X + 2, label9.Location.Y + 20);
             // 
             // panel3
             // 
             panel3.Anchor = AnchorStyles.None;
             panel3.BackColor = Color.FromArgb(58, 58, 60);
+            panel3.Controls.Add(label3);
+            panel3.Controls.Add(label2);
             panel3.Controls.Add(label11);
             panel3.Controls.Add(trackBar1);
             panel3.Location = new Point(972, 99);
@@ -365,6 +371,28 @@
             panel4.Name = "panel4";
             panel4.Size = new Size(1276, 115);
             panel4.TabIndex = 26;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label2.ForeColor = SystemColors.ButtonHighlight;
+            label2.Location = new Point(45, 89);
+            label2.Name = "label2";
+            label2.Size = new Size(61, 20);
+            label2.TabIndex = 19;
+            label2.Text = "250 ms";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label3.ForeColor = SystemColors.ButtonHighlight;
+            label3.Location = new Point(231, 89);
+            label3.Name = "label3";
+            label3.Size = new Size(70, 20);
+            label3.TabIndex = 20;
+            label3.Text = "2000 ms";
             // 
             // TreasureHuntSolver
             // 
@@ -427,5 +455,7 @@
         private Label executionTime;
         private Panel panel3;
         private Panel panel4;
+        private Label label3;
+        private Label label2;
     }
 }
