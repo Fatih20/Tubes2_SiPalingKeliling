@@ -4,15 +4,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="using:Avalonia.TreasureFinder.ViewModels"
+    xmlns:vm="using:Avalonia.TreasureFinder.ViewModels"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
 
-    <UserControl.DataContext>
-        <local:ExceptionMessageViewModel />
-    </UserControl.DataContext>
+    <Design.DataContext>
+        <!--
+            This only sets the DataContext for the previewer in an IDE,
+            to set the actual DataContext for runtime, set the DataContext property in code (look at App.axaml.cs)
+        -->
+        <vm:ExceptionMessageViewModel />
+    </Design.DataContext>
     <StackPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
         <TextBlock Text="{Binding ExceptionMessage}" />
+        <Button Command="{Binding OnButtonClick}">Test button</Button>
+
     </StackPanel>
 </UserControl>

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
 using System.Runtime.CompilerServices;
+using System.Threading;
 using Avalonia.TreasureFinder.Models;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -54,7 +55,9 @@ public class MainWindowViewModel : ViewModelBase
             .ToProperty(this, x => x.IsError);
         
         // Center content
-        CenterContent = new ExceptionMessageViewModel(ExceptionMessage);
+        _centerContent = new ExceptionMessageViewModel();
+
+        ExceptionMessage = "No file loaded";
     }
     
     private ApplicationState _state = ApplicationState.FileNotLoaded;
@@ -80,13 +83,21 @@ public class MainWindowViewModel : ViewModelBase
         get => _exceptionMessage;
         private set {
         this.RaiseAndSetIfChanged(ref _exceptionMessage, value);
-        this.OnPropertyChanged(nameof(ExceptionMessage));
+        this.CenterContent.ExceptionMessage = value;
+        // this.OnPropertyChanged(nameof(ExceptionMessage));
 
-    }
+        }
     }
     
     // Background element
-    public ViewModelBase CenterContent { get; set; } 
+
+    private ExceptionMessageViewModel _centerContent;
+
+    public ExceptionMessageViewModel CenterContent
+    {
+        get => _centerContent;
+        set => this.RaiseAndSetIfChanged(ref _centerContent, value);
+    }
 
     // Solution concered attributes
     
