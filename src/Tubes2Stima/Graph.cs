@@ -23,6 +23,21 @@ namespace Tubes2Stima
             this.N = this.map.GetLength(1);
         }
 
+        public Graph(Graph other)
+        {
+            this.map = new char[other.M,other.N];
+            for(int i = 0; i < other.M; i++)
+            {
+                for(int j = 0; j < other.N; j++)
+                {
+                    this.map[i, j] = other.map[i, j];
+                }
+            }
+            this.treasures = other.treasures;
+            this.M = other.M;
+            this.N = other.N;
+        }
+
         public int getM()
         {
             return this.M;

@@ -21,6 +21,11 @@ namespace Tubes2Stima
             radioButton1.Checked = true;
         }
 
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            route.Location = new Point((int)((this.Width - route.Width) / 2), label7.Location.Y + 25);
+        }
+
         private void label2_Click(object sender, EventArgs e)
         {
 
@@ -28,10 +33,28 @@ namespace Tubes2Stima
 
         private void button1_Click(object sender, EventArgs e)
         {
+            try
+            {
+                this.graph = new Graph(textBox1.Text);
+            }
+            catch (FileNotFoundException)
+            {
+                MessageBox.Show("File tidak ditemukan!");
+            }
+            catch (Exception err)
+            {
+                if (err.GetType() == typeof(DirectoryNotFoundException))
+                {
+                    MessageBox.Show("Directory file tidak ditemukan!");
+                }
+                else
+                {
+                    MessageBox.Show(err.Message);
+                }
+            }
             dataGridView1.ColumnHeadersVisible = false;
             dataGridView1.RowHeadersVisible = false;
             dataGridView1.AllowUserToAddRows = false;
-            this.graph = new Graph(textBox1.Text);
             dataGridView1.DataSource = Helper.DataTableFromTextFile(textBox1.Text);
             dataGridView1.CurrentCell = dataGridView1[0, 0];
             dataGridView1.CurrentCell.Selected = false;
@@ -60,6 +83,7 @@ namespace Tubes2Stima
                 }
             }
 
+            dataGridView1.ScrollBars = ScrollBars.None;
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
             dataGridView1.RowsDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleCenter;
@@ -72,40 +96,38 @@ namespace Tubes2Stima
 
         private void button2_Click(object sender, EventArgs e)
         {
-            Solution solution = this.graph.Solve(radioButton2.Checked, checkBox1.Checked);
+            // Reset Color
+            for (int i = 0; i < dataGridView1.Columns.Count; i++)
+            {
+                for (int j = 0; j < dataGridView1.Rows.Count; j++)
+                {
+                    if (dataGridView1[i, j].Style.BackColor != Color.Black)
+                    {
+                        dataGridView1[i, j].Style.BackColor = Color.White;
+                    }
+                }
+            }
+
+            Graph problem = new Graph(this.graph);
+            Solution solution = problem.Solve(radioButton2.Checked, checkBox1.Checked);
 
             // Route
-            Label route = new Label();
             route.Text = solution.getRoute();
-            route.AutoSize = true;
-            route.Location = new Point(label7.Location.X + 55, label7.Location.Y);
-            this.Controls.Add(route);
+            route.Location = new Point((int)((this.Width - route.Width) / 2), label7.Location.Y + 25);
 
             // Nodes
-            Label nodes = new Label();
             nodes.Text = solution.getNodes().ToString();
-            nodes.AutoSize = true;
-            nodes.Location = new Point(label6.Location.X, label6.Location.Y + 20);
-            this.Controls.Add(nodes);
 
             // Steps
-            Label steps = new Label();
             steps.Text = solution.getSteps().ToString();
-            steps.AutoSize = true;
-            steps.Location = new Point(label8.Location.X, label8.Location.Y + 20);
-            this.Controls.Add(steps);
 
             // Execution Time
-            Label executionTime = new Label();
             executionTime.Text = solution.getExecutionTime().ElapsedMilliseconds.ToString() + " ms";
-            executionTime.AutoSize = true;
-            executionTime.Location = new Point(label9.Location.X, label9.Location.Y + 20);
-            this.Controls.Add(executionTime);
 
             int[,] countVisit = new int[dataGridView1.ColumnCount, dataGridView1.RowCount];
-            for(int i = 0; i < dataGridView1.ColumnCount; i++)
+            for (int i = 0; i < dataGridView1.ColumnCount; i++)
             {
-                for(int j = 0; j < dataGridView1.RowCount; j++)
+                for (int j = 0; j < dataGridView1.RowCount; j++)
                 {
                     countVisit[i, j] = 0;
                 }
@@ -123,7 +145,7 @@ namespace Tubes2Stima
                 }
                 else
                 {
-                    dataGridView1[y, x].Style.BackColor = Color.Blue;
+                    dataGridView1[y, x].Style.BackColor = Color.FromArgb(99, 230, 226);
                 }
                 Thread.Sleep(trackBar1.Value);
                 Application.DoEvents();
@@ -205,6 +227,11 @@ namespace Tubes2Stima
 
         }
 
+        private void textBox1_Click(object sender, EventArgs e)
+        {
+            textBox1.Text = "";
+        }
+
         private void label6_Click(object sender, EventArgs e)
         {
 
@@ -226,6 +253,36 @@ namespace Tubes2Stima
         }
 
         private void label11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void groupBox1_Enter(object sender, EventArgs e)
+        {
+
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+
+        }
+
+        private void nodes_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void steps_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void executionTime_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void route_Click(object sender, EventArgs e)
         {
 
         }

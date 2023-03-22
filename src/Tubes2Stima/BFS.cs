@@ -244,6 +244,9 @@ namespace Tubes2Stima
                             path.AddRange(currentTrack);
                             return;
                         }
+                    } else
+                    {
+                        isVisited[x, y] = true;
                     }
 
                     /* TSP BFS on L-U-R-D pattern */
