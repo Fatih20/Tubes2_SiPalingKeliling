@@ -28,8 +28,11 @@
         /// </summary>
         private void InitializeComponent()
         {
+            // Create DataGrid
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
+
+            // Create Controls
             label1 = new Label();
             button1 = new Button();
             button2 = new Button();
@@ -55,15 +58,16 @@
             panel4 = new Panel();
             label2 = new Label();
             label3 = new Label();
+
+            // Init
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             panel1.SuspendLayout();
             panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)trackBar1).BeginInit();
             panel3.SuspendLayout();
             SuspendLayout();
-            // 
+
             // label1
-            // 
             label1.Anchor = AnchorStyles.None;
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 25.8000011F, FontStyle.Bold, GraphicsUnit.Point);
@@ -74,9 +78,8 @@
             label1.TabIndex = 0;
             label1.Text = "Treasure Hunt Solver";
             label1.Click += label1_Click;
-            // 
+
             // button1
-            // 
             button1.Anchor = AnchorStyles.None;
             button1.BackColor = Color.FromArgb(44, 44, 46);
             button1.FlatAppearance.BorderSize = 0;
@@ -90,9 +93,8 @@
             button1.Text = "Load";
             button1.UseVisualStyleBackColor = false;
             button1.Click += button1_Click;
-            // 
+
             // button2
-            // 
             button2.Anchor = AnchorStyles.None;
             button2.BackColor = Color.FromArgb(44, 44, 46);
             button2.FlatAppearance.BorderSize = 0;
@@ -106,9 +108,8 @@
             button2.Text = "Search";
             button2.UseVisualStyleBackColor = false;
             button2.Click += button2_Click;
-            // 
+
             // radioButton1
-            // 
             radioButton1.Anchor = AnchorStyles.None;
             radioButton1.AutoSize = true;
             radioButton1.ForeColor = SystemColors.ButtonHighlight;
@@ -120,9 +121,8 @@
             radioButton1.Text = "BFS";
             radioButton1.UseVisualStyleBackColor = true;
             radioButton1.CheckedChanged += radioButton1_CheckedChanged;
-            // 
+
             // radioButton2
-            // 
             radioButton2.Anchor = AnchorStyles.None;
             radioButton2.AutoSize = true;
             radioButton2.ForeColor = SystemColors.ButtonHighlight;
@@ -134,9 +134,8 @@
             radioButton2.Text = "DFS";
             radioButton2.UseVisualStyleBackColor = true;
             radioButton2.CheckedChanged += radioButton2_CheckedChanged;
-            // 
+
             // checkBox1
-            // 
             checkBox1.Anchor = AnchorStyles.None;
             checkBox1.AutoSize = true;
             checkBox1.ForeColor = SystemColors.ButtonHighlight;
@@ -147,9 +146,8 @@
             checkBox1.Text = "TSP";
             checkBox1.UseVisualStyleBackColor = true;
             checkBox1.CheckedChanged += checkBox1_CheckedChanged;
-            // 
+
             // textBox1
-            // 
             textBox1.Anchor = AnchorStyles.None;
             textBox1.BackColor = Color.FromArgb(28, 28, 30);
             textBox1.BorderStyle = BorderStyle.None;
@@ -163,9 +161,8 @@
             textBox1.Text = "Source File";
             textBox1.Click += textBox1_Click;
             textBox1.TextChanged += textBox1_TextChanged;
-            // 
+            
             // dataGridView1
-            // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.AllowUserToResizeColumns = false;
@@ -198,9 +195,8 @@
             dataGridView1.Size = new Size(1279, 514);
             dataGridView1.TabIndex = 11;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
-            // 
+ 
             // label7
-            // 
             label7.Anchor = AnchorStyles.None;
             label7.AutoSize = true;
             label7.BackColor = Color.FromArgb(58, 58, 60);
@@ -212,18 +208,16 @@
             label7.TabIndex = 13;
             label7.Text = "Route";
             label7.Click += label7_Click;
-            // 
+
             // label10
-            // 
             label10.Anchor = AnchorStyles.Left | AnchorStyles.Right;
             label10.AutoSize = true;
             label10.Location = new Point(503, 644);
             label10.Name = "label10";
             label10.Size = new Size(0, 20);
             label10.TabIndex = 16;
-            // 
+
             // panel1
-            // 
             panel1.Anchor = AnchorStyles.None;
             panel1.BackColor = Color.FromArgb(58, 58, 60);
             panel1.Controls.Add(textBox1);
@@ -232,9 +226,8 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(373, 64);
             panel1.TabIndex = 19;
-            // 
+
             // panel2
-            // 
             panel2.Anchor = AnchorStyles.None;
             panel2.BackColor = Color.FromArgb(58, 58, 60);
             panel2.Controls.Add(radioButton1);
@@ -245,9 +238,8 @@
             panel2.Name = "panel2";
             panel2.Size = new Size(381, 100);
             panel2.TabIndex = 20;
-            // 
+
             // trackBar1
-            // 
             trackBar1.Anchor = AnchorStyles.None;
             trackBar1.BackColor = Color.FromArgb(58, 58, 60);
             trackBar1.Location = new Point(105, 87);
@@ -260,9 +252,8 @@
             trackBar1.TickFrequency = 250;
             trackBar1.Value = 250;
             trackBar1.Scroll += trackBar1_Scroll;
-            // 
+
             // label11
-            // 
             label11.Anchor = AnchorStyles.None;
             label11.AutoSize = true;
             label11.BackColor = Color.FromArgb(58, 58, 60);
@@ -274,9 +265,8 @@
             label11.TabIndex = 18;
             label11.Text = "Delay Step";
             label11.Click += label11_Click;
-            // 
-            // label8
-            // 
+
+            // label8 
             label8.Anchor = AnchorStyles.None;
             label8.AutoSize = true;
             label8.BackColor = Color.FromArgb(58, 58, 60);
@@ -288,9 +278,8 @@
             label8.TabIndex = 14;
             label8.Text = "Steps";
             label8.Click += label8_Click;
-            // 
-            // label9
-            // 
+
+            // label9 
             label9.Anchor = AnchorStyles.None;
             label9.AutoSize = true;
             label9.BackColor = Color.FromArgb(58, 58, 60);
@@ -302,9 +291,8 @@
             label9.TabIndex = 15;
             label9.Text = "Time";
             label9.Click += label9_Click;
-            // 
+
             // label6
-            // 
             label6.Anchor = AnchorStyles.None;
             label6.AutoSize = true;
             label6.BackColor = Color.FromArgb(58, 58, 60);
@@ -316,42 +304,37 @@
             label6.TabIndex = 12;
             label6.Text = "Nodes";
             label6.Click += label6_Click;
-            // 
+
             // nodes
-            // 
             nodes.Anchor = AnchorStyles.None;
             nodes.AutoSize = true;
             nodes.BackColor = Color.FromArgb(58, 58, 60);
             nodes.ForeColor = Color.White;
             nodes.Location = new Point(label6.Location.X + 10, label6.Location.Y + 20);
-            // 
+
             // steps
-            // 
             steps.Anchor = AnchorStyles.None;
             steps.AutoSize = true;
             steps.BackColor = Color.FromArgb(58, 58, 60);
             steps.ForeColor = Color.White;
             steps.Location = new Point(label8.Location.X + 10, label8.Location.Y + 20);
-            // 
+
             // route
-            // 
             route.Anchor = AnchorStyles.None;
             route.AutoSize = true;
             route.BackColor = Color.FromArgb(58, 58, 60);
             route.Font = new Font("Segoe UI", 12F, FontStyle.Bold, GraphicsUnit.Point);
             route.ForeColor = Color.White;
             route.MaximumSize = new Size(1200, 0);
-            // 
+
             // executionTime
-            // 
             executionTime.Anchor = AnchorStyles.None;
             executionTime.AutoSize = true;
             executionTime.BackColor = Color.FromArgb(58, 58, 60);
             executionTime.ForeColor = Color.White;
             executionTime.Location = new Point(label9.Location.X + 2, label9.Location.Y + 20);
-            // 
-            // panel3
-            // 
+
+            // panel3 
             panel3.Anchor = AnchorStyles.None;
             panel3.BackColor = Color.FromArgb(58, 58, 60);
             panel3.Controls.Add(label3);
@@ -362,18 +345,16 @@
             panel3.Name = "panel3";
             panel3.Size = new Size(339, 146);
             panel3.TabIndex = 25;
-            // 
+
             // panel4
-            // 
             panel4.Anchor = AnchorStyles.None;
             panel4.BackColor = Color.FromArgb(58, 58, 60);
             panel4.Location = new Point(35, 789);
             panel4.Name = "panel4";
             panel4.Size = new Size(1276, 115);
             panel4.TabIndex = 26;
-            // 
+
             // label2
-            // 
             label2.AutoSize = true;
             label2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label2.ForeColor = SystemColors.ButtonHighlight;
@@ -382,9 +363,8 @@
             label2.Size = new Size(61, 20);
             label2.TabIndex = 19;
             label2.Text = "250 ms";
-            // 
+
             // label3
-            // 
             label3.AutoSize = true;
             label3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             label3.ForeColor = SystemColors.ButtonHighlight;
@@ -393,9 +373,8 @@
             label3.Size = new Size(70, 20);
             label3.TabIndex = 20;
             label3.Text = "2000 ms";
-            // 
-            // TreasureHuntSolver
-            // 
+
+            // TreasureHuntSolver 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(28, 28, 30);

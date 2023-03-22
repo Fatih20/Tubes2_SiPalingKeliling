@@ -38,6 +38,11 @@ namespace Tubes2Stima
                     path : collects the path from starting point to all treasures
                     track : collects temporary path to a treasure, will be removed if the current track doesn't end on treasure box
                     solution : collects coordinates of the treasures
+                    progress : collects the whole progress of the algorithm
+                    nodes : count how many nodes have been visited
+                    M, N : size of the map
+                    treasures : the amount of available treasures
+                    countVisit : determines the amount of visits of each node
             */
 
             // If the queue is empty, no more nodes can be visited OR all treasures have been found
@@ -204,6 +209,10 @@ namespace Tubes2Stima
                     isVisited : states which coordinate has been visited or not
                     path : collects the path from starting point to all treasures
                     track : collects temporary path to a treasure, will be removed if the current track doesn't end on treasure box
+                    progress : collects the whole progress of the algorithm
+                    nodes : count how many nodes have been visited
+                    M, N : size of the map
+                    countVisit : determines the amount of visits of each node
             */
 
             // If the queue is empty, no more nodes can be visited
@@ -230,6 +239,7 @@ namespace Tubes2Stima
                 }
                 else
                 {
+                    // Skips the first search on last treasure
                     if (x != this.startingX || y != this.startingY)
                     {
                         // Visit map

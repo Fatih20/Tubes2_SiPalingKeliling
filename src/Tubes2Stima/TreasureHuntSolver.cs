@@ -11,25 +11,20 @@ namespace Tubes2Stima
             InitializeComponent();
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // Set BFS as default algorithm
             radioButton1.Checked = true;
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            // Validate and read .txt file to graph and datagrid
             try
             {
+                // Disable all inputs and clickable controls
                 button1.Enabled = false;
                 button2.Enabled = false;
                 radioButton1.Enabled = false;
@@ -38,7 +33,10 @@ namespace Tubes2Stima
                 trackBar1.Enabled = false;
                 textBox1.Enabled = false;
 
+                // Read .txt file and create Graph
                 this.graph = new Graph(textBox1.Text);
+
+                // Styling DataGridView
                 dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
                 dataGridView1.ColumnHeadersVisible = false;
                 dataGridView1.RowHeadersVisible = false;
@@ -47,6 +45,7 @@ namespace Tubes2Stima
                 dataGridView1.CurrentCell = dataGridView1[0, 0];
                 dataGridView1.CurrentCell.Selected = false;
 
+                // Set DataGridView values
                 for (int i = 0; i < dataGridView1.Columns.Count; i++)
                 {
                     for (int j = 0; j < dataGridView1.Rows.Count; j++)
@@ -71,6 +70,7 @@ namespace Tubes2Stima
                     }
                 }
 
+                // Continue Styling DataGridView
                 dataGridView1.ScrollBars = ScrollBars.None;
                 dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
                 dataGridView1.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.None;
@@ -81,6 +81,7 @@ namespace Tubes2Stima
                     row.Height = tinggi;
                 }
 
+                // Enable all inputs and clickable controls
                 button1.Enabled = true;
                 button2.Enabled = true;
                 radioButton1.Enabled = true;
@@ -91,7 +92,10 @@ namespace Tubes2Stima
             }
             catch (FileNotFoundException)
             {
+                // Show error
                 MessageBox.Show("File tidak ditemukan!", "Error");
+
+                // Enable all inputs and clickable controls
                 button1.Enabled = true;
                 button2.Enabled = true;
                 radioButton1.Enabled = true;
@@ -104,7 +108,10 @@ namespace Tubes2Stima
             {
                 if (err.GetType() == typeof(DirectoryNotFoundException))
                 {
+                    // Show error
                     MessageBox.Show("Directory file tidak ditemukan!", "Error");
+
+                    // Enable all inputs and clickable controls
                     button1.Enabled = true;
                     button2.Enabled = true;
                     radioButton1.Enabled = true;
@@ -115,7 +122,10 @@ namespace Tubes2Stima
                 }
                 else
                 {
+                    // Show error
                     MessageBox.Show(err.Message, "Error");
+
+                    // Enable all inputs and clickable controls
                     button1.Enabled = true;
                     button2.Enabled = true;
                     radioButton1.Enabled = true;
@@ -129,8 +139,10 @@ namespace Tubes2Stima
 
         private void button2_Click(object sender, EventArgs e)
         {
+            // Main program to solve maze
             try
             {
+                // Disable all inputs and clickable controls
                 button1.Enabled = false;
                 button2.Enabled = false;
                 radioButton1.Enabled = false;
@@ -151,7 +163,10 @@ namespace Tubes2Stima
                     }
                 }
 
+                // Create temporary graph
                 Graph problem = new Graph(this.graph);
+
+                // Solve maze
                 Solution solution = problem.Solve(radioButton2.Checked, checkBox1.Checked);
 
                 // Route
@@ -187,6 +202,7 @@ namespace Tubes2Stima
                 // Execution Time
                 executionTime.Text = solution.getExecutionTime().ElapsedMilliseconds.ToString() + " ms";
 
+                // Initialize countVisit for darken background color
                 int[,] countVisit = new int[dataGridView1.ColumnCount, dataGridView1.RowCount];
                 for (int i = 0; i < dataGridView1.ColumnCount; i++)
                 {
@@ -204,12 +220,15 @@ namespace Tubes2Stima
                     int y = progress.ElementAt(i).Item2;
                     if (progress.ElementAt(i).Item3 == "RED")
                     {
+                        // Backtrack
                         dataGridView1[y, x].Style.BackColor = Color.Red;
                     }
                     else
                     {
+                        // Progress
                         dataGridView1[y, x].Style.BackColor = Color.FromArgb(99, 230, 226);
                     }
+                    // Delay
                     Thread.Sleep(trackBar1.Value);
                     Application.DoEvents();
                     if (i == progress.Count - 1)
@@ -218,8 +237,10 @@ namespace Tubes2Stima
                     }
                     Application.DoEvents();
 
+                    // Darken background color
                     dataGridView1[y, x].Style.BackColor = Color.FromArgb(255 - (30 * countVisit[y, x]), 214 - (30 * countVisit[y, x]), 10);
 
+                    // Increment countVisit
                     countVisit[y, x]++;
                 }
 
@@ -235,7 +256,7 @@ namespace Tubes2Stima
                     }
                 }
 
-                // Change Color
+                // Change Color for Solution Path
                 char[,] solutionPath = solution.getSolutionMap();
 
                 for (int i = 0; i < solutionPath.GetLength(0); i++)
@@ -249,6 +270,7 @@ namespace Tubes2Stima
                     }
                 }
 
+                // Enable all inputs and clickable controls
                 button1.Enabled = true;
                 button2.Enabled = true;
                 radioButton1.Enabled = true;
@@ -259,7 +281,10 @@ namespace Tubes2Stima
             }
             catch (NullReferenceException)
             {
+                // Show error
                 MessageBox.Show("Silahkan isi file peta terlebih dahulu!", "Error");
+
+                // Enable all inputs and clickable controls
                 button1.Enabled = true;
                 button2.Enabled = true;
                 radioButton1.Enabled = true;
@@ -270,7 +295,10 @@ namespace Tubes2Stima
             }
             catch (Exception err)
             {
+                // Show error
                 MessageBox.Show(err.Message, "Error");
+
+                // Enable all inputs and clickable controls
                 button1.Enabled = true;
                 button2.Enabled = true;
                 radioButton1.Enabled = true;
@@ -280,6 +308,12 @@ namespace Tubes2Stima
                 textBox1.Enabled = true;
             }
 
+        }
+
+        private void textBox1_Click(object sender, EventArgs e)
+        {
+            // Erase input when textbox clicked
+            textBox1.Text = "";
         }
 
         private void radioButton1_CheckedChanged(object sender, EventArgs e)
@@ -322,10 +356,6 @@ namespace Tubes2Stima
 
         }
 
-        private void textBox1_Click(object sender, EventArgs e)
-        {
-            textBox1.Text = "";
-        }
 
         private void label6_Click(object sender, EventArgs e)
         {
@@ -378,6 +408,16 @@ namespace Tubes2Stima
         }
 
         private void route_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
         {
 
         }

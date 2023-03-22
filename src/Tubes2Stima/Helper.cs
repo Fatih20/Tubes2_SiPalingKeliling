@@ -13,6 +13,7 @@ namespace Tubes2Stima
     {
         public static DataTable DataTableFromTextFile(string location)
         {
+            // Function to convert txt file to DataTable
             DataTable result = new DataTable();
 
             Graph graph = new Graph(location);

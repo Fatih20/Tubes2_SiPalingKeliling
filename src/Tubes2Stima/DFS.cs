@@ -41,7 +41,8 @@ namespace Tubes2Stima
                     path : collects the path from starting point to all treasures
                     track : collects temporary path to a treasure, will be removed if the current track doesn't end on treasure box
                     solution : collects coordinates of the treasures
-                    nodes : count how many nodes visited
+                    progress : collects the whole progress of the algorithm
+                    nodes : count how many nodes have been visited
                     M, N : size of the map
                     treasures : the amount of available treasures
             */
@@ -76,7 +77,11 @@ namespace Tubes2Stima
 
                     // DFS on L-U-R-D pattern
                     dfs(map, x, y - 1, x, y, isVisited, ref count, path, track, solution, progress, ref nodes, M, N, treasures);
+                    
+                    // Stops searching if all treasures have been found
                     if (count == treasures) return;
+
+                    // Add backtrack to progress
                     if (progress.Last().Item1 != x || progress.Last().Item2 != y)
                     {
                         progress.Add(new Tuple<int, int, string>(x, y, "RED"));
@@ -150,6 +155,10 @@ namespace Tubes2Stima
                     isVisited : states which coordinate has been visited or not
                     path : collects the path from last treasure found to starting point
                     track : collects temporary path to starting point, will be removed if the current track doesn't end on starting point
+                    finish : states that the goal has been found or not
+                    progress : collects the whole progress of the algorithm
+                    nodes : count how many nodes have been visited 
+                    M, N : size of the map
             */
 
             // If map is not out of bounds
@@ -162,6 +171,7 @@ namespace Tubes2Stima
                 }
                 else
                 {
+                    // Skips the first search on the last treasure
                     if (x != xBefore || y != yBefore)
                     {
                         // Visit map
@@ -187,7 +197,11 @@ namespace Tubes2Stima
 
                     // DFS on L-U-R-D pattern
                     tspDFS(map, x, y - 1, x, y, isVisited, path, track, ref finish, progress, ref nodes, M, N);
+
+                    // Stops if all treasures have been found
                     if (finish) return;
+
+                    // Add backtrack to progress
                     if (progress.Last().Item1 != x || progress.Last().Item2 != y)
                     {
                         progress.Add(new Tuple<int, int, string>(x, y, "RED"));
