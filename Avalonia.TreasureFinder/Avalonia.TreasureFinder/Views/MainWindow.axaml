@@ -3,7 +3,6 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="using:Avalonia.TreasureFinder.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Avalonia.TreasureFinder.ViewModels"
     Title="TreasureFinder"
@@ -21,6 +20,7 @@
         -->
         <vm:MainWindowViewModel />
     </Design.DataContext>
+    <!-- <local:ExceptionMessageView DataContext="{Binding CenterContent}" /> -->
 
     <Window.Styles>
         <Style Selector="TextBlock.error-text">
@@ -40,18 +40,13 @@
                     TintOpacity="1" />
             </ExperimentalAcrylicBorder.Material>
         </ExperimentalAcrylicBorder>
-
         <Grid>
-            <Image Source="/Assets/Oxenfree.jpeg" />
+            <!-- <Image Source="/Assets/Oxenfree.jpeg" /> -->
+            <ContentPresenter Content="{Binding CenterContent}" />
             <Grid
                 Margin="10,10,10,10"
                 HorizontalAlignment="Center"
                 RowDefinitions="Auto, *, Auto">
-                <!--  <Border  -->
-                <!--  Grid.Row="1"  -->
-                <!--  HorizontalAlignment="Center"  -->
-                <!--  BorderBrush="#FFFFFF"  -->
-                <!--  BorderThickness="0">  -->
                 <Grid
                     Grid.Row="0"
                     HorizontalAlignment="Center"
@@ -171,6 +166,7 @@
                                 MinHeight="0"
                                 Margin="10,0,10,0"
                                 VerticalAlignment="Stretch"
+                                Foreground="#FFFFFF"
                                 Text="{Binding FilenameToLoad, Mode=TwoWay}"
                                 Watermark="Filename" />
                             <Button
@@ -351,34 +347,6 @@
                                     Classes="value"
                                     Text="0" />
                             </Grid>
-                            <!--  <StackPanel  -->
-                            <!--  Grid.Column="1"  -->
-                            <!--  MinHeight="0"  -->
-                            <!--  HorizontalAlignment="Center"  -->
-                            <!--  Orientation="Vertical">  -->
-                            <!--  <TextBlock  -->
-                            <!--  MinHeight="0"  -->
-                            <!--  HorizontalAlignment="Center"  -->
-                            <!--  Classes="title"  -->
-                            <!--  Text="Nodes" />  -->
-                            <!--  <TextBlock  -->
-                            <!--  MinHeight="0"  -->
-                            <!--  HorizontalAlignment="Center"  -->
-                            <!--  Text="0" />  -->
-                            <!-- </StackPanel> -->
-                            <!--  <StackPanel  -->
-                            <!--  Grid.Column="2"  -->
-                            <!--  HorizontalAlignment="Center"  -->
-                            <!--  Orientation="Vertical">  -->
-                            <!--  <TextBlock  -->
-                            <!--  HorizontalAlignment="Center"  -->
-                            <!--  Classes="title"  -->
-                            <!--  Text="Time" />  -->
-                            <!--     <TextBlock HorizontalAlignment="Center" Text="0" /> -->
-                            <!-- </StackPanel> -->
-
-
-
                         </Grid>
                     </Border>
                     <Border
@@ -428,38 +396,8 @@
                         </Grid>
                     </Border>
                 </Grid>
-                <!-- </Border> -->
             </Grid>
         </Grid>
-
-        <!-- <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top"> -->
-        <!--    -->
-        <!--  ~1~  IsVisible="{Binding ShowError}"  @1@  -->
-        <!--  <TextBlock  -->
-        <!--  HorizontalAlignment="Center"  -->
-        <!--  Classes="error-text"  -->
-        <!--  IsVisible="True"  -->
-        <!--  Text="{Binding ExceptionMessage}" />  -->
-        <!--    -->
-        <!--     <Button Height="40"> -->
-        <!--         <Image Source="{SvgImage /Assets/pause.svg}" /> -->
-        <!--     </Button> -->
-        <!--  <Button  -->
-        <!--  HorizontalAlignment="Left"  -->
-        <!--  Command="{Binding ButtonClicked}"  -->
-        <!--  Content="{Binding State}" />  -->
-        <!--  <Button  -->
-        <!--  HorizontalAlignment="Left"  -->
-        <!--  Command="{Binding ButtonClicked}"  -->
-        <!--  Content="{Binding State}">  -->
-        <!--         ~1~ <PathIcon Data="{StaticResource play_regular}" /> @1@ -->
-        <!--     </Button> -->
-        <!--  <Button  -->
-        <!--  HorizontalAlignment="Left"  -->
-        <!--  Command="{Binding ButtonClicked}"  -->
-        <!--  Content="{Binding State}" />  -->
-        <!--    -->
-        <!-- </StackPanel> -->
     </Panel>
 
 </Window>
