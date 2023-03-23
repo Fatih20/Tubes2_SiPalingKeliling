@@ -176,11 +176,11 @@ namespace Tubes2Stima
 
                 if (isTSP)
                 {
-                    return new Solution(nodes, progressDFS, sequence, sequence.Count, stopwatch, solution);
+                    return new Solution(nodes, progressDFS, sequence, sequence.Count, stopwatch, solution, treasure);
                 }
                 else
                 {
-                    return new Solution(nodes, progressDFS, sequence, sequence.Count, stopwatch, solution);
+                    return new Solution(nodes, progressDFS, sequence, sequence.Count, stopwatch, solution, treasure);
                 }
             }
             else
@@ -291,11 +291,11 @@ namespace Tubes2Stima
 
                 if (isTSP)
                 {
-                    return new Solution(nodes, progressBFS, sequence, sequence.Count, stopwatch, solution);
+                    return new Solution(nodes, progressBFS, sequence, sequence.Count, stopwatch, solution, treasureBFS);
                 }
                 else
                 {
-                    return new Solution(nodes, progressBFS, sequence, sequence.Count, stopwatch, solution);
+                    return new Solution(nodes, progressBFS, sequence, sequence.Count, stopwatch, solution, treasureBFS);
                 }
             }
         }

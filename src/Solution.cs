@@ -14,8 +14,9 @@ namespace Tubes2Stima
         private int steps;
         private System.Diagnostics.Stopwatch executionTime;
         private char[,] solutionMap;
+        private List<Tuple<int, int>> treasures;
 
-        public Solution(int nodes, List<Tuple<int, int, string>> progress, List<char> route, int steps, System.Diagnostics.Stopwatch executionTime, char[,] map)
+        public Solution(int nodes, List<Tuple<int, int, string>> progress, List<char> route, int steps, System.Diagnostics.Stopwatch executionTime, char[,] map, List<Tuple<int, int>> treasures)
         {
             this.nodes = nodes;
             this.progress = progress;
@@ -35,6 +36,7 @@ namespace Tubes2Stima
             this.steps = steps;
             this.executionTime = executionTime;
             this.solutionMap = map;
+            this.treasures = treasures;
         }
 
         public int getNodes()
@@ -65,6 +67,11 @@ namespace Tubes2Stima
         public char[,] getSolutionMap()
         {
             return this.solutionMap;
+        }
+
+        public List<Tuple<int, int>> getTreasures()
+        {
+            return this.treasures;
         }
     }
 }

@@ -20,7 +20,7 @@ namespace Tubes2Stima
 
             for (int j = 0; j < graph.getN(); j++)
             {
-                DataColumn dc = new DataColumn();
+                DataColumn dc = new DataColumn("Cell" + j, typeof(Image));
                 result.Columns.Add(dc);
             }
 
@@ -29,7 +29,22 @@ namespace Tubes2Stima
                 DataRow dr = result.NewRow();
                 for(int j = 0; j < graph.getN(); j++)
                 {
-                    dr[j] = graph.getMap()[i,j];
+                    if (graph.getMap()[i,j] == 'X')
+                    {
+                        dr[j] = Image.FromFile("../../../src/images/empty.png");
+                    }
+                    else if (graph.getMap()[i, j] == 'R')
+                    {
+                        dr[j] = Image.FromFile("../../../src/images/empty.png");
+                    }
+                    else if (graph.getMap()[i, j] == 'K')
+                    {
+                        dr[j] = Image.FromFile("../../../src/images/fatih.png");
+                    }
+                    else if (graph.getMap()[i, j] == 'T')
+                    {
+                        dr[j] = Image.FromFile("../../../src/images/wibu.jpg");
+                    }
                 }
                 result.Rows.Add(dr);
             }

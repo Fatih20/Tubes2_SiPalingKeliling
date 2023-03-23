@@ -13,7 +13,7 @@ namespace Tubes2Stima
             // Function to read map from file
 
             // Try to read file
-            string[] lines = System.IO.File.ReadAllLines("../../../test/" + pathfile);
+            string[] lines = File.ReadAllLines("../../../test/" + pathfile);
 
             // Remove spaces from each line
             for (int idx = 0; idx < lines.Count(); idx++)

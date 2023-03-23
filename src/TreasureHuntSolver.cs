@@ -42,11 +42,10 @@ namespace Tubes2Stima
                 this.graph = new Graph(textBox1.Text);
 
                 // Styling DataGridView
-                dataGridView1.DefaultCellStyle.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+                dataGridView1.DataSource = Helper.DataTableFromTextFile(textBox1.Text);
                 dataGridView1.ColumnHeadersVisible = false;
                 dataGridView1.RowHeadersVisible = false;
                 dataGridView1.AllowUserToAddRows = false;
-                dataGridView1.DataSource = Helper.DataTableFromTextFile(textBox1.Text);
                 dataGridView1.CurrentCell = dataGridView1[0, 0];
                 dataGridView1.CurrentCell.Selected = false;
 
@@ -55,22 +54,9 @@ namespace Tubes2Stima
                 {
                     for (int j = 0; j < dataGridView1.Rows.Count; j++)
                     {
-                        if (dataGridView1[i, j].Value.ToString() == "X")
+                        if (this.graph.getMap()[j,i] == 'X')
                         {
-                            dataGridView1[i, j].Value = "";
                             dataGridView1[i, j].Style.BackColor = Color.Black;
-                        }
-                        else if (dataGridView1[i, j].Value.ToString() == "R")
-                        {
-                            dataGridView1[i, j].Value = "";
-                        }
-                        else if (dataGridView1[i, j].Value.ToString() == "K")
-                        {
-                            dataGridView1[i, j].Value = "Start";
-                        }
-                        else
-                        {
-                            dataGridView1[i, j].Value = "Treasure";
                         }
                     }
                 }
@@ -357,6 +343,13 @@ namespace Tubes2Stima
                 {
                     int x = progress.ElementAt(i).Item1;
                     int y = progress.ElementAt(i).Item2;
+                    if(i > 0)
+                    {
+                        int xBefore = progress.ElementAt(i-1).Item1;
+                        int yBefore = progress.ElementAt(i-1).Item2;
+                        dataGridView1[y, x].Value = dataGridView1[yBefore, xBefore].Value;
+                        dataGridView1[yBefore, xBefore].Value = Image.FromFile("../../../src/images/empty.png");
+                    }
                     if (progress.ElementAt(i).Item3 == "RED")
                     {
                         // Backtrack
@@ -409,6 +402,15 @@ namespace Tubes2Stima
                     }
                 }
 
+                // Reset Treasures
+                foreach(Tuple<int,int> T in solution.getTreasures())
+                {
+                    dataGridView1[T.Item2, T.Item1].Value = Image.FromFile("../../../src/images/wibu.jpg");
+                }
+
+                // Reset Starting Point
+                dataGridView1[solution.getProgress()[0].Item2, solution.getProgress()[0].Item1].Value = Image.FromFile("../../../src/images/fatih.png");
+                
                 // Enable all inputs and clickable controls
                 button1.Enabled = true;
                 button2.Enabled = true;
