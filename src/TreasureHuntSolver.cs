@@ -16,6 +16,10 @@ namespace Tubes2Stima
         {
             // Set BFS as default algorithm
             radioButton1.Checked = true;
+            nodes.Text = "";
+            executionTime.Text = "";
+            steps.Text = "";
+            route.Text = "";
         }
 
 
@@ -91,6 +95,12 @@ namespace Tubes2Stima
                 checkBox1.Enabled = true;
                 trackBar1.Enabled = true;
                 textBox1.Enabled = true;
+
+                // Clear last solution
+                nodes.Text = "";
+                executionTime.Text = "";
+                steps.Text = "";
+                route.Text = "";
             }
             catch (FileNotFoundException)
             {
