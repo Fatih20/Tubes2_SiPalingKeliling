@@ -147,9 +147,20 @@ namespace Tubes2Stima
                         // If path teleported, keep backtrack
                         if(diff > 1)
                         {
+                            int handle = 0;
                             while(!curr.Equals(path.ElementAt(idxS)))
                             {
-                                routeSolution.Add(curr);
+                                if (curr.Equals(path.ElementAt(idxS - 1))){
+                                    while (handle > 0)
+                                    {
+                                        routeSolution.RemoveAt(routeSolution.Count - 1);
+                                        handle--;
+                                    }
+                                } else
+                                {
+                                    routeSolution.Add(curr);
+                                    handle++;
+                                }
                                 idxP++;
                                 curr = new Tuple<int, int>(progressDFS.ElementAt(idxP).Item1, progressDFS.ElementAt(idxP).Item2);
                             }
