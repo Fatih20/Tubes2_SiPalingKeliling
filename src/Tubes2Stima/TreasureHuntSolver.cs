@@ -27,6 +27,7 @@ namespace Tubes2Stima
                 // Disable all inputs and clickable controls
                 button1.Enabled = false;
                 button2.Enabled = false;
+                button4.Enabled = false;
                 radioButton1.Enabled = false;
                 radioButton2.Enabled = false;
                 checkBox1.Enabled = false;
@@ -84,6 +85,7 @@ namespace Tubes2Stima
                 // Enable all inputs and clickable controls
                 button1.Enabled = true;
                 button2.Enabled = true;
+                button4.Enabled = true;
                 radioButton1.Enabled = true;
                 radioButton2.Enabled = true;
                 checkBox1.Enabled = true;
@@ -98,6 +100,7 @@ namespace Tubes2Stima
                 // Enable all inputs and clickable controls
                 button1.Enabled = true;
                 button2.Enabled = true;
+                button4.Enabled = true;
                 radioButton1.Enabled = true;
                 radioButton2.Enabled = true;
                 checkBox1.Enabled = true;
@@ -114,6 +117,7 @@ namespace Tubes2Stima
                     // Enable all inputs and clickable controls
                     button1.Enabled = true;
                     button2.Enabled = true;
+                    button4.Enabled = true;
                     radioButton1.Enabled = true;
                     radioButton2.Enabled = true;
                     checkBox1.Enabled = true;
@@ -128,6 +132,7 @@ namespace Tubes2Stima
                     // Enable all inputs and clickable controls
                     button1.Enabled = true;
                     button2.Enabled = true;
+                    button4.Enabled = true;
                     radioButton1.Enabled = true;
                     radioButton2.Enabled = true;
                     checkBox1.Enabled = true;
@@ -145,6 +150,130 @@ namespace Tubes2Stima
                 // Disable all inputs and clickable controls
                 button1.Enabled = false;
                 button2.Enabled = false;
+                button4.Enabled = false;
+                radioButton1.Enabled = false;
+                radioButton2.Enabled = false;
+                checkBox1.Enabled = false;
+                trackBar1.Enabled = false;
+                textBox1.Enabled = false;
+
+                // Reset Color
+                for (int i = 0; i < dataGridView1.Columns.Count; i++)
+                {
+                    for (int j = 0; j < dataGridView1.Rows.Count; j++)
+                    {
+                        if (dataGridView1[i, j].Style.BackColor != Color.Black)
+                        {
+                            dataGridView1[i, j].Style.BackColor = Color.White;
+                        }
+                    }
+                }
+
+                // Create temporary graph
+                Graph problem = new Graph(this.graph);
+
+                // Solve maze
+                Solution solution = problem.Solve(radioButton2.Checked, checkBox1.Checked);
+
+                // Route
+                route.Text = solution.getRoute();
+                route.Location = new Point((int)((this.Width - route.Width) / 2), label7.Location.Y + 30);
+                if (route.Text.Length > this.Width)
+                {
+                    route.Font = new Font("Segoe UI", 5F, FontStyle.Bold);
+                }
+                else if (route.Text.Length > this.Width / 2)
+                {
+                    route.Font = new Font("Segoe UI", 6F, FontStyle.Bold);
+                }
+                else if (route.Text.Length > this.Width / 4)
+                {
+                    route.Font = new Font("Segoe UI", 8F, FontStyle.Bold);
+                }
+                else if (route.Text.Length > this.Width / 8)
+                {
+                    route.Font = new Font("Segoe UI", 10F, FontStyle.Bold);
+                }
+                else
+                {
+                    route.Font = new Font("Segoe UI", 12F, FontStyle.Bold);
+                }
+
+                // Nodes
+                nodes.Text = solution.getNodes().ToString();
+
+                // Steps
+                steps.Text = solution.getSteps().ToString();
+
+                // Execution Time
+                executionTime.Text = solution.getExecutionTime().ElapsedMilliseconds.ToString() + " ms";
+
+                // Change Color for Solution Path
+                char[,] solutionPath = solution.getSolutionMap();
+
+                for (int i = 0; i < solutionPath.GetLength(0); i++)
+                {
+                    for (int j = 0; j < solutionPath.GetLength(1); j++)
+                    {
+                        if (solutionPath[i, j] != 'X')
+                        {
+                            dataGridView1[j, i].Style.BackColor = Color.FromArgb(48, 209, 88);
+                        }
+                    }
+                }
+
+                // Enable all inputs and clickable controls
+                button1.Enabled = true;
+                button2.Enabled = true;
+                button4.Enabled = true;
+                radioButton1.Enabled = true;
+                radioButton2.Enabled = true;
+                checkBox1.Enabled = true;
+                trackBar1.Enabled = true;
+                textBox1.Enabled = true;
+            }
+            catch (NullReferenceException)
+            {
+                // Show error
+                MessageBox.Show("Silahkan isi file peta terlebih dahulu!", "Error");
+
+                // Enable all inputs and clickable controls
+                button1.Enabled = true;
+                button2.Enabled = true;
+                button4.Enabled = true;
+                radioButton1.Enabled = true;
+                radioButton2.Enabled = true;
+                checkBox1.Enabled = true;
+                trackBar1.Enabled = true;
+                textBox1.Enabled = true;
+            }
+            catch (Exception err)
+            {
+                // Show error
+                MessageBox.Show(err.Message, "Error");
+
+                // Enable all inputs and clickable controls
+                button1.Enabled = true;
+                button2.Enabled = true;
+                button4.Enabled = true;
+                radioButton1.Enabled = true;
+                radioButton2.Enabled = true;
+                checkBox1.Enabled = true;
+                trackBar1.Enabled = true;
+                textBox1.Enabled = true;
+            }
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            // Main program to solve maze
+            try
+            {
+                // Disable all inputs and clickable controls
+                button1.Enabled = false;
+                button2.Enabled = false;
+                button4.Enabled = false;
                 radioButton1.Enabled = false;
                 radioButton2.Enabled = false;
                 checkBox1.Enabled = false;
@@ -273,6 +402,7 @@ namespace Tubes2Stima
                 // Enable all inputs and clickable controls
                 button1.Enabled = true;
                 button2.Enabled = true;
+                button4.Enabled = true;
                 radioButton1.Enabled = true;
                 radioButton2.Enabled = true;
                 checkBox1.Enabled = true;
@@ -287,6 +417,7 @@ namespace Tubes2Stima
                 // Enable all inputs and clickable controls
                 button1.Enabled = true;
                 button2.Enabled = true;
+                button4.Enabled = true;
                 radioButton1.Enabled = true;
                 radioButton2.Enabled = true;
                 checkBox1.Enabled = true;
@@ -301,13 +432,13 @@ namespace Tubes2Stima
                 // Enable all inputs and clickable controls
                 button1.Enabled = true;
                 button2.Enabled = true;
+                button4.Enabled = true;
                 radioButton1.Enabled = true;
                 radioButton2.Enabled = true;
                 checkBox1.Enabled = true;
                 trackBar1.Enabled = true;
                 textBox1.Enabled = true;
             }
-
         }
 
         private void textBox1_Click(object sender, EventArgs e)
