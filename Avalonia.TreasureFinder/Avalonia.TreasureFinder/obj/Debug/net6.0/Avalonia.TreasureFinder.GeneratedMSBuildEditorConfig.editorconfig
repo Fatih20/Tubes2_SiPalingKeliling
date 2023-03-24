@@ -17,5 +17,8 @@ build_property.ProjectDir = /media/fatih/Mass Storage/Tugas-Tugas Kuliah/Semeste
 [/media/fatih/Mass Storage/Tugas-Tugas Kuliah/Semester 4/Stimaballs/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[/media/fatih/Mass Storage/Tugas-Tugas Kuliah/Semester 4/Stimaballs/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/Views/ExceptionMessageView.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [/media/fatih/Mass Storage/Tugas-Tugas Kuliah/Semester 4/Stimaballs/Tubes 2/Tubes2/Avalonia.TreasureFinder/Avalonia.TreasureFinder/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

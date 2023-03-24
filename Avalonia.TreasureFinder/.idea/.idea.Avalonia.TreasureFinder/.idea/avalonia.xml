@@ -4,6 +4,9 @@
     <option name="projectPerEditor">
       <map>
         <entry key="Avalonia.TreasureFinder/App.axaml" value="Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj" />
+        <entry key="Avalonia.TreasureFinder/ViewModels/CenterContent.axaml" value="Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj" />
+        <entry key="Avalonia.TreasureFinder/Views/CenterContent.axaml" value="Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj" />
+        <entry key="Avalonia.TreasureFinder/Views/ExceptionMessage.axaml" value="Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj" />
         <entry key="Avalonia.TreasureFinder/Views/MainWindow.axaml" value="Avalonia.TreasureFinder/Avalonia.TreasureFinder.csproj" />
       </map>
     </option>

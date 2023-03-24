@@ -3,8 +3,8 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Avalonia.TreasureFinder.ViewModels.MainWindow"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:local="clr-namespace:Avalonia.TreasureFinder"
     xmlns:vm="using:Avalonia.TreasureFinder.ViewModels"
     Title="TreasureFinder"
     d:DesignHeight="450"
@@ -21,7 +21,7 @@
         -->
         <vm:MainWindowViewModel />
     </Design.DataContext>
-        
+
     <!-- <local:ExceptionMessageView DataContext="{Binding CenterContent}" /> -->
 
     <Window.Styles>
@@ -44,7 +44,8 @@
         </ExperimentalAcrylicBorder>
         <Grid>
             <!-- <Image Source="/Assets/Oxenfree.jpeg" /> -->
-            <ContentPresenter Content="{Binding CenterContent, Mode=TwoWay}" />
+            <!-- <ContentPresenter Content="{Binding CenterContent, Mode=TwoWay}" /> -->
+            <local:CenterContent />
             <Grid
                 Margin="10,10,10,10"
                 HorizontalAlignment="Center"
