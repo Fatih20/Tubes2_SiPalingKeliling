@@ -7,6 +7,8 @@ Tugas Besar 2 Strategi algoritma, pengimplementasian algoritma DFS (depth-first 
   - [About](#about-this-program)
   - [Requirements](#requirements)
   - [Compile](#compile)
+  - [Running this program](#run)
+  - [Using this Program](#how-to-use)
 
 ## Authors
 
