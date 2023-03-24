@@ -123,9 +123,6 @@ namespace Tubes2Stima
                     Helper.setSolutionTSP(solution, pathTSP, startingCoor);
                 }
 
-                // Plotting the solution
-                Helper.setSolution(solution, path, treasure, startingCoor);
-
                 // Getting solution route
                 path.AddRange(pathTSP);
                 List<Tuple<int, int>> routeSolution = new List<Tuple<int, int>>();
@@ -178,6 +175,9 @@ namespace Tubes2Stima
                     idxP++;
                     idxS++;
                 }
+
+                // Plotting the solution
+                Helper.setSolution(solution, routeSolution, treasure, startingCoor);
 
                 // Process Sequence into array of char
                 List<char> sequence = Helper.sequenceMove(routeSolution);
