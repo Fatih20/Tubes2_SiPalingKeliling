@@ -34,6 +34,7 @@ namespace Tubes2Stima
             char[,] map = new Char[M, N];
             int i = 0;
             int treasures = 0;
+            int K = 0;
 
             // Loop through all lines
             foreach (string line in lines)
@@ -53,9 +54,21 @@ namespace Tubes2Stima
                     {
                         map[i, j] = line[j];
                         if (line[j] == 'T') treasures++;
+                        else if (line[j] == 'K') K++;
                     }
                 }
                 i++;
+            }
+
+            if(K == 0)
+            {
+                throw new Exception("Tidak ada starting point pada peta!");
+            } else if (K > 1)
+            {
+                throw new Exception("Starting point terdapat lebih dari satu!");
+            } else if (treasures == 0)
+            {
+                throw new Exception("Tidak ada treasure pada peta!");
             }
 
             // Return map
