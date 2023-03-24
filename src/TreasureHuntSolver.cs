@@ -347,7 +347,7 @@ namespace Tubes2Stima
                     {
                         int xBefore = progress.ElementAt(i-1).Item1;
                         int yBefore = progress.ElementAt(i-1).Item2;
-                        dataGridView1[y, x].Value = dataGridView1[yBefore, xBefore].Value;
+                        dataGridView1[y, x].Value = Image.FromFile("../../../src/images/buaya.png");
                         dataGridView1[yBefore, xBefore].Value = Image.FromFile("../../../src/images/empty.png");
                     }
                     if (progress.ElementAt(i).Item3 == "RED")
