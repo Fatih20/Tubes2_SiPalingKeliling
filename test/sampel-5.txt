@@ -1,11 +1,6 @@
-K T R X
-X T R X
-X T R X
-X T R X
-X T R X
-X T R X
-X T R X
-X T R X
-X T R X
-X T R X
-X T R X
+T R R R R R
+R X X X X R
+R R X X X R
+R R R X X R
+R R R T X R
+R R R R R K
