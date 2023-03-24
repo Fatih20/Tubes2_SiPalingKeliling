@@ -116,33 +116,6 @@ namespace Tubes2Stima
             return new Tuple<int, int>(0, 0);
         }
 
-        public static List<char> sequenceMove(List<Tuple<int, int, string>> progress)
-        {
-            List<char> sequence = new List<char>();
-            for (int i = 0; i < progress.Count - 1; i++)
-            {
-                Tuple<int, int, string> firstNode = progress.ElementAt(i);
-                Tuple<int, int, string> secondNode = progress.ElementAt(i + 1);
-                if (firstNode.Item1 == secondNode.Item1 && secondNode.Item2 > firstNode.Item2)
-                {
-                    sequence.Add('R');
-                }
-                else if (firstNode.Item1 == secondNode.Item1 && secondNode.Item2 < firstNode.Item2)
-                {
-                    sequence.Add('L');
-                }
-                else if (firstNode.Item1 > secondNode.Item1 && secondNode.Item2 == firstNode.Item2)
-                {
-                    sequence.Add('U');
-                }
-                else
-                {
-                    sequence.Add('D');
-                }
-            }
-            return sequence;
-        }
-
         public static List<char> sequenceMove(List<Tuple<int, int>> progress)
         {
             List<char> sequence = new List<char>();
